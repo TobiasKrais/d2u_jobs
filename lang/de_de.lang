@@ -1,0 +1,26 @@
+d2u_jobs = D2U Stellenmarkt
+d2u_jobs_categories = Kategorien
+d2u_jobs_city = Ort/Region
+d2u_jobs_contact = Kontakt
+d2u_jobs_contacts = Kontaktpersonen
+d2u_jobs_date = Datum
+d2u_jobs_email = E-Mail Adresse
+d2u_jobs_jobs = Stellen
+d2u_jobs_name = Name
+d2u_jobs_no_category_found = Es wurden noch keine Kategorien angelegt.
+d2u_jobs_no_contacts_found = Es wurden noch keine Kontakte angelegt.
+d2u_jobs_no_jobs_found = Es wurden noch keine Stellenangebote angelegt.
+d2u_jobs_offer_heading = Überschrift Angebot
+d2u_jobs_offer_text = Beschreibung "Unser Angebot"
+d2u_jobs_phone = Telefonnummer
+d2u_jobs_profile_heading = Überschrift "Ihr Profil"
+d2u_jobs_profile_text = Profilbeschreibung
+d2u_jobs_reference_number = Referenznummer
+d2u_jobs_settings_email = E-Mailadresse allgemeiner Kontakt
+d2u_jobs_tasks_heading = Überschrift Aufgabenbereich
+d2u_jobs_tasks_text = Aufgabenbeschreibung
+
+d2u_jobs_rights_all = D2U Jobs Addon
+d2u_jobs_rights_edit_tech_data = D2U Jobs Addon: Editierrechte für technische Daten und sprachübergreifende Inhalte
+d2u_jobs_rights_edit_lang = D2U Jobs Addon: Editierrechte für Übersetzungen und sprachspezifische Inhalte (es gelten die Sprachen der Rolleneinstellungen)
+d2u_jobs_rights_settings = D2U Jobs Addon: Einstellungen

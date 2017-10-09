@@ -1,0 +1,23 @@
+package: d2u_jobs
+version: '1.0.0'
+author: Tobias Krais
+
+page:
+    title: 'translate:d2u_jobs'
+    perm: d2u_jobs[]
+    icon: rex-icon fa-users
+    subpages:
+        jobs: { title: 'translate:d2u_jobs_jobs', icon: rex-icon fa-users }
+        category: { title: 'translate:d2u_jobs_categories', icon: rex-icon rex-icon-open-category }
+        contact: { title: 'translate:d2u_jobs_contacts', icon: rex-icon rex-icon-user }
+        settings: { title: 'translate:d2u_helper_settings', icon: rex-icon rex-icon-system, perm: d2u_jobs[settings] }
+        setup: { title: 'translate:d2u_helper_setup', icon: rex-icon rex-icon-install, perm: d2u_jobs[settings] }
+
+requires:
+    redaxo: '>=5.3.0'
+    php:
+        version: '>=5.6'
+    packages:
+        d2u_helper: '>=1.2.4'
+        sprog: '>=1.0.0'
+        tinymce4: '>=0.10'
