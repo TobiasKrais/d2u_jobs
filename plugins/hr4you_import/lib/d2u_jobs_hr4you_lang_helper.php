@@ -2,19 +2,16 @@
 /**
  * Offers helper functions for language issues
  */
-class d2u_jobs_lang_helper {
+class d2u_jobs_hr4you_lang_helper {
 	/**
 	 * @var string[] Array with english replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
 	protected $replacements_english = [
-		'd2u_jobs_announcement' => 'Complete announcement',
-		'd2u_jobs_footer' => 'Please send us your complete application documents with the possible starting date and your salary expectations via email to:',
-		'd2u_jobs_phone' => 'Phone',
-		'd2u_jobs_questions' => 'If you have questions regarding this position, please contact:',
-		'd2u_jobs_reference_number' => 'Reference number',
-		'd2u_jobs_region' => 'Region',
-		'd2u_jobs_vacancies' => 'Vacancies',
+		'd2u_jobs_hr4you_application_link' => 'Online application form',
+		'd2u_jobs_hr4you_offer_heading' => 'We offer',
+		'd2u_jobs_hr4you_profile_heading' => 'Your Profile',
+		'd2u_jobs_hr4you_tasks_heading' => 'Your Tasks',
 	];
 	
 	/**
@@ -22,14 +19,10 @@ class d2u_jobs_lang_helper {
 	 * value the replacement. 
 	 */
 	protected $replacements_german = [
-		'd2u_jobs_announcement' => 'Zur Ausschreibung',
-		'd2u_jobs_footer' => 'Bitte senden Sie uns Ihre kompletten Bewerbungsunterlagen mit dem frühestmöglichen Eintrittstermin und Ihrer Gehaltvorstellung per E-Mail mit dem Stichwort „Karriere“ im Betreff an:',
-		'd2u_jobs_phone' => 'Tel.',
-		'd2u_jobs_questions' => 'Wenn Sie Fragen zur ausgeschriebenen Stelle haben, wenden Sie sich bitte an:',
-		'd2u_jobs_reference_number' => 'Referenznummer',
-		'd2u_jobs_region' => 'Region',
-		'd2u_jobs_vacancies' => 'Stellenangebote',
-
+		'd2u_jobs_hr4you_application_link' => 'Online Bewerbungsformular',
+		'd2u_jobs_hr4you_offer_heading' => 'Unser Angebot',
+		'd2u_jobs_hr4you_profile_heading' => 'Ihr Profil',
+		'd2u_jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
 	];
 	
 	/**
@@ -37,13 +30,10 @@ class d2u_jobs_lang_helper {
 	 * value the replacement. 
 	 */
 	protected $replacements_french = [
-		'd2u_jobs_announcement' => 'annonce complète',
-		'd2u_jobs_footer' => 'Veuillez nous envoyer vos documents de demande complets avec la date de début possible et vos attentes de salaire par courrier électronique à:',
-		'd2u_jobs_phone' => 'Tél.',
-		'd2u_jobs_questions' => 'Si vous avez des questions concernant ce poste, veuillez contacter:',
-		'd2u_jobs_reference_number' => 'Numéro de réference',
-		'd2u_jobs_region' => 'Région',
-		'd2u_jobs_vacancies' => "Offres d'emploi",
+		'd2u_jobs_hr4you_application_link' => 'Formulaire de demande en ligne',
+		'd2u_jobs_hr4you_offer_heading' => 'Notre offre',
+		'd2u_jobs_hr4you_profile_heading' => 'Votre profil',
+		'd2u_jobs_hr4you_tasks_heading' => 'Vos tâches',
 	];
 
 	/**
@@ -51,13 +41,10 @@ class d2u_jobs_lang_helper {
 	 * value the replacement. 
 	 */
 	protected $replacements_russian = [
-		'd2u_jobs_announcement' => 'Завершить объявление',
-		'd2u_jobs_footer' => 'Отправьте нам свои полные документы с возможной начальной датой и ваши ожидания по зарплате по электронной почте:',
-		'd2u_jobs_phone' => 'тел.',
-		'd2u_jobs_questions' => 'Если у вас есть вопросы относительно этой позиции, пожалуйста, обращайтесь:',
-		'd2u_jobs_reference_number' => 'ссылка',
-		'd2u_jobs_region' => 'область',
-		'd2u_jobs_vacancies' => 'вакансии',
+		'd2u_jobs_hr4you_application_link' => 'Онлайн-заявка',
+		'd2u_jobs_hr4you_offer_heading' => 'наше предложение',
+		'd2u_jobs_hr4you_profile_heading' => 'Ваш профиль',
+		'd2u_jobs_hr4you_tasks_heading' => 'ваши задания',
 	];
 
 	/**
@@ -65,13 +52,10 @@ class d2u_jobs_lang_helper {
 	 * value the replacement. 
 	 */
 	protected $replacements_chinese = [
-		'd2u_jobs_announcement' => '招标',
-		'd2u_jobs_footer' => '请将您的完整求职资料与可行的入职日期和薪水要求一并发送至电子邮箱：',
-		'd2u_jobs_phone' => '电话',
-		'd2u_jobs_questions' => '如果您对该职位有任何疑问，请联系我们：',
-		'd2u_jobs_reference_number' => '参考号',
-		'd2u_jobs_region' => '区域',
-		'd2u_jobs_vacancies' => '招聘岗位',
+		'd2u_jobs_hr4you_application_link' => '在线申请表',
+		'd2u_jobs_hr4you_offer_heading' => '我们的报价',
+		'd2u_jobs_hr4you_profile_heading' => '您的个人资料',
+		'd2u_jobs_hr4you_tasks_heading' => '你的任务',
 	];
 	
 	/**
@@ -79,7 +63,7 @@ class d2u_jobs_lang_helper {
 	 * @return d2u_immo_lang_helper Object
 	 */
 	public static function factory() {
-		return new d2u_jobs_lang_helper();
+		return new d2u_jobs_hr4you_lang_helper();
 	}
 	
 	/**

@@ -1,8 +1,10 @@
 <?php
+namespace D2U_Jobs;
+
 /**
- * Job category class
+ * Category class
  */
-class JobCategory {
+class Category {
 	/**
 	 * @var int Database ID
 	 */
@@ -29,6 +31,11 @@ class JobCategory {
 	var $priority = 0;
 
 	/**
+	 * @var string HR4YOU category ID
+	 */
+	var $hr4you_category_id = 0;
+
+	/**
 	 * @var string "yes" if translation needs update
 	 */
 	var $translation_needs_update = "delete";
@@ -44,12 +51,12 @@ class JobCategory {
 	 * @param int $clang_id Redaxo language ID.
 	 */
 	 public function __construct($category_id, $clang_id) {
-		$query = "SELECT * FROM ". rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
-				."LEFT JOIN ". rex::getTablePrefix() ."d2u_jobs_categories AS categories "
+		$query = "SELECT * FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
+				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_categories AS categories "
 					."ON lang.category_id = categories.category_id "
 				."WHERE lang.category_id = ". $category_id ." "
 					."AND clang_id = ". $clang_id;
-		$result = rex_sql::factory();
+		$result = \rex_sql::factory();
 		$result->setQuery($query);
 
 		if ($result->getRows() > 0) {
@@ -61,6 +68,9 @@ class JobCategory {
 			$this->picture = $result->getValue("picture");
 			$this->priority = $result->getValue("priority");
 			$this->translation_needs_update = $result->getValue("translation_needs_update");
+			if(\rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+				$this->hr4you_category_id = $result->getValue("hr4you_category_id");
+			}
 		}
 	}
 	
@@ -70,21 +80,21 @@ class JobCategory {
 	 * FALSE, only this translation will be deleted.
 	 */
 	public function delete($delete_all = TRUE) {
-		$query_lang = "DELETE FROM ". rex::getTablePrefix() ."d2u_jobs_categories_lang "
+		$query_lang = "DELETE FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang "
 			."WHERE category_id = ". $this->category_id
 			. ($delete_all ? '' : ' AND clang_id = '. $this->clang_id) ;
-		$result_lang = rex_sql::factory();
+		$result_lang = \rex_sql::factory();
 		$result_lang->setQuery($query_lang);
 		
 		// If no more lang objects are available, delete
-		$query_main = "SELECT * FROM ". rex::getTablePrefix() ."d2u_jobs_categories_lang "
+		$query_main = "SELECT * FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang "
 			."WHERE category_id = ". $this->category_id;
-		$result_main = rex_sql::factory();
+		$result_main = \rex_sql::factory();
 		$result_main->setQuery($query_main);
 		if($result_main->getRows() == 0) {
-			$query = "DELETE FROM ". rex::getTablePrefix() ."d2u_jobs_categories "
+			$query = "DELETE FROM ". \rex::getTablePrefix() ."d2u_jobs_categories "
 				."WHERE category_id = ". $this->category_id;
-			$result = rex_sql::factory();
+			$result = \rex_sql::factory();
 			$result->setQuery($query);
 		}
 	}
@@ -92,25 +102,59 @@ class JobCategory {
 	/**
 	 * Get all categories.
 	 * @param int $clang_id Redaxo clang id.
-	 * @return JobCategory[] Array with JobCategory objects.
+	 * @param boolean $ignoreOfflines Ignore offline categories
+	 * @return Category[] Array with Category objects.
 	 */
-	public static function getAll($clang_id) {
-		$query = "SELECT lang.category_id FROM ". rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
-			."LEFT JOIN ". rex::getTablePrefix() ."d2u_jobs_categories AS categories "
+	public static function getAll($clang_id, $ignoreOfflines = TRUE) {
+		$query = "SELECT lang.category_id FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
+			."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_categories AS categories "
 				."ON lang.category_id = categories.category_id "
-			."WHERE clang_id = ". $clang_id ." ";
-		$query .= 'ORDER BY name';
-		$result = rex_sql::factory();
+			."WHERE clang_id = ". $clang_id ." "
+			.'ORDER BY name';
+		$result = \rex_sql::factory();
 		$result->setQuery($query);
 		
 		$categories = [];
 		for($i = 0; $i < $result->getRows(); $i++) {
-			$categories[$result->getValue("category_id")] = new JobCategory($result->getValue("category_id"), $clang_id);
+			if($ignoreOfflines) {
+				$query_check_offline = "SELECT lang.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
+					."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
+						."ON lang.job_id = jobs.job_id AND lang.clang_id = ". $clang_id ." "
+					."WHERE category_ids LIKE '%|". $result->getValue("category_id") ."|%' AND online_status = 'online'";
+
+				$result_check_offline = \rex_sql::factory();
+				$result_check_offline->setQuery($query_check_offline);
+				if($result_check_offline->getRows() > 0) {
+					$categories[$result->getValue("category_id")] = new Category($result->getValue("category_id"), $clang_id);
+				}
+			}
+			else {
+				$categories[$result->getValue("category_id")] = new Category($result->getValue("category_id"), $clang_id);
+			}
 			$result->next();
 		}
 		return $categories;
 	}
 	
+	/**
+	 * Get object by HR4You ID
+	 * @param int $hr4you_id HR4You ID
+	 * @return Category Category object, if available, otherwise FALSE
+	 */
+	public static function getByHR4YouID($hr4you_id) {
+		if(\rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+			$query = "SELECT category_id FROM ". \rex::getTablePrefix() ."d2u_jobs_categories "
+					."WHERE hr4you_category_id = ". $hr4you_id;
+			$result = \rex_sql::factory();
+			$result->setQuery($query);
+
+			if($result->getRows() > 0) {
+				return new Category($result->getValue("category_id"), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+			}
+		}
+		return FALSE;
+	}
+
 	/**
 	 * Get the <link rel="canonical"> tag for page header.
 	 * @return Complete tag.
@@ -124,7 +168,7 @@ class JobCategory {
 	 * @return Complete title tag.
 	 */
 	public function getTitleTag() {
-		return '<title>'. $this->name .' / '. rex::getServerName() .'</title>';
+		return '<title>'. $this->name .' / '. \rex::getServerName() .'</title>';
 	}
 		
 	/**
@@ -133,15 +177,15 @@ class JobCategory {
 	 * @return Job[] Jobs in this category
 	 */
 	public function getJobs($only_online = FALSE) {
-		$query = "SELECT lang.job_id FROM ". rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
-			."LEFT JOIN ". rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
+		$query = "SELECT lang.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
+			."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."ON lang.job_id = jobs.job_id "
-			."WHERE category_id = ". $this->category_id ." AND clang_id = ". $this->clang_id ." ";
+			."WHERE category_ids LIKE '%|". $this->category_id ."|%' AND clang_id = ". $this->clang_id ." ";
 		if($only_online) {
 			$query .= "AND online_status = 'online' ";
 		}
 		$query .= 'ORDER BY name ASC';
-		$result = rex_sql::factory();
+		$result = \rex_sql::factory();
 		$result->setQuery($query);
 		
 		$jobs = [];
@@ -158,12 +202,12 @@ class JobCategory {
 	 */
 	public function getMetaAlternateHreflangTags() {
 		$hreflang_tags = "";
-		foreach(rex_clang::getAll() as $rex_clang) {
+		foreach(\rex_clang::getAll(TRUE) as $rex_clang) {
 			if($rex_clang->getId() == $this->clang_id && $this->translation_needs_update != "delete") {
 				$hreflang_tags .= '<link rel="alternate" type="text/html" hreflang="'. $rex_clang->getCode() .'" href="'. $this->getURL() .'" title="'. str_replace('"', '', $this->name) .'">';
 			}
 			else {
-				$category = new JobCategory($this->category_id, $rex_clang->getId());
+				$category = new Category($this->category_id, $rex_clang->getId());
 				if($category->translation_needs_update != "delete") {
 					$hreflang_tags .= '<link rel="alternate" type="text/html" hreflang="'. $rex_clang->getCode() .'" href="'. $category->getURL() .'" title="'. str_replace('"', '', $category->name) .'">';
 				}
@@ -189,13 +233,13 @@ class JobCategory {
 		if($this->url == "") {
 				
 			$parameterArray = [];
-			$parameterArray['category_id'] = $this->category_id;
+			$parameterArray['job_category_id'] = $this->category_id;
 			
-			$this->url = rex_getUrl(rex_config::get('d2u_jobs', 'article_id'), $this->clang_id, $parameterArray, "&");
+			$this->url = \rex_getUrl(\rex_config::get('d2u_jobs', 'article_id'), $this->clang_id, $parameterArray, "&");
 		}
 
 		if($including_domain) {
-			return str_replace(rex::getServer(). '/', rex::getServer(), rex::getServer() . $this->url);
+			return str_replace(\rex::getServer(). '/', \rex::getServer(), \rex::getServer() . $this->url);
 		}
 		else {
 			return $this->url;
@@ -210,7 +254,7 @@ class JobCategory {
 		$error = 0;
 
 		// Save the not language specific part
-		$pre_save_category = new JobCategory($this->category_id, $this->clang_id);
+		$pre_save_category = new Category($this->category_id, $this->clang_id);
 	
 		// save priority, but only if new or changed
 		if($this->priority != $pre_save_category->priority || $this->category_id == 0) {
@@ -218,9 +262,12 @@ class JobCategory {
 		}
 
 		if($this->category_id == 0 || $pre_save_category != $this) {
-			$query = rex::getTablePrefix() ."d2u_jobs_categories SET "
+			$query = \rex::getTablePrefix() ."d2u_jobs_categories SET "
 					."priority = ". $this->priority .", "
 					."picture = '". $this->picture ."' ";
+			if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
+				$query .= ", hr4you_category_id = ". $this->hr4you_category_id ." ";
+			}
 
 			if($this->category_id == 0) {
 				$query = "INSERT INTO ". $query;
@@ -228,7 +275,7 @@ class JobCategory {
 			else {
 				$query = "UPDATE ". $query ." WHERE category_id = ". $this->category_id;
 			}
-			$result = rex_sql::factory();
+			$result = \rex_sql::factory();
 			$result->setQuery($query);
 			if($this->category_id == 0) {
 				$this->category_id = $result->getLastId();
@@ -238,23 +285,23 @@ class JobCategory {
 		
 		if($error == 0) {
 			// Save the language specific part
-			$pre_save_category = new JobCategory($this->category_id, $this->clang_id);
+			$pre_save_category = new Category($this->category_id, $this->clang_id);
 			if($pre_save_category != $this) {
-				$query = "REPLACE INTO ". rex::getTablePrefix() ."d2u_jobs_categories_lang SET "
+				$query = "REPLACE INTO ". \rex::getTablePrefix() ."d2u_jobs_categories_lang SET "
 						."category_id = '". $this->category_id ."', "
 						."clang_id = '". $this->clang_id ."', "
 						."name = '". $this->name ."', "
 						."translation_needs_update = '". $this->translation_needs_update ."' ";
 
-				$result = rex_sql::factory();
+				$result = \rex_sql::factory();
 				$result->setQuery($query);
 				$error = $result->hasError();
 			}
 		}
 		
 		// Update URLs
-		if(rex_addon::get("url")->isAvailable()) {
-			UrlGenerator::generatePathFile([]);
+		if(\rex_addon::get("url")->isAvailable()) {
+			\UrlGenerator::generatePathFile([]);
 		}
 		
 		return $error;
@@ -265,9 +312,9 @@ class JobCategory {
 	 */
 	private function setPriority() {
 		// Pull prios from database
-		$query = "SELECT category_id, priority FROM ". rex::getTablePrefix() ."d2u_jobs_categories "
+		$query = "SELECT category_id, priority FROM ". \rex::getTablePrefix() ."d2u_jobs_categories "
 			."WHERE category_id <> ". $this->category_id ." ORDER BY priority";
-		$result = rex_sql::factory();
+		$result = \rex_sql::factory();
 		$result->setQuery($query);
 		
 		// When priority is too small, set at beginning
@@ -289,10 +336,10 @@ class JobCategory {
 
 		// Save all prios
 		foreach($categories as $prio => $category_id) {
-			$query = "UPDATE ". rex::getTablePrefix() ."d2u_jobs_categories "
+			$query = "UPDATE ". \rex::getTablePrefix() ."d2u_jobs_categories "
 					."SET priority = ". ($prio + 1) ." " // +1 because array_splice recounts at zero
 					."WHERE category_id = ". $category_id;
-			$result = rex_sql::factory();
+			$result = \rex_sql::factory();
 			$result->setQuery($query);
 		}
 	}

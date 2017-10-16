@@ -15,7 +15,7 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 	// Media fields and links need special treatment
 	$input_media = (array) rex_post('REX_INPUT_MEDIA', 'array', []);
 
-	$contact = new JobContact($form['contact_id']);
+	$contact = new D2U_Jobs\Contact($form['contact_id']);
 	$contact->name = $form['name'];
 	$contact->picture = $input_media[1];
 	$contact->phone = $form['phone'];
@@ -43,14 +43,14 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 		$form = (array) rex_post('form', 'array', []);
 		$contact_id = $form['contact_id'];
 	}
-	$contact = new JobContact($contact_id);
+	$contact = new D2U_Jobs\Contact($contact_id);
 	
 	// Check if object is used
 	$uses_jobs = $contact->getJobs();
 	
 	// If not used, delete
 	if(count($uses_jobs) == 0) {
-		$contact = new JobContact($contact_id);
+		$contact = new D2U_Jobs\Contact($contact_id);
 		$contact->delete();
 	}
 	else {
@@ -78,7 +78,7 @@ if ($func == 'edit' || $func == 'add') {
 					<legend><?php echo rex_i18n::msg('d2u_jobs_contact'); ?></legend>
 					<div class="panel-body-wrapper slide">
 						<?php
-							$contact = new JobContact($entry_id);
+							$contact = new D2U_Jobs\Contact($entry_id);
 							$readonly = TRUE;
 							if(rex::getUser()->isAdmin() || rex::getUser()->hasPerm('d2u_jobs[edit_data]')) {
 								$readonly = FALSE;

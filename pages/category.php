@@ -20,7 +20,7 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 	$category_id = $form['category_id'];
 	foreach(rex_clang::getAll() as $rex_clang) {
 		if($category === FALSE) {
-			$category = new JobCategory($category_id, $rex_clang->getId());
+			$category = new D2U_Jobs\Category($category_id, $rex_clang->getId());
 			$category->category_id = $category_id; // Ensure correct ID in case first language has no object
 			$category->priority = $form['priority'];
 			$category->picture = $input_media[1];
@@ -65,16 +65,31 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 		$form = (array) rex_post('form', 'array', []);
 		$category_id = $form['category_id'];
 	}
-	$category = new JobCategory($category_id, rex_config::get("d2u_helper", "default_lang"));
+	$category = new D2U_Jobs\Category($category_id, rex_config::get("d2u_helper", "default_lang"));
 	$category->category_id = $category_id; // Ensure correct ID in case language has no object
-	$category->delete();
+
+	// Check if object is used
+	$uses_jobs = $category->getJobs();
+
+	if(count($uses_jobs) == 0) {
+		$category->delete(TRUE);
+	}
+	else {
+		$message = '<ul>';
+		foreach($uses_jobs as $uses_job) {
+			$message .= '<li><a href="index.php?page=d2u_jobs/property&func=edit&entry_id='. $uses_job->job_id .'">'. $uses_job->name.'</a></li>';
+		}
+		$message .= '</ul>';
+
+		print rex_view::error(rex_i18n::msg('d2u_helper_could_not_delete') . $message);
+	}
 	
 	$func = '';
 }
 // Change online status of category
 else if($func == 'changestatus') {
 	$category_id = $entry_id;
-	$category = new JobCategory($category_id, rex_config::get("d2u_helper", "default_lang"));
+	$category = new D2U_Jobs\Category($category_id, rex_config::get("d2u_helper", "default_lang"));
 	$category->category_id = $category_id; // Ensure correct ID in case language has no object
 	$category->changeStatus();
 	
@@ -95,7 +110,7 @@ if ($func == 'edit' || $func == 'add') {
 					<div class="panel-body-wrapper slide">
 						<?php
 							// Do not use last object from translations, because you don't know if it exists in DB
-							$category = new JobCategory($entry_id, rex_config::get("d2u_helper", "default_lang"));
+							$category = new D2U_Jobs\Category($entry_id, rex_config::get("d2u_helper", "default_lang"));
 							$readonly = TRUE;
 							if(rex::getUser()->isAdmin() || rex::getUser()->hasPerm('d2u_jobs[edit_data]')) {
 								$readonly = FALSE;
@@ -103,12 +118,15 @@ if ($func == 'edit' || $func == 'add') {
 							
 							d2u_addon_backend_helper::form_input('header_priority', 'form[priority]', $category->priority, TRUE, $readonly, 'number');
 							d2u_addon_backend_helper::form_mediafield('d2u_helper_picture', '1', $category->picture, $readonly);
+							if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_category_id', 'form[hr4you_category_id]', $category->hr4you_category_id, FALSE, $readonly, 'number');
+							}
 						?>
 					</div>
 				</fieldset>
 				<?php
 					foreach(rex_clang::getAll() as $rex_clang) {
-						$category = new JobCategory($entry_id, $rex_clang->getId());
+						$category = new D2U_Jobs\Category($entry_id, $rex_clang->getId());
 						$required = $rex_clang->getId() == rex_config::get("d2u_helper", "default_lang") ? TRUE : FALSE;
 						
 						$readonly_lang = TRUE;

@@ -20,19 +20,19 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 	$job_id = $form['job_id'];
 	foreach(rex_clang::getAll() as $rex_clang) {
 		if($job === FALSE) {
-			$job = new Job($job_id, $rex_clang->getId());
+			$job = new D2U_Jobs\Job($job_id, $rex_clang->getId());
 			$job->job_id = $job_id; // Ensure correct ID in case first language has no object
 			$job->reference_number = $form['reference_number'];
 			$category_ids = isset($form['category_ids']) ? $form['category_ids'] : [];
 			$job->categories =  [];
 			foreach ($category_ids as $category_id) {
-				$job->categories[$category_id] = new JobCategory($category_id, $rex_clang->getId());
+				$job->categories[$category_id] = new D2U_Jobs\Category($category_id, $rex_clang->getId());
 			}
 			$job->date = $form['date'];
 			$job->city = $form['city'];
 			$job->picture = $input_media[1];
 			$job->online_status = array_key_exists('online_status', $form) ? "online" : "offline";
-			$job->contact = new JobContact($form['contact_id']);
+			$job->contact = new D2U_Jobs\Contact($form['contact_id']);
 			if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
 				$job->hr4you_lead_in = $form['hr4you_lead_in'];
 				$job->hr4you_url_application_form = $form['hr4you_url_application_form'];
@@ -84,7 +84,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 		$form = (array) rex_post('form', 'array', []);
 		$job_id = $form['job_id'];
 	}
-	$job = new Job($job_id, rex_config::get("d2u_helper", "default_lang"));
+	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang"));
 	$job->job_id = $job_id; // Ensure correct ID in case language has no object
 	$job->delete();
 	
@@ -93,7 +93,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 // Change online status of category
 else if($func == 'changestatus') {
 	$job_id = $entry_id;
-	$job = new Job($job_id, rex_config::get("d2u_helper", "default_lang"));
+	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang"));
 	$job->job_id = $job_id; // Ensure correct ID in case language has no object
 	$job->changeStatus();
 	
@@ -114,7 +114,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 					<div class="panel-body-wrapper slide">
 						<?php
 							// Do not use last object from translations, because you don't know if it exists in DB
-							$job = new Job($entry_id, rex_config::get("d2u_helper", "default_lang"));
+							$job = new D2U_Jobs\Job($entry_id, rex_config::get("d2u_helper", "default_lang"));
 							$readonly = TRUE;
 							if(rex::getUser()->isAdmin() || rex::getUser()->hasPerm('d2u_jobs[edit_data]')) {
 								$readonly = FALSE;
@@ -122,7 +122,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							
 							d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, TRUE, $readonly, 'number');
 							$options_categories = [];
-							foreach(JobCategory::getAll(rex_config::get('d2u_helper', 'default_lang')) as $category) {
+							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang')) as $category) {
 								$options_categories[$category->category_id] = $category->name;
 							}
 							d2u_addon_backend_helper::form_select('d2u_jobs_jobs', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
@@ -131,7 +131,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							d2u_addon_backend_helper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', $job->online_status == "online", $readonly);
 							d2u_addon_backend_helper::form_mediafield('d2u_helper_picture', '1', $job->picture, $readonly);
 							$options_contacts = [];
-							foreach(JobContact::getAll() as $contact) {
+							foreach(D2U_Jobs\Contact::getAll() as $contact) {
 								if($contact->name != "") {
 									$options_contacts[$contact->contact_id] = $contact->name;
 								}
@@ -144,18 +144,19 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 					if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
 				?>
 					<fieldset>
-						<legend><small><i class="rex-icon fa-cloud-download"></i></small><?php echo rex_i18n::msg('d2u_jobs_hr4you_import'); ?></legend>
+						<legend><small><i class="rex-icon fa-cloud-download"></i></small> <?php echo rex_i18n::msg('d2u_jobs_hr4you'); ?></legend>
 						<div class="panel-body-wrapper slide">
 							<?php
-								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_import_lead_in', 'form[hr4you_lead_in]', $job->hr4you_lead_in, TRUE, $readonly);
-								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_url_application_form', 'form[hr4you_url_application_form]', $job->hr4you_url_application_form, TRUE, $readonly);
+								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_import_job_id', 'form[hr4you_job_id]', $job->hr4you_job_id, FALSE, TRUE, 'number');
+								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_import_lead_in', 'form[hr4you_lead_in]', $job->hr4you_lead_in, FALSE, $readonly);
+								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_url_application_form', 'form[hr4you_url_application_form]', $job->hr4you_url_application_form, FALSE, $readonly);
 							?>
 						</div>
 					</fieldset>
 				<?php
 					}
 					foreach(rex_clang::getAll() as $rex_clang) {
-						$job = new Job($entry_id, $rex_clang->getId());
+						$job = new D2U_Jobs\Job($entry_id, $rex_clang->getId());
 						$required = $rex_clang->getId() == rex_config::get("d2u_helper", "default_lang") ? TRUE : FALSE;
 						
 						$readonly_lang = TRUE;
@@ -215,7 +216,7 @@ if ($func == '') {
 		. 'FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS job '
 		. 'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
 			. 'ON job.job_id = lang.job_id AND lang.clang_id = '. rex_config::get("d2u_helper", "default_lang") .' '
-		.'ORDER BY name ASC';
+		.'ORDER BY online_status DESC, name ASC';
     $list = rex_list::factory($query);
 
     $list->addTableAttribute('class', 'table-striped table-hover');

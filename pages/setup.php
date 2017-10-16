@@ -25,8 +25,8 @@ $d2u_module_manager->showManagerList();
 		www.kaltenbach.com</a>.</li>
 </ul>
 <h2>Support</h2>
-<p>Fehlermeldungen bitte über das Kontaktformular unter
-	<a href="https://www.design-to-use.de/" target="_blank">www.design-to-use.de</a> melden.</p>
+<p>Fehlermeldungen bitte im Git Projekt unter
+	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
 <p>1.0.0:</p>
 <ul>
