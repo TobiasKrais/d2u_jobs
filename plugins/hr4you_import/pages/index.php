@@ -1,8 +1,19 @@
+<h1>HR4YOU Import Plugin </h1>
 <?php
- hr4you::import();
+$func = rex_request('func', 'string');
+
+if ($func == 'import') {
+	if(hr4you::import()) {
+		print rex_view::success(rex_i18n::msg('d2u_jobs_hr4you_import_success'));
+	}
+}
+
+if(rex_config::get('d2u_jobs', 'hr4you_xml_url') != '') {
+	print "<a href='". rex_url::currentBackendPage(['func'=>'import']) ."'>"
+			. "<button class='btn btn-apply'>". rex_i18n::msg('d2u_jobs_hr4you_import') ."</button></a>";
+}
 ?>
 
-<h1>HR4YOU Import Plugin Hilfe</h1>
 <h2>XML Format</h2>
 <p>HR4YOU stellt ein für den Kunden angepasstes XML bereit, das durch dieses
 	Plugin importiert werden kann. Da sich das XML bei jedem Kunden unterscheiden

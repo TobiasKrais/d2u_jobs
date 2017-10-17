@@ -1,0 +1,1 @@
+<p><br />Alle Änderungen bitte im <a href="index.php?page=d2u_jobs">D2U Stellenmarkt</a> Addon vornehmen.</p>

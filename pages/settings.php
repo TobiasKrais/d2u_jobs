@@ -7,6 +7,9 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 	$link_ids = filter_input_array(INPUT_POST, array('REX_INPUT_LINK'=> array('filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY)));
 	$settings['article_id'] = $link_ids["REX_INPUT_LINK"][1];
 	
+	// Checkbox also need special treatment if empty
+	$settings['hr4you_autoimport'] = array_key_exists('hr4you_autoimport', $settings) ? "active" : "inactive";
+	
 	// Save settings
 	if(rex_config::set("d2u_jobs", $settings)) {
 		echo rex_view::success(rex_i18n::msg('form_saved'));
@@ -20,6 +23,18 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 
 		// Install / update language replacements
 		d2u_jobs_lang_helper::factory()->install();
+
+		// Install / remove Cronjob
+ 		if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+			if($this->getConfig('hr4you_autoimport') == 'active') {
+				if(!d2u_jobs_import_backend_helper::autoexportIsInstalled()) {
+					d2u_jobs_import_backend_helper::autoexportInstall();
+				}
+			}
+			else {
+				d2u_jobs_import_backend_helper::autoexportDelete();
+			}
+		}
 	}
 	else {
 		echo rex_view::error(rex_i18n::msg('form_save_error'));

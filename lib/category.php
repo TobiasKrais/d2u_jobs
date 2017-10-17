@@ -50,7 +50,8 @@ class Category {
 	 * @param int $category_id Category ID.
 	 * @param int $clang_id Redaxo language ID.
 	 */
-	 public function __construct($category_id, $clang_id) {
+	public function __construct($category_id, $clang_id) {
+		$this->clang_id = $clang_id;
 		$query = "SELECT * FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
 				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_categories AS categories "
 					."ON lang.category_id = categories.category_id "
@@ -61,9 +62,6 @@ class Category {
 
 		if ($result->getRows() > 0) {
 			$this->category_id = $result->getValue("category_id");
-			if($result->getValue("clang_id") != "") {
-				$this->clang_id = $result->getValue("clang_id");
-			}
 			$this->name =$result->getValue("name");
 			$this->picture = $result->getValue("picture");
 			$this->priority = $result->getValue("priority");
@@ -266,7 +264,7 @@ class Category {
 					."priority = ". $this->priority .", "
 					."picture = '". $this->picture ."' ";
 			if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
-				$query .= ", hr4you_category_id = ". $this->hr4you_category_id ." ";
+				$query .= ", hr4you_category_id = ". ($this->hr4you_category_id > 0 ? $this->hr4you_category_id : 0) ." ";
 			}
 
 			if($this->category_id == 0) {

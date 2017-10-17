@@ -18,7 +18,7 @@ class Contact {
 	/**
 	 * @var string Picture
 	 */
-	var $picture = "noavatar.jpg";
+	var $picture = "";
 	
 	/**
 	 * @var string Phone number
@@ -150,7 +150,7 @@ class Contact {
 					."email = '". $this->email ."', "
 					."name = '". $this->name ."', "
 					."phone = '". $this->phone ."', "
-					."picture = '". $this->picture ."' ";
+					."picture = '". (strpos($this->picture, "noavatar.jpg") !== FALSE ? '' : $this->picture) ."' ";
 
 			if($this->contact_id == 0) {
 				$query = "INSERT INTO ". $query;

@@ -4,17 +4,31 @@
  */
 class hr4you {
 	/**
+	 * Perform HR4You XML import, calls import()
+	 */
+	public static function autoimport() {
+		if(self::import()) {
+			print rex_view::success(rex_i18n::msg('d2u_jobs_hr4you_import_success'));
+		}
+	}
+
+	/**
 	 * Perform HR4You XML import
-	 * @return string Error message
+	 * @return boolean TRUE if successfull
 	 */
 	public static function import() {
 		$hr4you_xml_url = rex_config::get('d2u_jobs', 'hr4you_xml_url', FALSE);
 		if($hr4you_xml_url === FALSE) {
-			return rex_i18n::msg('d2u_jobs_hr4you_settings_failure_xml_url');
+			print rex_view::error(rex_i18n::msg('d2u_jobs_hr4you_settings_failure_xml_url'));
+			return FALSE;
 		}
 		
 		$xml_stream = stream_context_create(['http' => ['header' => 'Accept: application/xml']]);
 		$xml_contents = file_get_contents($hr4you_xml_url, FALSE, $xml_stream);
+		if($xml_contents === FALSE) {
+			print rex_view::error(rex_i18n::msg('d2u_jobs_hr4you_import_failure_xml_url'));
+			return FALSE;
+		}
 		$xml_jobs = new SimpleXMLElement($xml_contents);
 
 		// Get old stuff to be able to delete it later
@@ -78,6 +92,9 @@ class hr4you {
 			if(array_key_exists($contact->contact_id, $old_contacts)) {
 				unset($old_contacts[$contact->contact_id]);
 			}
+			if($contact->picture != "" && in_array($contact->picture, $old_pictures)) {
+				$old_pictures[$contact->picture] = $contact->picture;
+			}
 			
 			// Category
 			$category = D2U_Jobs\Category::getByHR4YouID($xml_job->berufskategorie_id->__toString());
@@ -91,6 +108,13 @@ class hr4you {
 				$job = D2U_Jobs\Job::factory();
 				$job->clang_id = rex_config::get('d2u_jobs', 'hr4you_default_lang');
 				$job->hr4you_job_id = $xml_job->jobid->__toString();
+			}
+
+			foreach(rex_clang::getAll() as $clang) {
+				if($clang->getCode() == $xml_job->sprachcode->__toString()) {
+					$job->clang_id = $clang->getId();
+					break;
+				}
 			}
 
 			$job->contact = $contact;
@@ -114,6 +138,7 @@ class hr4you {
 			$job->reference_number = $xml_job->referenznummer->__toString();
 			$job->tasks_heading = self::getHeadline($xml_job->block1_html) != '' ? self::getHeadline($xml_job->block1_html) : Sprog\Wildcard::get('d2u_jobs_hr4you_tasks_heading', rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			$job->tasks_text = self::trimString(self::stripHeadline($xml_job->block1_html));
+			$job->translation_needs_update = 'no';
 			$job->save();
 
 			if(array_key_exists($job->hr4you_job_id, $old_jobs)) {
@@ -135,9 +160,11 @@ class hr4you {
 		foreach($old_pictures as $old_picture) {
 			$delete_result = rex_mediapool_deleteMedia($old_picture);
 			if($delete_result['ok'] === FALSE) {
-				rex_view::warning($delete_result['msg']);
+				print rex_view::warning($delete_result['msg']);
 			}
 		}
+		
+		return TRUE;
 	}
 
 	/**

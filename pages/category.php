@@ -24,6 +24,9 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 			$category->category_id = $category_id; // Ensure correct ID in case first language has no object
 			$category->priority = $form['priority'];
 			$category->picture = $input_media[1];
+			if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+				$category->hr4you_category_id = $form['hr4you_category_id'];
+			}
 		}
 		else {
 			$category->clang_id = $rex_clang->getId();
