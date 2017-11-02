@@ -56,7 +56,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 	else {
 		$message = '<ul>';
 		foreach($uses_jobs as $uses_job) {
-			$message .= '<li><a href="index.php?page=d2u_jobs/property&func=edit&entry_id='. $uses_job->job_id .'">'. $uses_job->name.'</a></li>';
+			$message .= '<li><a href="index.php?page=d2u_jobs/jobs&func=edit&entry_id='. $uses_job->job_id .'">'. $uses_job->name.'</a></li>';
 		}
 		$message .= '</ul>';
 

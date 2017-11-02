@@ -122,10 +122,10 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							
 							d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, TRUE, $readonly, 'number');
 							$options_categories = [];
-							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang')) as $category) {
+							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang'), FALSE) as $category) {
 								$options_categories[$category->category_id] = $category->name;
 							}
-							d2u_addon_backend_helper::form_select('d2u_jobs_jobs', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
+							d2u_addon_backend_helper::form_select('d2u_jobs_categories', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
 							d2u_addon_backend_helper::form_input('d2u_jobs_date', 'form[date]', $job->date, TRUE, $readonly, 'date');
 							d2u_addon_backend_helper::form_input('d2u_jobs_city', 'form[city]', $job->city, TRUE, $readonly);
 							d2u_addon_backend_helper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', $job->online_status == "online", $readonly);

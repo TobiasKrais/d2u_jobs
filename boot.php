@@ -82,8 +82,8 @@ function rex_d2u_jobs_media_is_in_use(rex_extension_point $ep) {
 	$filename = addslashes($params['filename']);
 
 	// Jobs
-	$sql_machine = rex_sql::factory();
-	$sql_machine->setQuery('SELECT lang.job_id, name FROM `' . rex::getTablePrefix() . 'd2u_jobs_jobs_lang` AS lang '
+	$sql_jobs = rex_sql::factory();
+	$sql_jobs->setQuery('SELECT lang.job_id, name FROM `' . rex::getTablePrefix() . 'd2u_jobs_jobs_lang` AS lang '
 		.'LEFT JOIN `' . rex::getTablePrefix() . 'd2u_jobs_jobs` AS jobs ON lang.job_id = jobs.job_id '
 		.'WHERE picture = "'. $filename .'" '
 		.'GROUP BY job_id');
@@ -96,9 +96,9 @@ function rex_d2u_jobs_media_is_in_use(rex_extension_point $ep) {
 
 	// Prepare warnings
 	// Jobs
-	for($i = 0; $i < $sql_machine->getRows(); $i++) {
+	for($i = 0; $i < $sql_jobs->getRows(); $i++) {
 		$message = '<a href="javascript:openPage(\'index.php?page=d2u_jobs/jobs&func=edit&entry_id='.
-			$sql_machine->getValue('job_id') .'\')">'. rex_i18n::msg('d2u_jobs_rights_all') ." - ". rex_i18n::msg('d2u_jobs') .': '. $sql_machine->getValue('name') .'</a>';
+			$sql_jobs->getValue('job_id') .'\')">'. rex_i18n::msg('d2u_jobs_rights_all') ." - ". rex_i18n::msg('d2u_jobs') .': '. $sql_jobs->getValue('name') .'</a>';
 		if(!in_array($message, $warning)) {
 			$warning[] = $message;
 		}

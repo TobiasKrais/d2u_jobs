@@ -223,7 +223,7 @@ class Job {
 	/**
 	 * Get all jobs
 	 * @param int $clang_id Redaxo language ID
-	 * @param int $category_id Category ID if only jobs of that category should be imported.
+	 * @param int $category_id Category ID if only jobs of that category should be returned.
 	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
 	 * @return Job[] Array with jobs
 	 */
