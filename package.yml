@@ -1,5 +1,5 @@
 package: d2u_jobs
-version: '1.0.1'
+version: '1.0.2'
 author: Tobias Krais
 
 page:
@@ -9,7 +9,7 @@ page:
     subpages:
         jobs: { title: 'translate:d2u_jobs_jobs', icon: rex-icon fa-users }
         category: { title: 'translate:d2u_jobs_categories', icon: rex-icon rex-icon-open-category }
-        contact: { title: 'translate:d2u_jobs_contacts', icon: rex-icon rex-icon-user }
+        contact: { title: 'translate:d2u_jobs_contacts', icon: rex-icon rex-icon-user, perm: d2u_jobs[edit_data] }
         settings: { title: 'translate:d2u_helper_settings', icon: rex-icon rex-icon-system, perm: d2u_jobs[settings] }
         setup: { title: 'translate:d2u_helper_setup', icon: rex-icon rex-icon-install, perm: d2u_jobs[settings] }
 

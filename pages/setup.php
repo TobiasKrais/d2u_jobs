@@ -25,9 +25,14 @@ $d2u_module_manager->showManagerList();
 		www.kaltenbach.com</a>.</li>
 </ul>
 <h2>Support</h2>
+<p>Sammelthread fürs Addon im <a href="https://redaxo.org/forum/viewtopic.php?f=43&t=21966" target="_blank">Redaxo Forum</a>.</p>
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.0.2 (NEXT):</p>
+<ul>
+	<li>Editierrechte für Übersetzer eingeschränkt.</li>
+</ul>
 <p>1.0.1:</p>
 <ul>
 	<li>Bugfix: Alle Kategorien bei Jobs anzeigen.</li>

@@ -20,7 +20,7 @@ d2u_jobs_settings_email = E-Mailadresse allgemeiner Kontakt
 d2u_jobs_tasks_heading = Überschrift Aufgabenbereich
 d2u_jobs_tasks_text = Aufgabenbeschreibung
 
-d2u_jobs_rights_all = D2U Jobs Addon
-d2u_jobs_rights_edit_tech_data = D2U Jobs Addon: Editierrechte für technische Daten und sprachübergreifende Inhalte
-d2u_jobs_rights_edit_lang = D2U Jobs Addon: Editierrechte für Übersetzungen und sprachspezifische Inhalte (es gelten die Sprachen der Rolleneinstellungen)
-d2u_jobs_rights_settings = D2U Jobs Addon: Einstellungen
+d2u_jobs_rights_all = D2U Stellenmarkt Addon
+d2u_jobs_rights_edit_data = D2U Stellenmarkt Addon: Editierrechte für sprachübergreifende Inhalte
+d2u_jobs_rights_edit_lang = D2U Stellenmarkt Addon: Editierrechte für Übersetzungen und sprachspezifische Inhalte (es gelten die Sprachen der Rolleneinstellungen)
+d2u_jobs_rights_settings = D2U Stellenmarkt Addon: Einstellungen

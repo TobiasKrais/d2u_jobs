@@ -2,7 +2,7 @@
 if(rex::isBackend() && is_object(rex::getUser())) {
 	rex_perm::register('d2u_jobs[]', rex_i18n::msg('d2u_jobs_rights_all'));
 	rex_perm::register('d2u_jobs[edit_lang]', rex_i18n::msg('d2u_jobs_rights_edit_lang'), rex_perm::OPTIONS);
-	rex_perm::register('d2u_jobs[edit_tech_data]', rex_i18n::msg('d2u_jobs_rights_edit_tech_data'), rex_perm::OPTIONS);
+	rex_perm::register('d2u_jobs[edit_data]', rex_i18n::msg('d2u_jobs_rights_edit_data'), rex_perm::OPTIONS);
 	rex_perm::register('d2u_jobs[settings]', rex_i18n::msg('d2u_jobs_rights_settings'), rex_perm::OPTIONS);	
 }
 
