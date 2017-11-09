@@ -32,6 +32,7 @@ $d2u_module_manager->showManagerList();
 <p>1.0.2 (NEXT):</p>
 <ul>
 	<li>Editierrechte für Übersetzer eingeschränkt.</li>
+	<li>Anpassungen an URL Addon 1.0.1.</li>
 </ul>
 <p>1.0.1:</p>
 <ul>
