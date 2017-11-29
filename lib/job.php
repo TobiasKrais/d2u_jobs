@@ -4,7 +4,7 @@ namespace D2U_Jobs;
 /**
  * Job details
  */
-class Job {
+class Job implements \D2U_Helper\ITranslationHelper {
 	/**
 	 * @var int Database job ID
 	 */
@@ -128,7 +128,7 @@ class Job {
 
 			if ($result->getRows() > 0) {
 				$this->job_id = $result->getValue("job_id");
-				$this->reference_number =$result->getValue("reference_number");
+				$this->reference_number = $result->getValue("reference_number");
 				$this->date = $result->getValue("date");
 				$this->city = $result->getValue("city");
 				$this->picture = $result->getValue("picture") != "" ? $result->getValue("picture") : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg');
@@ -333,6 +333,43 @@ class Job {
 	public function getTitleTag() {
 		return '<title>'. $this->name .' / '. \rex::getServerName() .'</title>';
 	}
+	
+	/**
+	 * Get objects concerning translation updates
+	 * @param int $clang_id Redaxo language ID
+	 * @param string $type 'update' or 'missing'
+	 * @return Job[] Array with Job objects.
+	 */
+	public static function getTranslationHelperObjects($clang_id, $type) {
+		$query = 'SELECT job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang '
+				."WHERE clang_id = ". $clang_id ." AND translation_needs_update = 'yes' "
+				.'ORDER BY name';
+		if($type == 'missing') {
+			$query = 'SELECT main.job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs AS main '
+					.'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS target_lang '
+						.'ON main.job_id = target_lang.job_id AND target_lang.clang_id = '. $clang_id .' '
+					.'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS default_lang '
+						.'ON main.job_id = default_lang.job_id AND default_lang.clang_id = '. \rex_config::get('d2u_helper', 'default_lang') .' '
+					."WHERE target_lang.job_id IS NULL "
+					.'ORDER BY default_lang.name';
+			$clang_id = \rex_config::get('d2u_helper', 'default_lang');
+		}
+		$result = \rex_sql::factory();
+		$result->setQuery($query);
+
+		$objects = [];
+		for($i = 0; $i < $result->getRows(); $i++) {
+			$job = new Job($result->getValue("job_id"), $clang_id);
+			// HR4YOU Import may have an other language than default language
+			if($job->job_id == 0 && \rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
+				$job = new Job($result->getValue("job_id"), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+			}
+			$objects[] = $job;
+			$result->next();
+		}
+		
+		return $objects;
+    }
 	
 	/**
 	 * Returns the URL of this object.

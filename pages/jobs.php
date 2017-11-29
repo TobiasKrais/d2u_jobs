@@ -115,6 +115,11 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 						<?php
 							// Do not use last object from translations, because you don't know if it exists in DB
 							$job = new D2U_Jobs\Job($entry_id, rex_config::get("d2u_helper", "default_lang"));
+							if($job->job_id == 0) {
+								// This must be an imported job auf default lang is different from hr4you import lang
+								$job = new D2U_Jobs\Job($entry_id, rex_config::get("d2u_jobs", "hr4you_default_lang"));
+							}
+
 							$readonly = TRUE;
 							if(rex::getUser()->isAdmin() || rex::getUser()->hasPerm('d2u_jobs[edit_data]')) {
 								$readonly = FALSE;
@@ -219,7 +224,7 @@ if ($func == '') {
 	$query = 'SELECT job.job_id, name, `date`, city, online_status '
 		. 'FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS job '
 		. 'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
-			. 'ON job.job_id = lang.job_id AND lang.clang_id = '. rex_config::get("d2u_helper", "default_lang") .' '
+			. 'ON job.job_id = lang.job_id AND lang.clang_id = '. (rex_config::get("d2u_jobs", "hr4you_default_lang", 0) > 0 ? rex_config::get("d2u_jobs", "hr4you_default_lang") : rex_config::get("d2u_helper", "default_lang")) .' '
 		.'ORDER BY online_status DESC, name ASC';
     $list = rex_list::factory($query);
 

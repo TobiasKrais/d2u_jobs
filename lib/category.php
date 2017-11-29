@@ -4,7 +4,7 @@ namespace D2U_Jobs;
 /**
  * Category class
  */
-class Category {
+class Category implements \D2U_Helper\ITranslationHelper {
 	/**
 	 * @var int Database ID
 	 */
@@ -221,6 +221,38 @@ class Category {
 	public function getMetaDescriptionTag() {
 		return '<meta name="description" content="'. $this->name .'">';
 	}
+	
+	/**
+	 * Get objects concerning translation updates
+	 * @param int $clang_id Redaxo language ID
+	 * @param string $type 'update' or 'missing'
+	 * @return Category[] Array with Category objects.
+	 */
+	public static function getTranslationHelperObjects($clang_id, $type) {
+		$query = 'SELECT category_id FROM '. \rex::getTablePrefix() .'d2u_jobs_categories_lang '
+				."WHERE clang_id = ". $clang_id ." AND translation_needs_update = 'yes' "
+				.'ORDER BY name';
+		if($type == 'missing') {
+			$query = 'SELECT main.category_id FROM '. \rex::getTablePrefix() .'d2u_jobs_categories AS main '
+					.'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_categories_lang AS target_lang '
+						.'ON main.category_id = target_lang.category_id AND target_lang.clang_id = '. $clang_id .' '
+					.'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_categories_lang AS default_lang '
+						.'ON main.category_id = default_lang.category_id AND default_lang.clang_id = '. \rex_config::get('d2u_helper', 'default_lang') .' '
+					."WHERE target_lang.category_id IS NULL "
+					.'ORDER BY default_lang.name';
+			$clang_id = \rex_config::get('d2u_helper', 'default_lang');
+		}
+		$result = \rex_sql::factory();
+		$result->setQuery($query);
+
+		$objects = [];
+		for($i = 0; $i < $result->getRows(); $i++) {
+			$objects[] = new Category($result->getValue("category_id"), $clang_id);
+			$result->next();
+		}
+		
+		return $objects;
+    }
 	
 	/*
 	 * Returns the URL of this object.
