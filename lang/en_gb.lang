@@ -1,0 +1,26 @@
+d2u_jobs = D2U Jobs
+d2u_jobs_categories = Categories
+d2u_jobs_city = City/Region
+d2u_jobs_contact = Contact
+d2u_jobs_contacts = Contactperson
+d2u_jobs_date = Date
+d2u_jobs_email = E-mail address
+d2u_jobs_jobs = Jobs
+d2u_jobs_name = Name
+d2u_jobs_no_category_found = No categories found.
+d2u_jobs_no_contacts_found = No contacts found.
+d2u_jobs_no_jobs_found = No jobs found.
+d2u_jobs_offer_heading = Headline "We offer"
+d2u_jobs_offer_text = Description "We offer"
+d2u_jobs_phone = Phone number
+d2u_jobs_profile_heading = Headline "Your profile"
+d2u_jobs_profile_text = Description "Your profile"
+d2u_jobs_reference_number = Reference number
+d2u_jobs_settings_email = E-mail address general contact
+d2u_jobs_tasks_heading = Headline "Tasks"
+d2u_jobs_tasks_text = Description "Tasks"
+
+d2u_jobs_rights_all = D2U Jobs addon
+d2u_jobs_rights_edit_data = D2U Jobs addon: edit rights for data
+d2u_jobs_rights_edit_lang = D2U Jobs addon: edit rights for translations (languages set in user roles apply)
+d2u_jobs_rights_settings = D2U Jobs addon: settings

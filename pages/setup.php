@@ -31,6 +31,7 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.2 (NEXT):</p>
 <ul>
+	<li>Englisches Backend hinzugefügt.</li>
 	<li>Bugfix Job Seiten wenn HR4You Import Sprache nicht Standardsprache vom D2U Helper Addon ist.</li>
 	<li>Ubersetzungshilfe integriert.</li>
 	<li>Editierrechte für Übersetzer eingeschränkt.</li>

@@ -1,5 +1,5 @@
 package: d2u_jobs/hr4you_import
-version: '1.0.0'
+version: '1.0.1'
 author: Tobias Krais
 supportpage: http://github.com/tobiaskrais/d2u_jobs
 
@@ -12,7 +12,6 @@ requires:
     redaxo: '>=5.3.0'
     php:
         extensions: [xml]
-        version: '>=5.3'
     packages:
         cronjob: '>=2.1.1'
         media_manager: '>=2.2.0'
