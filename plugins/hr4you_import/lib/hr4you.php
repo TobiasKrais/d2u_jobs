@@ -93,7 +93,7 @@ class hr4you {
 				unset($old_contacts[$contact->contact_id]);
 			}
 			if($contact->picture != "" && in_array($contact->picture, $old_pictures)) {
-				$old_pictures[$contact->picture] = $contact->picture;
+				unset($old_pictures[$contact->picture]);
 			}
 			
 			// Category
