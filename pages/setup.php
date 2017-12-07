@@ -31,6 +31,8 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.2 (NEXT):</p>
 <ul>
+	<li>Bugfix: Löschen von Kontaktbildern war ohne Warnung möglich.</li>
+	<li>Bugfix: HR4You Import hat Bilder von Kontakten gelöscht, obwohl sie noch gebraucht wurden.</li>
 	<li>Englisches Backend hinzugefügt.</li>
 	<li>Bugfix Job Seiten wenn HR4You Import Sprache nicht Standardsprache vom D2U Helper Addon ist.</li>
 	<li>Ubersetzungshilfe integriert.</li>

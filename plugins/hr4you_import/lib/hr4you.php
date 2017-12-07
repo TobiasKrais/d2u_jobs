@@ -41,7 +41,7 @@ class hr4you {
 				$old_pictures[$old_job->picture] = $old_job->picture;
 			}
 			// D2U_Jobs\Contacts
-			if($old_job->contact !== FALSE && !array_key_exists($old_job->contact->contact_id, $old_contacts) && $old_job->contact !== FALSE) {
+			if($old_job->contact !== FALSE && !array_key_exists($old_job->contact->contact_id, $old_contacts)) {
 				$old_contacts[$old_job->contact->contact_id] = $old_job->contact;
 				if(!in_array($old_job->contact->picture, $old_pictures)) {
 					$old_pictures[$old_job->contact->picture] = $old_job->contact->picture;
@@ -86,8 +86,12 @@ class hr4you {
 				$contact = D2U_Jobs\Contact::factory();
 			}
 			$contact->name = $xml_job->ap_vorname . ' ' . $xml_job->ap_nachname;
-			$contact->phone = $xml_job->ap_telefon->__toString();
-			$contact->email = $xml_job->ap_email->__toString();
+			if($xml_job->ap_telefon->__toString() != '') {
+				$contact->phone = $xml_job->ap_telefon->__toString();
+			}
+			if($xml_job->ap_email->__toString() != '') {
+				$contact->email = $xml_job->ap_email->__toString();
+			}
 			$contact->save();
 			if(array_key_exists($contact->contact_id, $old_contacts)) {
 				unset($old_contacts[$contact->contact_id]);

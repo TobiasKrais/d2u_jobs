@@ -67,6 +67,12 @@ $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_j
 	LEFT JOIN '. rex::getTablePrefix() .'clang AS clang ON categories_lang.clang_id = clang.id
 	WHERE clang.status = 1
 	GROUP BY category_id, clang_id, name, seo_title, seo_description');
+
+// Standard settings
+if (!$this->hasConfig('article_id')) {
+    $this->setConfig('article_id', rex_article::getSiteStartArticleId());
+}
+
 // Insert url schemes
 if(rex_addon::get('url')->isAvailable()) {
 	$sql->setQuery("SELECT * FROM ". rex::getTablePrefix() ."url_generate WHERE `table` = '1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs'");
@@ -86,9 +92,4 @@ if(rex_addon::get('url')->isAvailable()) {
 // Insert frontend translations
 if(class_exists(d2u_jobs_lang_helper)) {
 	d2u_jobs_lang_helper::factory()->install();
-}
-
-// Standard settings
-if (!$this->hasConfig()) {
-    $this->setConfig('article_id', rex_article::getSiteStartArticleId());
 }

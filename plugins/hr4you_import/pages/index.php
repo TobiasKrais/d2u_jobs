@@ -98,3 +98,13 @@ if(rex_config::get('d2u_jobs', 'hr4you_xml_url') != '') {
 <h2>Bug reporting</h2>
 <p>Fehler bitte auf <a href="https://github.com/tobiaskrais/d2u_stellenmarkt/issues" target="_blank">GitHub</a> melden.</p>
 <p>Fragen können im <a href="http://www.redaxo.org/de/forum/addons-f30/stellenmarkt-addon-mit-optionalem-hr4you-import-t20726.html" target="_blank">Redaxo Forum</a> gestellt werden.</p>
+<h2>Changelog</h2>
+<p>1.0.1:</p>
+<ul>
+	<li>Bugfix: Telefonnummer der Kontaktperson bleibt erhalten, wenn im Import
+		keine angegeben ist.</li>
+</ul>
+<p>1.0.0:</p>
+<ul>
+	<li>Initiale Version.</li>
+</ul>
