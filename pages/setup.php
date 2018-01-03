@@ -31,6 +31,7 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.2 (NEXT):</p>
 <ul>
+	<li>Bugfix: HR4You Autoimport Bugfix, damit Import nicht abbricht.</li>
 	<li>Bugfix: Löschen von Kontaktbildern war ohne Warnung möglich.</li>
 	<li>Bugfix: HR4You Import hat Bilder von Kontakten gelöscht, obwohl sie noch gebraucht wurden.</li>
 	<li>Englisches Backend hinzugefügt.</li>

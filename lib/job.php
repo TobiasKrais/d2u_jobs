@@ -446,8 +446,13 @@ class Job implements \D2U_Helper\ITranslationHelper {
 						."offer_heading = '". $this->offer_heading ."', "
 						."offer_text = '". addslashes(htmlspecialchars($this->offer_text)) ."', "
 						."translation_needs_update = '". $this->translation_needs_update ."', "
-						."updatedate = ". time() .", "
-						."updateuser = '". \rex::getUser()->getLogin() ."' ";
+						."updatedate = ". time();
+				if(\rex::getUser()) {
+					$query .= ", updateuser = '". \rex::getUser()->getLogin() ."' ";
+				}
+				else if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
+					$query .= ", updateuser = 'hr4you_autoimport' ";
+				}
 				$result = \rex_sql::factory();
 				$result->setQuery($query);
 				$error = $result->hasError();

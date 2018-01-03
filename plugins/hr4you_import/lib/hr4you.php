@@ -164,7 +164,7 @@ class hr4you {
 		foreach($old_pictures as $old_picture) {
 			$delete_result = rex_mediapool_deleteMedia($old_picture);
 			if($delete_result['ok'] === FALSE) {
-				print rex_view::warning($delete_result['msg']);
+				// File seems to be in use
 			}
 		}
 		
