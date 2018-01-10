@@ -29,6 +29,10 @@ $d2u_module_manager->showManagerList();
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.0.3 (DEV):</p>
+<ul>
+	<li>Bugfix: Job ID in URL mit aufgenommen.</li>
+</ul>
 <p>1.0.2:</p>
 <ul>
 	<li>Bugfix: URL Addon Daten korrigiert.</li>
