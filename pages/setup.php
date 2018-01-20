@@ -33,6 +33,7 @@ $d2u_module_manager->showManagerList();
 <ul>
 	<li>Bugfix: Job ID in URL mit aufgenommen.</li>
 	<li>Import Plugin: Bei Installation des Autoexportes künftig Ausführung im Frontend und Backend.</li>
+	<li>Import Plugin: Fehler wegen namespace behoben.</li>
 </ul>
 <p>1.0.2:</p>
 <ul>
