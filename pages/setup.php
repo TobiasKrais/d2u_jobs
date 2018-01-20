@@ -32,6 +32,7 @@ $d2u_module_manager->showManagerList();
 <p>1.0.3 (DEV):</p>
 <ul>
 	<li>Bugfix: Job ID in URL mit aufgenommen.</li>
+	<li>Import Plugin: Bei Installation des Autoexportes künftig Ausführung im Frontend und Backend.</li>
 </ul>
 <p>1.0.2:</p>
 <ul>

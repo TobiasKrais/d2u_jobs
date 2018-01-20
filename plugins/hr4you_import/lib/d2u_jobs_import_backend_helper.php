@@ -20,7 +20,7 @@ class d2u_jobs_import_backend_helper  {
 	public static function autoexportInstall() {
 		if(rex_addon::get('cronjob')->isAvailable()) {
 			$query = "INSERT INTO `". rex::getTablePrefix() ."cronjob` (`name`, `description`, `type`, `parameters`, `interval`, `nexttime`, `environment`, `execution_moment`, `execution_start`, `status`, `createdate`, `createuser`) VALUES "
-				."('D2U Jobs Autoimport', 'Imports jobs automatically from HR4You XML', 'rex_cronjob_phpcode', '{\"rex_cronjob_phpcode_code\":\"<?php hr4you::autoimport(); ?>\"}', '{\"minutes\":[0],\"hours\":[21],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}', '". date("Y-m-d H:i:s", strtotime("+5 min")) ."', '|frontend|', 0, '1970-01-01 01:00:00', 1, '". date("Y-m-d H:i:s") ."', 'd2u_jobs');";
+				."('D2U Jobs Autoimport', 'Imports jobs automatically from HR4You XML', 'rex_cronjob_phpcode', '{\"rex_cronjob_phpcode_code\":\"<?php hr4you::autoimport(); ?>\"}', '{\"minutes\":[0],\"hours\":[21],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}', '". date("Y-m-d H:i:s", strtotime("+5 min")) ."', '|frontend|backend|', 0, '1970-01-01 01:00:00', 1, '". date("Y-m-d H:i:s") ."', 'd2u_jobs');";
 			$sql = rex_sql::factory();
 			$sql->setQuery($query);
 		}
