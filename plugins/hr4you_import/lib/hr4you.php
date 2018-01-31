@@ -17,6 +17,11 @@ class hr4you {
 	 * @return boolean TRUE if successfull
 	 */
 	public static function import() {
+		// Include mediapool functions when call is frontend call
+		if (!rex::isBackend()) {
+			require_once __DIR__ . '/../../../../mediapool/functions/function_rex_mediapool.php'; 
+		}
+		
 		$hr4you_xml_url = \rex_config::get('d2u_jobs', 'hr4you_xml_url', FALSE);
 		if($hr4you_xml_url === FALSE) {
 			print \rex_view::error(\rex_i18n::msg('d2u_jobs_hr4you_settings_failure_xml_url'));
