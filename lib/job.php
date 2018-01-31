@@ -149,7 +149,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$this->translation_needs_update = $result->getValue("translation_needs_update");
 
 				if(\rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-					$this->hr4you_job_id = $result->getValue("hr4you_job_id");
+					$this->hr4you_job_id = $result->getValue("hr4you_job_id") > 0 ? $result->getValue("hr4you_job_id") : 0;
 					$this->hr4you_lead_in = $result->getValue("hr4you_lead_in");
 					$this->hr4you_url_application_form = $result->getValue("hr4you_url_application_form");
 				}
