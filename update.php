@@ -13,6 +13,9 @@ if(class_exists(D2UModuleManager)) {
 	$d2u_module_manager->autoupdate();
 }
 
+// 1.0.2 Update database
+rex_sql_table::get(rex::getTable('d2u_jobs_jobs'))->ensureColumn(new \rex_sql_column('reference_number', 'varchar(20)', true, null))->alter();
+
 $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_jobs AS
 	SELECT lang.job_id, lang.clang_id, lang.name, lang.name AS seo_title, lang.tasks_text AS seo_description, SUBSTRING(SUBSTRING_INDEX(category_ids, "|", 2), 2) AS category_id, lang.updatedate
 	FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang

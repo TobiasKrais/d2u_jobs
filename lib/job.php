@@ -403,7 +403,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 
 		if($this->job_id == 0 || $pre_save_job != $this) {
 			$query = \rex::getTablePrefix() ."d2u_jobs_jobs SET "
-					."reference_number = ". $this->reference_number .", "
+					."reference_number = '". $this->reference_number ."', "
 					."category_ids = '|". implode("|", array_keys($this->categories)) ."|', "
 					."date = '". $this->date ."', "
 					."city = '". $this->city ."', "

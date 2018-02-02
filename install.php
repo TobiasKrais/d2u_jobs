@@ -3,8 +3,8 @@ $sql = rex_sql::factory();
 // Install database
 $sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_jobs` (
 	`job_id` int(10) unsigned NOT NULL auto_increment,
-	`reference_number` int(10) default NULL,
-	`category_ids` varchar(255) collate utf8_general_ci,
+	`reference_number` varchar(20) collate utf8_general_ci default NULL,
+	`category_ids` varchar(255) collate utf8_general_ci default NULL,
 	`date` varchar(10) collate utf8_general_ci default NULL,
 	`city` varchar(255) collate utf8_general_ci default NULL,
 	`picture` varchar(255) collate utf8_general_ci default NULL,

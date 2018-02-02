@@ -125,7 +125,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 								$readonly = FALSE;
 							}
 							
-							d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, TRUE, $readonly, 'number');
+							d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, TRUE, $readonly, 'text');
 							$options_categories = [];
 							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang'), FALSE) as $category) {
 								$options_categories[$category->category_id] = $category->name;
