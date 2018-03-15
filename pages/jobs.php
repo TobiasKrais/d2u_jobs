@@ -84,7 +84,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 		$form = (array) rex_post('form', 'array', []);
 		$job_id = $form['job_id'];
 	}
-	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang"));
+	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()));
 	$job->job_id = $job_id; // Ensure correct ID in case language has no object
 	$job->delete();
 	
@@ -93,7 +93,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 // Change online status of category
 else if($func == 'changestatus') {
 	$job_id = $entry_id;
-	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang"));
+	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()));
 	$job->job_id = $job_id; // Ensure correct ID in case language has no object
 	$job->changeStatus();
 	
@@ -127,7 +127,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							
 							d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, TRUE, $readonly, 'text');
 							$options_categories = [];
-							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang'), FALSE) as $category) {
+							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()), FALSE) as $category) {
 								$options_categories[$category->category_id] = $category->name;
 							}
 							d2u_addon_backend_helper::form_select('d2u_jobs_categories', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
@@ -162,7 +162,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 					}
 					foreach(rex_clang::getAll() as $rex_clang) {
 						$job = new D2U_Jobs\Job($entry_id, $rex_clang->getId());
-						$required = $rex_clang->getId() == rex_config::get("d2u_helper", "default_lang") ? TRUE : FALSE;
+						$required = $rex_clang->getId() == rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()) ? TRUE : FALSE;
 						
 						$readonly_lang = TRUE;
 						if(rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('d2u_jobs[edit_lang]') && rex::getUser()->getComplexPerm('clang')->hasPerm($rex_clang->getId()))) {
@@ -173,7 +173,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 						<legend><?php echo rex_i18n::msg('d2u_helper_text_lang') .' "'. $rex_clang->getName() .'"'; ?></legend>
 						<div class="panel-body-wrapper slide">
 							<?php
-								if($rex_clang->getId() != rex_config::get("d2u_helper", "default_lang")) {
+								if($rex_clang->getId() != rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId())) {
 									$options_translations = [];
 									$options_translations["yes"] = rex_i18n::msg('d2u_helper_translation_needs_update');
 									$options_translations["no"] = rex_i18n::msg('d2u_helper_translation_is_uptodate');
