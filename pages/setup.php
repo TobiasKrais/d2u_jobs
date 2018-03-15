@@ -31,6 +31,7 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.3 (DEV):</p>
 <ul>
+	<li>Bugfix: Fehler wenn Einstellungen noch nicht vorgenommen wurden.</li>
 	<li>Bugfix: Job ID in URL mit aufgenommen.</li>
 	<li>Import Plugin: Bei Installation des Autoexportes künftig Ausführung im Frontend und Backend.</li>
 	<li>Import Plugin: Fehler wegen namespace behoben.</li>

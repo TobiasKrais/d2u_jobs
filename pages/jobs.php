@@ -114,10 +114,10 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 					<div class="panel-body-wrapper slide">
 						<?php
 							// Do not use last object from translations, because you don't know if it exists in DB
-							$job = new D2U_Jobs\Job($entry_id, rex_config::get("d2u_helper", "default_lang"));
+							$job = new D2U_Jobs\Job($entry_id, rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()));
 							if($job->job_id == 0) {
 								// This must be an imported job auf default lang is different from hr4you import lang
-								$job = new D2U_Jobs\Job($entry_id, rex_config::get("d2u_jobs", "hr4you_default_lang"));
+								$job = new D2U_Jobs\Job($entry_id, rex_config::get("d2u_jobs", "hr4you_default_lang", rex_clang::getStartId()));
 							}
 
 							$readonly = TRUE;
