@@ -6,7 +6,7 @@ if(!function_exists('prepareText')) {
 	 * @return string Replaced text
 	 */
 	function prepareText($text) {
-		return str_replace("</li>", "</span></li>", str_replace("<li>", "<li><span>", str_replace("<ul>", '<ul class="bullets">', $text)));
+		return str_replace("</li>", "</span></li>", str_replace("<li>", "<li><span>", str_replace("<ul>", '<ul class="bullets">', d2u_addon_frontend_helper::prepareEditorField($text))));
 	}
 }
 

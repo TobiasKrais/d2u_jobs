@@ -29,8 +29,9 @@ $d2u_module_manager->showManagerList();
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.0.3 (DEV):</p>
+<p>1.0.3-DEV:</p>
 <ul>
+	<li>Lieblingseditor aus D2U Helper Addon nutzbar.</li>
 	<li>Bugfix: Fehler wenn Einstellungen noch nicht vorgenommen wurden.</li>
 	<li>Bugfix: Job ID in URL mit aufgenommen.</li>
 	<li>Import Plugin: Bei Installation des Autoexportes künftig Ausführung im Frontend und Backend.</li>
