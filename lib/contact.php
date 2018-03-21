@@ -45,12 +45,7 @@ class Contact {
 			if ($num_rows > 0) {
 				$this->contact_id = $result->getValue("contact_id");
 				$this->name = $result->getValue("name");
-				if($result->getValue("picture") != "") {
-					$this->picture = $result->getValue("picture");
-				}
-				else {
-					$this->picture = \rex_addon::get('d2u_jobs')->getAssetsUrl("noavatar.jpg");
-				}
+				$this->picture = $result->getValue("picture");
 				$this->phone = $result->getValue("phone");
 				$this->email = $result->getValue("email");
 			}
