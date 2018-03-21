@@ -57,11 +57,9 @@ else {
 		}
 		
 		$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
-		print '<div class="medium-7 columns end">';
+		print '<div class="col-12 col-md-8">';
 		print '<article class="box-grey with-text stimmen">';
-		if($job->picture != "") {
-			print '<img src="index.php?rex_media_type=640x249&rex_media_file='. $job->picture .'" alt="'. $job->name .'">';
-		}
+		print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=640x249&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
 		print '<h1>'. $job->name .'</h1>';
 		print '<h2>';
 		if($job->city != "") {
@@ -97,14 +95,14 @@ else {
 		print '</article>';
 		print '</div>';
 		print '<div class="sp sections-less hide-for-medium-up"></div>';
-		print '<div class="medium-5 columns">';
+		print '<div class="col-12 col-md-4">';
 		print '<div class="box-grey stimmen">';
 		print $tag_open .'d2u_jobs_questions'. $tag_close .'<br><br>';
 		print '<div class="row">';
-		print '<div class="large-4 small-4 columns">';
-		print '<img src="'. (strpos($job->contact->picture, "noavatar.jpg") !== FALSE ?  $job->contact->picture : 'index.php?rex_media_type=130x130&rex_media_file='. $job->contact->picture) .'" alt="'. $job->contact->name .'">';
+		print '<div class="col-12 col-sm-4">';
+		print '<img src="'. ($job->contact->picture != "" ? 'index.php?rex_media_type=130x130&rex_media_file='. $job->contact->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->contact->name .'">';
 		print '</div>';
-		print '<div class="large-8 small-8 columns">';
+		print '<div class="col-12 col-sm-8">';
 		print '<h3>'. $job->contact->name .'</h3>';
 		print $tag_open .'d2u_jobs_phone'. $tag_close .': '. $job->contact->phone .'<br>';
 		print '</div>';
@@ -118,7 +116,7 @@ else {
 		$jobs = D2U_Jobs\Job::getAll(rex_clang::getCurrentId(), $category_id, TRUE);
 
 		if(count($jobs) > 0) {
-			print '<div class="large-9 small-9 columns">';
+			print '<div class="col-12 col-sm-9">';
 			print '<h1>'. $tag_open .'d2u_jobs_vacancies'. $tag_close .' ';
 			if($category !== FALSE) {
 				print $category->name;
@@ -126,13 +124,11 @@ else {
 			print '</h1>';
 			print '</div>';
 			foreach($jobs as $job) {
-				print '<div class="medium-6 large-4 columns end">';
+				print '<div class="col-12 col-md-6 col-lg-4">';
 				print '<article class="box-grey with-text stimmen" data-height-watch>';
-				if($job->picture != "") {
-					print '<a href="'. $job->getUrl() .'">';
-					print '<img src="index.php?rex_media_type=340x132&rex_media_file='. $job->picture .'" alt="'. $job->name .'">';
-					print '</a>';
-				}
+				print '<a href="'. $job->getUrl() .'">';
+				print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=640x249&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
+				print '</a>';
 				print '<h1>';
 				print '<a href="'. $job->getUrl() .'">'. strtoupper($job->name) .'</a>';
 				print '</h1>';
