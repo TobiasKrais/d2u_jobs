@@ -116,8 +116,8 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 * @param int $clang_id Redaxo language ID
 	 */
 	public function __construct($job_id, $clang_id) {
+		$this->clang_id = $clang_id;
 		if($job_id > 0) { 
-			$this->clang_id = $clang_id;
 			$query = "SELECT * FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 						."ON jobs.job_id = lang.job_id "
@@ -131,7 +131,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$this->reference_number = $result->getValue("reference_number");
 				$this->date = $result->getValue("date");
 				$this->city = $result->getValue("city");
-				$this->picture = $result->getValue("picture") != "" ? $result->getValue("picture") : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg');
+				$this->picture = $result->getValue("picture");
 				$this->contact = new Contact($result->getValue("contact_id"));
 				$category_ids = preg_grep('/^\s*$/s', explode("|", $result->getValue("category_ids")), PREG_GREP_INVERT);
 				foreach ($category_ids as $category_id) {
