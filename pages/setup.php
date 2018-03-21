@@ -29,7 +29,7 @@ $d2u_module_manager->showManagerList();
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.0.3-DEV:</p>
+<p>1.0.3:</p>
 <ul>
 	<li>Standardbild aus Klasse in Modul verlegt.</li>
 	<li>Bugfix beim Speichern der Sprache einer Stelle.</li>
