@@ -49,7 +49,7 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 		$job->offer_heading = $form['lang'][$rex_clang->getId()]['offer_heading'];
 		$job->offer_text = $form['lang'][$rex_clang->getId()]['offer_text'];
 		$job->translation_needs_update = $form['lang'][$rex_clang->getId()]['translation_needs_update'];
-		
+
 		if($job->translation_needs_update == "delete") {
 			$job->delete(FALSE);
 		}

@@ -31,6 +31,8 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.3-DEV:</p>
 <ul>
+	<li>Standardbild aus Klasse in Modul verlegt.</li>
+	<li>Bugfix beim Speichern der Sprache einer Stelle.</li>
 	<li>YRewrite Multidomain Anpassungen.</li>
 	<li>Lieblingseditor aus D2U Helper Addon nutzbar.</li>
 	<li>Bugfix: Fehler wenn Einstellungen noch nicht vorgenommen wurden.</li>

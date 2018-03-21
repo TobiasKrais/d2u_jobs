@@ -157,7 +157,7 @@ if ($func == '') {
 		$list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('d2u_helper_confirm_delete'));
 	}
 
-    $list->setNoRowsMessage(rex_i18n::msg('d2u_jobs_contact_no_contacts_found'));
+    $list->setNoRowsMessage(rex_i18n::msg('d2u_jobs_no_contacts_found'));
 
     $fragment = new rex_fragment();
     $fragment->setVar('title', rex_i18n::msg('d2u_jobs_contacts'), false);

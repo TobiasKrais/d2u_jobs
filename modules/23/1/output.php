@@ -60,12 +60,12 @@ else {
 		print '<div class="col-12 col-md-8">';
 		print '<article class="box-grey with-text stimmen">';
 		print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=640x249&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
-		print '<h1>'. $job->name .'</h1>';
-		print '<h2>';
+		print '<h2>'. $job->name .'</h2>';
+		print '<p><b>';
 		if($job->city != "") {
 			print $tag_open .'d2u_jobs_region'. $tag_close .' '. $job->city .' / ';
 		}
-		print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number .'</h2>';
+		print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number .'</b></p>';
 		if($job->hr4you_lead_in != "") {
 			print '<br>';
 			print $job->hr4you_lead_in;
@@ -129,14 +129,14 @@ else {
 				print '<a href="'. $job->getUrl() .'">';
 				print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=640x249&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
 				print '</a>';
-				print '<h1>';
-				print '<a href="'. $job->getUrl() .'">'. strtoupper($job->name) .'</a>';
-				print '</h1>';
 				print '<h2>';
+				print '<a href="'. $job->getUrl() .'">'. strtoupper($job->name) .'</a>';
+				print '</h2>';
+				print '<p><b>';
 				if($job->city != "") {
 					print $tag_open .'d2u_jobs_region'. $tag_close .' '. $job->city .' / ';
 				}
-				print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number .'</h2>';
+				print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number .'</b></p>';
 				print '</article>';
 				print '</div>';
 			}
