@@ -34,10 +34,10 @@ function rex_d2u_jobs_article_is_in_use(rex_extension_point $ep) {
 	}
 
 	if(count($warning) > 0) {
-		throw new rex_api_exception(rex_i18n::msg('d2u_helper_rex_article_cannot_delete')."<br> ".implode("<br>", $warning));
+		throw new rex_api_exception(rex_i18n::msg('d2u_helper_rex_article_cannot_delete') ."<ul><li>". implode("</li><li>", $warning) ."</li></ul>");
 	}
 	else {
-		return explode("<br>", $warning);
+		return "";
 	}
 }
 
