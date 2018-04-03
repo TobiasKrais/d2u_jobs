@@ -141,11 +141,11 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$this->name = $result->getValue("name");
 
 				$this->tasks_heading = $result->getValue("tasks_heading");
-				$this->tasks_text = htmlspecialchars_decode($result->getValue("tasks_text"));
+				$this->tasks_text = stripslashes(htmlspecialchars_decode($result->getValue("tasks_text")));
 				$this->profile_heading = $result->getValue("profile_heading");
-				$this->profile_text =  htmlspecialchars_decode($result->getValue("profile_text"));
+				$this->profile_text = stripslashes(htmlspecialchars_decode($result->getValue("profile_text")));
 				$this->offer_heading = $result->getValue("offer_heading");
-				$this->offer_text = htmlspecialchars_decode($result->getValue("offer_text"));
+				$this->offer_text = stripslashes(htmlspecialchars_decode($result->getValue("offer_text")));
 				$this->translation_needs_update = $result->getValue("translation_needs_update");
 
 				if(\rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
