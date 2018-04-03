@@ -31,7 +31,7 @@ $d2u_module_manager->showManagerList();
 <h2>Changelog</h2>
 <p>1.0.4-DEV:</p>
 <ul>
-	<li>Entfernen von escaped Anführungszeichen beim holen aus der Datenbank</li>
+	<li>Bugfix: Fehler beim Speichern von Namen mit einfachem Anführungszeichen behoben.</li>
 </ul>
 <p>1.0.3:</p>
 <ul>

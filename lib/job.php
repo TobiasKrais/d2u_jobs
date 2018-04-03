@@ -138,7 +138,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 					$this->categories[$category_id] = new Category($category_id, $this->clang_id);
 				}
 				$this->online_status = $result->getValue("online_status");
-				$this->name = $result->getValue("name");
+				$this->name = stripslashes($result->getValue("name"));
 
 				$this->tasks_heading = $result->getValue("tasks_heading");
 				$this->tasks_text = stripslashes(htmlspecialchars_decode($result->getValue("tasks_text")));
@@ -443,7 +443,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$query = "REPLACE INTO ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang SET "
 						."job_id = '". $this->job_id ."', "
 						."clang_id = '". $this->clang_id ."', "
-						."name = '". $this->name ."', "
+						."name = '". addslashes($this->name) ."', "
 						."tasks_heading = '". $this->tasks_heading ."', "
 						."tasks_text = '". addslashes(htmlspecialchars($this->tasks_text)) ."', "
 						."profile_heading = '". $this->profile_heading ."', "

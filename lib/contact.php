@@ -44,7 +44,7 @@ class Contact {
 
 			if ($num_rows > 0) {
 				$this->contact_id = $result->getValue("contact_id");
-				$this->name = $result->getValue("name");
+				$this->name = stripslashes($result->getValue("name"));
 				$this->picture = $result->getValue("picture");
 				$this->phone = $result->getValue("phone");
 				$this->email = $result->getValue("email");
@@ -143,7 +143,7 @@ class Contact {
 		if($this->contact_id == 0 || $pre_save_contact != $this) {
 			$query = \rex::getTablePrefix() ."d2u_jobs_contacts SET "
 					."email = '". $this->email ."', "
-					."name = '". $this->name ."', "
+					."name = '". addslashes($this->name) ."', "
 					."phone = '". $this->phone ."', "
 					."picture = '". (strpos($this->picture, "noavatar.jpg") !== FALSE ? '' : $this->picture) ."' ";
 

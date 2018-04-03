@@ -62,7 +62,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 
 		if ($result->getRows() > 0) {
 			$this->category_id = $result->getValue("category_id");
-			$this->name =$result->getValue("name");
+			$this->name = stripslashes($result->getValue("name"));
 			$this->picture = $result->getValue("picture");
 			$this->priority = $result->getValue("priority");
 			$this->translation_needs_update = $result->getValue("translation_needs_update");
@@ -325,7 +325,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 				$query = "REPLACE INTO ". \rex::getTablePrefix() ."d2u_jobs_categories_lang SET "
 						."category_id = '". $this->category_id ."', "
 						."clang_id = '". $this->clang_id ."', "
-						."name = '". $this->name ."', "
+						."name = '". addslashes($this->name) ."', "
 						."translation_needs_update = '". $this->translation_needs_update ."' ";
 
 				$result = \rex_sql::factory();
