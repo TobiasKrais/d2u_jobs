@@ -52,11 +52,11 @@ function rex_d2u_jobs_clang_deleted(rex_extension_point $ep) {
 	$clang_id = $params['id'];
 
 	// Delete
-	$categories = D2U_Jobs\Category::getAll($clang_id);
+	$categories = \D2U_Jobs\Category::getAll($clang_id);
 	foreach ($categories as $category) {
 		$category->delete(FALSE);
 	}
-	$jobs = D2U_Jobs\Jobs::getAll($clang_id, FALSE);
+	$jobs = \D2U_Jobs\Job::getAll($clang_id, FALSE);
 	foreach ($jobs as $job) {
 		$job->delete(FALSE);
 	}
