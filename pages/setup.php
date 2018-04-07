@@ -105,10 +105,12 @@ if(rex_request('import', 'string') == "d2u_stellenmarkt" && $old_tables_availabl
 	}
 }
 else if($old_tables_available) {
+	print "<fieldset style='background-color: white; padding: 1em; border: 1px solid #dfe3e9;'>";
 	print "<h2>Import aus Redaxo 4 D2U Stellenmarkt Addon</h2>";
 	print "<p>Es wurden die D2U Stellenmarkt Addon Tabellen aus Redaxo 4 in der Datenbank gefunden."
 	. "Sollen die Daten importiert werden und die alten Tabellen gelöscht werden? ACHTUNG: dabei werden alle vorhandenen Daten gelöscht!</p>";
 	print '<a href="'. rex_url::currentBackendPage(["import" => "d2u_stellenmarkt"], FALSE) .'"><button class="btn btn-save">Import und vorhandene Daten löschen</button></a>';
+	print "</fieldset>";
 }
 /*
  * Templates
