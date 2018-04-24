@@ -99,6 +99,10 @@ class hr4you {
 			$contact = \D2U_Jobs\Contact::getByMail($xml_job->ap_email);
 			if($contact === FALSE) {
 				$contact = \D2U_Jobs\Contact::factory();
+				self::log('Contact '. $contact->name .' added.');
+			}
+			else {
+				self::log('Contact '. $contact->name .' already exists.');
 			}
 			$contact->name = $xml_job->ap_vorname . ' ' . $xml_job->ap_nachname;
 			if($xml_job->ap_telefon->__toString() != '') {
@@ -110,10 +114,6 @@ class hr4you {
 			$contact->save();
 			if(array_key_exists($contact->contact_id, $old_contacts)) {
 				unset($old_contacts[$contact->contact_id]);
-				self::log('Contact '. $contact->name .' already exists.');
-			}
-			else {
-				self::log('Contact '. $contact->name .' added.');
 			}
 			if($contact->picture != "" && in_array($contact->picture, $old_pictures)) {
 				unset($old_pictures[$contact->picture]);
@@ -388,7 +388,7 @@ class hr4you {
 	private static function log($message) {
 		$log = file_exists(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt')) ? file_get_contents(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt')) : "";
 		
-		$log .= PHP_EOL. date('d.m.Y h:i:s', time()) .": ". $message;
+		$log .= PHP_EOL. date('d.m.Y H:i:s', time()) .": ". $message;
 
 		// Write to log
 		if(!is_dir(rex_path::addonCache('d2u_jobs'))) {

@@ -128,6 +128,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.0.4-DEV:</p>
 <ul>
+	<li>HR4You Import Logfehler korrigiert.</li>
 	<li>Datenübernahme aus Redaxo 4 D2U Stellenmarkt Addon möglich. Dazu müssen lediglich die entsprechenden Tabellen des alten Addons in der Datenbank vorhanden sein.</li>
 	<li>Bugfix: Löschen von Sprachen schlug fehl.</li>
 	<li>Bugfix: Fehler beim Speichern von Namen mit einfachem Anführungszeichen behoben.</li>
