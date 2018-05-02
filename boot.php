@@ -112,7 +112,7 @@ function rex_d2u_jobs_media_is_in_use(rex_extension_point $ep) {
 	// Categories
 	for($i = 0; $i < $sql_categories->getRows(); $i++) {
 		$message = '<a href="javascript:openPage(\'index.php?page=d2u_jobs/category&func=edit&entry_id='. $sql_categories->getValue('category_id') .'\')">'.
-			 rex_i18n::msg('d2u_jobs_rights_all') ." - ". rex_i18n::msg('d2u_jobs_categories') .': '. $sql_categories->getValue('name') . '</a>';
+			 rex_i18n::msg('d2u_jobs_rights_all') ." - ". rex_i18n::msg('d2u_helper_category') .': '. $sql_categories->getValue('name') . '</a>';
 		if(!in_array($message, $warning)) {
 			$warning[] = $message;
 		}

@@ -152,7 +152,7 @@ if ($func == 'edit' || $func == 'add') {
 									print '<input type="hidden" name="form[lang]['. $rex_clang->getId() .'][translation_needs_update]" value="">';
 								}
 								
-								d2u_addon_backend_helper::form_input('d2u_jobs_name', "form[lang][". $rex_clang->getId() ."][name]", $category->name, $required, $readonly_lang);
+								d2u_addon_backend_helper::form_input('d2u_helper_name', "form[lang][". $rex_clang->getId() ."][name]", $category->name, $required, $readonly_lang);
 							?>
 						</div>
 					</fieldset>
@@ -203,7 +203,7 @@ if ($func == '') {
     $list->setColumnLabel('category_id', rex_i18n::msg('id'));
     $list->setColumnLayout('category_id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
 
-    $list->setColumnLabel('name', rex_i18n::msg('d2u_jobs_name'));
+    $list->setColumnLabel('name', rex_i18n::msg('d2u_helper_name'));
     $list->setColumnParams('name', ['func' => 'edit', 'entry_id' => '###category_id###']);
 
     $list->setColumnLabel('priority', rex_i18n::msg('header_priority'));
@@ -219,10 +219,10 @@ if ($func == '') {
 		$list->addLinkAttribute(rex_i18n::msg('delete_module'), 'data-confirm', rex_i18n::msg('d2u_helper_confirm_delete'));
 	}
 
-    $list->setNoRowsMessage(rex_i18n::msg('d2u_jobs_no_category_found'));
+    $list->setNoRowsMessage(rex_i18n::msg('d2u_helper_no_categories_found'));
 
     $fragment = new rex_fragment();
-    $fragment->setVar('title', rex_i18n::msg('d2u_jobs_categories'), false);
+    $fragment->setVar('title', rex_i18n::msg('d2u_helper_category'), false);
     $fragment->setVar('content', $list->get(), false);
     echo $fragment->parse('core/page/section.php');
 }

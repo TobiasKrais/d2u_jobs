@@ -1,13 +1,10 @@
 d2u_jobs = D2U Jobs
-d2u_jobs_categories = Categories
 d2u_jobs_city = City/Region
 d2u_jobs_contact = Contact
 d2u_jobs_contacts = Contactperson
 d2u_jobs_date = Date
 d2u_jobs_email = E-mail address
 d2u_jobs_jobs = Jobs
-d2u_jobs_name = Name
-d2u_jobs_no_category_found = No categories found.
 d2u_jobs_no_contacts_found = No contacts found.
 d2u_jobs_no_jobs_found = No jobs found.
 d2u_jobs_offer_heading = Headline "We offer"

@@ -84,7 +84,7 @@ if ($func == 'edit' || $func == 'add') {
 								$readonly = FALSE;
 							}
 							
-							d2u_addon_backend_helper::form_input('d2u_jobs_name', 'form[name]', $contact->name, TRUE, $readonly);
+							d2u_addon_backend_helper::form_input('d2u_helper_name', 'form[name]', $contact->name, TRUE, $readonly);
 							d2u_addon_backend_helper::form_input('d2u_jobs_email', 'form[email]', $contact->email, TRUE, $readonly, 'email');
 							d2u_addon_backend_helper::form_input('d2u_jobs_phone', 'form[phone]', $contact->phone, TRUE, $readonly);
 							d2u_addon_backend_helper::form_mediafield('d2u_helper_picture', '1', $contact->picture, $readonly);
@@ -140,7 +140,7 @@ if ($func == '') {
     $list->setColumnLabel('contact_id', rex_i18n::msg('id'));
     $list->setColumnLayout('contact_id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
 
-    $list->setColumnLabel('name', rex_i18n::msg('d2u_jobs_name'));
+    $list->setColumnLabel('name', rex_i18n::msg('d2u_helper_name'));
     $list->setColumnParams('name', ['func' => 'edit', 'entry_id' => '###contact_id###']);
 
     $list->setColumnLabel('email', rex_i18n::msg('d2u_jobs_email'));

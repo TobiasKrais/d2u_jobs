@@ -130,7 +130,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()), FALSE) as $category) {
 								$options_categories[$category->category_id] = $category->name;
 							}
-							d2u_addon_backend_helper::form_select('d2u_jobs_categories', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
+							d2u_addon_backend_helper::form_select('d2u_helper_category', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
 							d2u_addon_backend_helper::form_input('d2u_jobs_date', 'form[date]', $job->date, TRUE, $readonly, 'date');
 							d2u_addon_backend_helper::form_input('d2u_jobs_city', 'form[city]', $job->city, TRUE, $readonly);
 							d2u_addon_backend_helper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', $job->online_status == "online", $readonly);
@@ -184,7 +184,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 									print '<input type="hidden" name="form[lang]['. $rex_clang->getId() .'][translation_needs_update]" value="">';
 								}
 								
-								d2u_addon_backend_helper::form_input('d2u_jobs_name', "form[lang][". $rex_clang->getId() ."][name]", $job->name, $required, $readonly_lang);
+								d2u_addon_backend_helper::form_input('d2u_helper_name', "form[lang][". $rex_clang->getId() ."][name]", $job->name, $required, $readonly_lang);
 								d2u_addon_backend_helper::form_input('d2u_jobs_tasks_heading', "form[lang][". $rex_clang->getId() ."][tasks_heading]", $job->tasks_heading, $required, $readonly_lang);
 								d2u_addon_backend_helper::form_textarea('d2u_jobs_tasks_text', "form[lang][". $rex_clang->getId() ."][tasks_text]", $job->tasks_text, 5, FALSE, $readonly_lang, TRUE);
 								d2u_addon_backend_helper::form_input('d2u_jobs_profile_heading', "form[lang][". $rex_clang->getId() ."][profile_heading]", $job->profile_heading, FALSE, $readonly_lang);
@@ -241,7 +241,7 @@ if ($func == '') {
     $list->setColumnLabel('job_id', rex_i18n::msg('id'));
     $list->setColumnLayout('job_id', ['<th class="rex-table-id">###VALUE###</th>', '<td class="rex-table-id">###VALUE###</td>']);
 
-    $list->setColumnLabel('name', rex_i18n::msg('d2u_jobs_name'));
+    $list->setColumnLabel('name', rex_i18n::msg('d2u_helper_name'));
     $list->setColumnParams('name', ['func' => 'edit', 'entry_id' => '###job_id###']);
 
     $list->setColumnLabel('date', rex_i18n::msg('d2u_jobs_date'));
