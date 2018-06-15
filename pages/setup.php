@@ -126,8 +126,9 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.0.4-DEV:</p>
+<p>1.0.4:</p>
 <ul>
+	<li>HR4You Job ID in Übersichtsliste eingefügt.</li>
 	<li>HR4You Import Logfehler korrigiert.</li>
 	<li>Datenübernahme aus Redaxo 4 D2U Stellenmarkt Addon möglich. Dazu müssen lediglich die entsprechenden Tabellen des alten Addons in der Datenbank vorhanden sein.</li>
 	<li>Bugfix: Löschen von Sprachen schlug fehl.</li>

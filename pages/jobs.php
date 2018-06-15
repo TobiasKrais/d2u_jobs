@@ -221,7 +221,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 }
 
 if ($func == '') {
-	$query = 'SELECT job.job_id, name, `date`, city, online_status '
+	$query = 'SELECT job.job_id, name, `date`, city, online_status'. (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable() ? ', hr4you_job_id ' : '')
 		. 'FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS job '
 		. 'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
 			. 'ON job.job_id = lang.job_id AND lang.clang_id = '. (rex_config::get("d2u_jobs", "hr4you_default_lang", 0) > 0 ? rex_config::get("d2u_jobs", "hr4you_default_lang") : rex_config::get("d2u_helper", "default_lang")) .' '
@@ -249,6 +249,10 @@ if ($func == '') {
 
     $list->setColumnLabel('city', rex_i18n::msg('d2u_jobs_city'));
     $list->setColumnParams('city', ['func' => 'edit', 'entry_id' => '###job_id###']);
+	
+	if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+		$list->setColumnLabel('hr4you_job_id', rex_i18n::msg('d2u_jobs_hr4you_import_job_id'));
+	}
 
 	$list->addColumn(rex_i18n::msg('module_functions'), '<i class="rex-icon rex-icon-edit"></i> ' . rex_i18n::msg('edit'));
     $list->setColumnLayout(rex_i18n::msg('module_functions'), ['<th class="rex-table-action" colspan="2">###VALUE###</th>', '<td class="rex-table-action">###VALUE###</td>']);
