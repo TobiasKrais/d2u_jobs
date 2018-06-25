@@ -126,6 +126,11 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.0.5-DEV:</p>
+<ul>
+	<li>Bugfix: Update über Installer endete im "Whoops..."</li>
+	<li>Bugfix: Deinstallation des hr4you_import Plugins fehlerhaft.</li>
+</ul>
 <p>1.0.4:</p>
 <ul>
 	<li>HR4You Job ID in Übersichtsliste eingefügt.</li>

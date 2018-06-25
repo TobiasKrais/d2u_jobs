@@ -221,7 +221,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 }
 
 if ($func == '') {
-	$query = 'SELECT job.job_id, name, `date`, city, online_status'. (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable() ? ', hr4you_job_id ' : '')
+	$query = 'SELECT job.job_id, name, `date`, city, online_status '. (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable() ? ', hr4you_job_id ' : '')
 		. 'FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS job '
 		. 'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
 			. 'ON job.job_id = lang.job_id AND lang.clang_id = '. (rex_config::get("d2u_jobs", "hr4you_default_lang", 0) > 0 ? rex_config::get("d2u_jobs", "hr4you_default_lang") : rex_config::get("d2u_helper", "default_lang")) .' '

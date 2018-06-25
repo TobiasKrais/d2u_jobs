@@ -76,7 +76,7 @@ class d2u_jobs_lang_helper {
 	
 	/**
 	 * Factory method.
-	 * @return d2u_immo_lang_helper Object
+	 * @return d2u_jobs_lang_helper Object
 	 */
 	public static function factory() {
 		return new d2u_jobs_lang_helper();
