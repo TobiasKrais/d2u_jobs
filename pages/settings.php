@@ -15,7 +15,7 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 		echo rex_view::success(rex_i18n::msg('form_saved'));
 
 		// Update url schemes
-		if(rex_addon::get('url')->isAvailable()) {
+		if(\rex_addon::get('url')->isAvailable()) {
 			d2u_addon_backend_helper::update_url_scheme(rex::getTablePrefix() ."d2u_jobs_url_jobs", $settings['article_id']);
 			d2u_addon_backend_helper::update_url_scheme(rex::getTablePrefix() ."d2u_jobs_url_jobs_categories", $settings['article_id']);
 			UrlGenerator::generatePathFile([]);
@@ -27,12 +27,12 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 		// Install / remove Cronjob
  		if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
 			if($this->getConfig('hr4you_autoimport') == 'active') {
-				if(!d2u_jobs_import_backend_helper::autoexportIsInstalled()) {
-					d2u_jobs_import_backend_helper::autoexportInstall();
+				if(!d2u_jobs_import_conjob::isInstalled()) {
+					d2u_jobs_import_conjob::install();
 				}
 			}
 			else {
-				d2u_jobs_import_backend_helper::autoexportDelete();
+				d2u_jobs_import_conjob::delete();
 			}
 		}
 	}

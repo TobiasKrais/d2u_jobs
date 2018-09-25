@@ -37,7 +37,8 @@ if(rex_request('import', 'string') == "d2u_stellenmarkt" && $old_tables_availabl
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs`
 			DROP `interne_bezeichnung`,
 			DROP `artikel_id`;
-
+		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs` ENGINE = InnoDB;
+	
 		RENAME TABLE `". rex::getTablePrefix() ."d2u_stellenmarkt_stellen_lang` TO `". rex::getTablePrefix() ."d2u_jobs_jobs_lang`;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` CHANGE `stellen_id` `job_id` INT(11) UNSIGNED NOT NULL;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` DROP PRIMARY KEY;
@@ -55,6 +56,7 @@ if(rex_request('import', 'string') == "d2u_stellenmarkt" && $old_tables_availabl
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ADD `updatedate` INT(11) NULL DEFAULT NULL;
 		UPDATE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` SET `updatedate` = UNIX_TIMESTAMP();
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ADD `updateuser` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ENGINE = InnoDB;
 
 		RENAME TABLE `". rex::getTablePrefix() ."d2u_stellenmarkt_kategorien` TO `". rex::getTablePrefix() ."d2u_jobs_categories`;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories` CHANGE `kategorie_id` `category_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
@@ -62,6 +64,7 @@ if(rex_request('import', 'string') == "d2u_stellenmarkt" && $old_tables_availabl
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories` ADD `picture` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `priority`;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories` DROP `interne_bezeichnung`;
 		UPDATE `". rex::getTablePrefix() ."d2u_jobs_categories` SET `priority` = 1;
+		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories` ENGINE = InnoDB;
 
 		RENAME TABLE `". rex::getTablePrefix() ."d2u_stellenmarkt_kategorien_lang` TO `". rex::getTablePrefix() ."d2u_jobs_categories_lang`;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories_lang` CHANGE `kategorie_id` `category_id` INT(11) UNSIGNED NOT NULL;
@@ -70,11 +73,13 @@ if(rex_request('import', 'string') == "d2u_stellenmarkt" && $old_tables_availabl
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories_lang` ADD PRIMARY KEY (`category_id`,`clang_id`);
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories_lang` ADD `translation_needs_update` VARCHAR(7) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL AFTER `name`;
 		UPDATE `". rex::getTablePrefix() ."d2u_jobs_categories_lang` SET `translation_needs_update` = 'no';
+		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_categories_lang` ENGINE = InnoDB;
 
 		RENAME TABLE `". rex::getTablePrefix() ."d2u_stellenmarkt_kontakt` TO `". rex::getTablePrefix() ."d2u_jobs_contacts`;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_contacts` CHANGE `kontakt_id` `contact_id` INT(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_contacts` CHANGE `bild` `picture` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
-		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_contacts` CHANGE `telefon` `phone` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;");
+		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_contacts` CHANGE `telefon` `phone` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL;
+		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_contacts` ENGINE = InnoDB;");
 
 	$error = $sql->hasError() ? $sql->getError() : "";
 	
@@ -112,9 +117,7 @@ else if($old_tables_available) {
 	print '<a href="'. rex_url::currentBackendPage(["import" => "d2u_stellenmarkt"], FALSE) .'"><button class="btn btn-save">Import und vorhandene Daten löschen</button></a>';
 	print "</fieldset>";
 }
-/*
- * Templates
- */
+
 ?>
 <h2>Beispielseiten</h2>
 <ul>
@@ -126,8 +129,10 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.0.5-DEV:</p>
+<p>1.0.5:</p>
 <ul>
+	<li>Methode zum Erstellen von Meta Tags d2u_jobs_frontend_helper::getAlternateURLs() hinzugefügt.</li>
+	<li>Methode zum Erstellen von Meta Tags d2u_jobs_frontend_helper::getMetaTags() hinzugefügt.</li>
 	<li>Bugfix: Update über Installer endete im "Whoops..."</li>
 	<li>Bugfix: Deinstallation des hr4you_import Plugins fehlerhaft.</li>
 </ul>
