@@ -86,9 +86,8 @@ class hr4you {
 					// Copy first
 					if(copy($xml_job->kopfgrafik_url, $target_picture)) {
 						chmod($target_picture, octdec(664));
-// Use next line instead the one after as soon as https://github.com/redaxo/redaxo/issues/1614 is fixed
-//						$sync_file_infos = \rex_mediapool_syncFile($job_picture_pathInfo['basename'], \rex_config::get('d2u_jobs', 'hr4you_media_category'), $xml_jobs->titel);
-						$sync_file_infos = self::importMedia($job_picture_pathInfo['basename'], \rex_config::get('d2u_jobs', 'hr4you_media_category'), $xml_jobs->titel);
+						$username = rex::getUser() ? rex::getUser()->getLogin() : "d2u_jobs_hr4you_plugin";
+						$sync_file_infos = \rex_mediapool_syncFile($job_picture_pathInfo['basename'], \rex_config::get('d2u_jobs', 'hr4you_media_category'), $xml_jobs->titel, null, null, $username);
 						$job_picture_filename = $sync_file_infos['filename'];
 						self::log('Job picture '. $job_picture_filename .' importet into database.');
 					}
@@ -249,123 +248,6 @@ class hr4you {
 
 		$h_tag = \rex_config::get('d2u_jobs', 'hr4you_headline_tag');
 		return str_replace('<' . $h_tag . '>' . $headline . '</' . $h_tag . '>', '', $string);
-	}
-
-	/**
-	 * Synchronisiert die Datei $physical_filename des Mediafolders in den
-	 * Medienpool.
-	 *
-	 * @param string $physical_filename
-	 * @param int    $rex_file_category
-	 * @param string $title
-	 *
-	 * @return bool|array
-	 */
-	private static function importMedia($physical_filename, $rex_file_category, $title) {
-		$abs_file = \rex_path::media($physical_filename);
-
-		if (!file_exists($abs_file)) {
-			return FALSE;
-		}
-
-		$filesize = filesize($abs_file);
-		$filetype = "";
-		if (function_exists('mime_content_type')) {
-			$filetype = mime_content_type($abs_file);
-		}
-		else if (function_exists('finfo_open')) {
-			$finfo = finfo_open(FILEINFO_MIME_TYPE); // return mime type ala mimetype extension
-			$filetype = finfo_file($finfo, $abs_file);
-		}
-
-		$FILE = [];
-		$FILE['name'] = $physical_filename;
-		$FILE['size'] = $filesize;
-		$FILE['type'] = $filetype;
-
-		$FILEINFOS = [];
-		$FILEINFOS['title'] = $title;
-
-		// Check file category exists
-		$gc = rex_sql::factory();
-		$gc->setQuery('SELECT * FROM ' . \rex::getTablePrefix() . 'media_category WHERE id=' . $rex_file_category);
-		if ($gc->getRows() != 1) {
-			$rex_file_category = 0;
-		}
-
-		$FILENAME = $FILE['name'];
-		$FILESIZE = $FILE['size'];
-		$FILETYPE = $FILE['type'];
-		$NFILENAME = \rex_mediapool_filename($FILENAME, TRUE);
-		$message = [];
-
-		// ----- alter/neuer filename
-		$srcFile = \rex_path::media($FILENAME);
-		$dstFile = \rex_path::media($NFILENAME);
-
-		$success = true;
-		// Filesync
-		if (!@rename($srcFile, $dstFile)) {
-			$message[] = \rex_i18n::msg('pool_file_movefailed');
-			$success = false;
-		}
-
-		if ($success) {
-			@chmod($dstFile, \rex::getFilePerm());
-
-			// get width height
-			$size = @getimagesize($dstFile);
-
-			if ($FILETYPE == '' && isset($size['mime'])) {
-				$FILETYPE = $size['mime'];
-			}
-
-			$FILESQL = \rex_sql::factory();
-			$FILESQL->setTable(\rex::getTablePrefix() . 'media');
-			$FILESQL->setValue('filetype', $FILETYPE);
-			$FILESQL->setValue('title', $FILEINFOS['title']);
-			$FILESQL->setValue('filename', $NFILENAME);
-			$FILESQL->setValue('originalname', $FILENAME);
-			$FILESQL->setValue('filesize', $FILESIZE);
-
-			if ($size) {
-				$FILESQL->setValue('width', $size[0]);
-				$FILESQL->setValue('height', $size[1]);
-			}
-
-			$FILESQL->setValue('category_id', $rex_file_category);
-			$FILESQL->setDateTimeValue('createdate', time());
-			$FILESQL->setDateTimeValue('createuser', null);
-			$FILESQL->setDateTimeValue('updatedate', time());
-			$FILESQL->setDateTimeValue('updateuser', null);
-			$FILESQL->insert();
-
-			if ($NFILENAME != $FILENAME) {
-				$message[] = \rex_i18n::rawMsg('pool_file_renamed', $FILENAME, $NFILENAME);
-			}
-
-			\rex_media_cache::deleteList($rex_file_category);
-		}
-
-		$RETURN['title'] = $FILEINFOS['title'];
-		$RETURN['type'] = $FILETYPE;
-		$RETURN['msg'] = implode('<br />', $message);
-		// Aus BC gruenden hier mit int 1/0
-		$RETURN['ok'] = $success ? 1 : 0;
-		$RETURN['filename'] = $NFILENAME;
-		$RETURN['old_filename'] = $FILENAME;
-
-		if (isset($size)) {
-			$RETURN['width'] = $size[0];
-			$RETURN['height'] = $size[1];
-		}
-
-		// ----- EXTENSION POINT
-		if ($success) {
-			\rex_extension::registerPoint(new \rex_extension_point('MEDIA_ADDED', '', $RETURN));
-		}
-
-		return $RETURN;
 	}
 	
 	/**

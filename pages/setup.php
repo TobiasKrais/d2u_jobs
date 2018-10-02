@@ -129,6 +129,10 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.0.6-DEV:</p>
+<ul>
+	<li>HR4You Import verwendet jetzt Redaxo eigene Methode zum einfügen von Bildern in den Medienpool (https://github.com/redaxo/redaxo/issues/1614).</li>
+</ul>
 <p>1.0.5:</p>
 <ul>
 	<li>Methode zum Erstellen von Meta Tags d2u_jobs_frontend_helper::getAlternateURLs() hinzugefügt.</li>
