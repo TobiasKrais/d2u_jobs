@@ -15,4 +15,4 @@ requires:
         cronjob: '>=2.1.1'
         media_manager: '>=2.2.0'
         sprog: '>=1.0.0'
-    redaxo: >=5.6.0
+    redaxo: '>=5.6.0'
