@@ -13,7 +13,7 @@ class D2UJobsModules {
 		$modules = [];
 		$modules[] = new D2UModule("23-1",
 			"D2U Jobs - Stellen",
-			3);
+			4);
 		$modules[] = new D2UModule("23-2",
 			"D2U Jobs - Kategorien",
 			2);

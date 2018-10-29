@@ -61,11 +61,16 @@ else {
 		print '<article class="job-box">';
 		print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_jobheader&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
 		print '<h2>'. $job->name .'</h2>';
-		print '<p><b>';
-		if($job->city != "") {
-			print $tag_open .'d2u_jobs_region'. $tag_close .' '. $job->city .' / ';
+		if($job->city != "" || $job->reference_number != "") {
+			print '<p><b>';
+			if($job->city != "") {
+				print $tag_open .'d2u_jobs_region'. $tag_close .' '. $job->city . ($job->reference_number != "" ? ' / ' : '');
+			}
+			if($job->reference_number != "") {
+				print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number;
+			}
+			print '</b></p><br>';
 		}
-		print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number .'</b></p><br>';
 		if($job->hr4you_lead_in != "") {
 			print '<br>';
 			print $job->hr4you_lead_in;
@@ -104,7 +109,12 @@ else {
 		print '</div>';
 		print '<div class="col-12 col-sm-8">';
 		print '<h3>'. $job->contact->name .'</h3>';
-		print $tag_open .'d2u_jobs_phone'. $tag_close .': '. $job->contact->phone .'<br>';
+		if($job->contact->phone != "") {
+			print $tag_open .'d2u_jobs_phone'. $tag_close .': '. $job->contact->phone .'<br>';
+		}
+		if($job->contact->email != "") {
+			print '<a href="mailto:'. $job->contact->email .'">'.$job->contact->email .'</a><br>';
+		}
 		print '</div>';
 		print '</div>';
 		print '</div>';
@@ -130,11 +140,16 @@ else {
 				print '<div class="job-box job-box-list" data-height-watch>';
 				print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_joblist&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
 				print '<h2>'. $job->name .'</h2>';
-				print '<p>';
-				if($job->city != "") {
-					print $tag_open .'d2u_jobs_region'. $tag_close .' '. $job->city .' / ';
+				if($job->city != "" || $job->reference_number != "") {
+					print '<p>';
+					if($job->city != "") {
+						print $tag_open .'d2u_jobs_region'. $tag_close .' '. $job->city . ($job->reference_number != "" ? ' / ' : '');
+					}
+					if($job->reference_number != "") {
+						print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number;
+					}
+					print '</p>';
 				}
-				print $tag_open .'d2u_jobs_reference_number'. $tag_close .' '. $job->reference_number .'</p>';
 				print '</div>';
 				print '</a>';
 				print '</div>';

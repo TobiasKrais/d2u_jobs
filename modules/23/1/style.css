@@ -14,7 +14,7 @@
 	font-size: 1rem;
 	font-weight: bold;
 	margin: 0;
-	padding: 0;
+	padding: 0 0 0.25em 0;
 }
 .job-box img {
 	margin-bottom: 15px;
