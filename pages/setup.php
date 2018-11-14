@@ -131,6 +131,8 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.0.6-DEV:</p>
 <ul>
+	<li>In den Einstellungen gibt es jetzt eine Option, eigene Übersetzungen in SProg dauerhaft zu erhalten.</li>
+	<li>Niederländische Frontendübersetzung hinzugefügt.</li>
 	<li>Bugfix: CronJob wird - wenn installiert - nicht immer richtig aktiviert.</li>
 	<li>Referenznummer kein Pflichtfeld mehr.</li>
 	<li>HR4You Import verwendet jetzt Redaxo eigene Methode zum einfügen von Bildern in den Medienpool (https://github.com/redaxo/redaxo/issues/1614).</li>
