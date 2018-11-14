@@ -13,6 +13,7 @@ if(!class_exists('d2u_jobs_hr4you_lang_helper')) {
 }
 d2u_jobs_hr4you_lang_helper::factory()->uninstall();
 
+// Delete CronJob if installed
 if(!class_exists('d2u_jobs_import_conjob')) {
 	// Load class in case addon is deactivated
 	require_once 'lib/d2u_jobs_import_conjob.php';
