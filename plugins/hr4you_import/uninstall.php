@@ -18,8 +18,9 @@ if(!class_exists('d2u_jobs_import_conjob')) {
 	// Load class in case addon is deactivated
 	require_once 'lib/d2u_jobs_import_conjob.php';
 }
-if(d2u_jobs_import_conjob::isInstalled()) {
-	d2u_jobs_import_conjob::delete();
+$import_cronjob = d2u_jobs_import_conjob::factory();
+if($import_cronjob->isInstalled()) {
+	$import_cronjob->delete();
 }
 
 if (!rex_config::has('d2u_jobs', 'hr4you_autoimport')) {

@@ -27,13 +27,14 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 
 		// Install / remove Cronjob
  		if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+			$import_cronjob = d2u_jobs_import_conjob::factory();
 			if($this->getConfig('hr4you_autoimport') == 'active') {
-				if(!d2u_jobs_import_conjob::isInstalled()) {
-					d2u_jobs_import_conjob::install();
+				if(!$import_cronjob->isInstalled()) {
+					$import_cronjob->install();
 				}
 			}
 			else {
-				d2u_jobs_import_conjob::delete();
+				$import_cronjob->delete();
 			}
 		}
 	}
