@@ -7,7 +7,19 @@ $sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_jobs_lang` DRO
 $sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_categories` DROP COLUMN `hr4you_category_id`;');
 
 // Delete language replacements
-d2u_jobs_lang_helper::factory()->uninstall();
+if(!class_exists('d2u_jobs_hr4you_lang_helper')) {
+	// Load class in case addon is deactivated
+	require_once 'lib/d2u_jobs_hr4you_lang_helper.php';
+}
+d2u_jobs_hr4you_lang_helper::factory()->uninstall();
+
+if(!class_exists('d2u_jobs_import_conjob')) {
+	// Load class in case addon is deactivated
+	require_once 'lib/d2u_jobs_import_conjob.php';
+}
+if(d2u_jobs_import_conjob::isInstalled()) {
+	d2u_jobs_import_conjob::delete();
+}
 
 if (!rex_config::has('d2u_jobs', 'hr4you_autoimport')) {
 	rex_config::remove('d2u_jobs', 'hr4you_autoimport');
