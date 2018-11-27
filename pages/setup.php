@@ -131,7 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.0.7-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Modul 23-1 "D2U Stellenmarkt - Stellenanzeigen" kann optional den allgemeinen Bewerbungshinweis ausblenden.</li>
 </ul>
 <p>1.0.6:</p>
 <ul>

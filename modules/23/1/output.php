@@ -31,6 +31,8 @@ else {
 	}
 }
 
+$hide_application_hint = "REX_VALUE[2]" == 'true' ? TRUE : FALSE;
+
 if(rex::isBackend()) {
 	// Ausgabe im BACKEND	
 ?>
@@ -91,7 +93,7 @@ else {
 			print '<br><br>';
 			print '<p class="appendix"><a target="_blank" href="'. $job->hr4you_url_application_form .'">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'</a></p>';
 		}
-		else {
+		else if($hide_application_hint === FALSE) {
 			print '<br><br>';
 			print '<p class="appendix">'. $tag_open .'d2u_jobs_footer'. $tag_close
 				.'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
@@ -127,7 +129,7 @@ else {
 		print '<div class="col-12">';
 		print '<div class="row" data-match-height>';
 		if(count($jobs) > 0) {
-			print '<div class="col-12 col-sm-9">';
+			print '<div class="col-12">';
 			print '<h1>'. $tag_open .'d2u_jobs_vacancies'. $tag_close .' ';
 			if($category !== FALSE) {
 				print $category->name;

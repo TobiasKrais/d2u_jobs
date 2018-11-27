@@ -12,10 +12,10 @@ class D2UJobsModules {
 	public static function getModules() {
 		$modules = [];
 		$modules[] = new D2UModule("23-1",
-			"D2U Jobs - Stellen",
-			4);
+			"D2U Stellenmarkt - Stellenanzeigen",
+			5);
 		$modules[] = new D2UModule("23-2",
-			"D2U Jobs - Kategorien",
+			"D2U Stellenmarkt - Kategorien",
 			2);
 		return $modules;
 	}
