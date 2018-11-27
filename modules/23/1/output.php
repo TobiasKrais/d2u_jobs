@@ -96,7 +96,7 @@ else {
 		else if($hide_application_hint === FALSE) {
 			print '<br><br>';
 			print '<p class="appendix">'. $tag_open .'d2u_jobs_footer'. $tag_close
-				.'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
+				.'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
 				.'</p>';
 		}
 		print '</article>';
@@ -115,7 +115,7 @@ else {
 			print $tag_open .'d2u_jobs_phone'. $tag_close .': '. $job->contact->phone .'<br>';
 		}
 		if($job->contact->email != "") {
-			print '<a href="mailto:'. $job->contact->email .'">'.$job->contact->email .'</a><br>';
+			print '<a href="mailto:'. $job->contact->email .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'.$job->contact->email .'</a><br>';
 		}
 		print '</div>';
 		print '</div>';
@@ -138,7 +138,7 @@ else {
 			print '</div>';
 			foreach($jobs as $job) {
 				print '<div class="col-12 col-md-6 col-lg-4">';
-				print '<a href="'. $job->getUrl() .'" class="job-box-list-link">';
+				print '<a href="'. $job->getUrl() .'" class="job-box-list-link" title="'. $job->name.'">';
 				print '<div class="job-box job-box-list" data-height-watch>';
 				print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_joblist&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
 				print '<h2>'. $job->name .'</h2>';
