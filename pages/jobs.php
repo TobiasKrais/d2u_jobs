@@ -183,15 +183,29 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 								else {
 									print '<input type="hidden" name="form[lang]['. $rex_clang->getId() .'][translation_needs_update]" value="">';
 								}
-								
-								d2u_addon_backend_helper::form_input('d2u_helper_name', "form[lang][". $rex_clang->getId() ."][name]", $job->name, $required, $readonly_lang);
-								d2u_addon_backend_helper::form_input('d2u_jobs_tasks_heading', "form[lang][". $rex_clang->getId() ."][tasks_heading]", $job->tasks_heading, $required, $readonly_lang);
-								d2u_addon_backend_helper::form_textarea('d2u_jobs_tasks_text', "form[lang][". $rex_clang->getId() ."][tasks_text]", $job->tasks_text, 5, FALSE, $readonly_lang, TRUE);
-								d2u_addon_backend_helper::form_input('d2u_jobs_profile_heading', "form[lang][". $rex_clang->getId() ."][profile_heading]", $job->profile_heading, FALSE, $readonly_lang);
-								d2u_addon_backend_helper::form_textarea('d2u_jobs_profile_text', "form[lang][". $rex_clang->getId() ."][profile_text]", $job->profile_text, 5, FALSE, $readonly_lang, TRUE);
-								d2u_addon_backend_helper::form_input('d2u_jobs_offer_heading', "form[lang][". $rex_clang->getId() ."][offer_heading]", $job->offer_heading, FALSE, $readonly_lang);
-								d2u_addon_backend_helper::form_textarea('d2u_jobs_offer_text', "form[lang][". $rex_clang->getId() ."][offer_text]", $job->offer_text, 5, FALSE, $readonly_lang, TRUE);
 							?>
+							<script>
+								// Hide on document load
+								$(document).ready(function() {
+									toggleClangDetailsView(<?php print $rex_clang->getId(); ?>);
+								});
+
+								// Hide on selection change
+								$("select[name='form[lang][1][translation_needs_update]']").on('change', function(e) {
+									toggleClangDetailsView(<?php print $rex_clang->getId(); ?>);
+								});
+							</script>
+							<div id="details_clang_<?php print $rex_clang->getId(); ?>">
+								<?php
+									d2u_addon_backend_helper::form_input('d2u_helper_name', "form[lang][". $rex_clang->getId() ."][name]", $job->name, $required, $readonly_lang);
+									d2u_addon_backend_helper::form_input('d2u_jobs_tasks_heading', "form[lang][". $rex_clang->getId() ."][tasks_heading]", $job->tasks_heading, $required, $readonly_lang);
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_tasks_text', "form[lang][". $rex_clang->getId() ."][tasks_text]", $job->tasks_text, 5, FALSE, $readonly_lang, TRUE);
+									d2u_addon_backend_helper::form_input('d2u_jobs_profile_heading', "form[lang][". $rex_clang->getId() ."][profile_heading]", $job->profile_heading, FALSE, $readonly_lang);
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_profile_text', "form[lang][". $rex_clang->getId() ."][profile_text]", $job->profile_text, 5, FALSE, $readonly_lang, TRUE);
+									d2u_addon_backend_helper::form_input('d2u_jobs_offer_heading', "form[lang][". $rex_clang->getId() ."][offer_heading]", $job->offer_heading, FALSE, $readonly_lang);
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_offer_text', "form[lang][". $rex_clang->getId() ."][offer_text]", $job->offer_text, 5, FALSE, $readonly_lang, TRUE);
+								?>
+							</div>
 						</div>
 					</fieldset>
 				<?php

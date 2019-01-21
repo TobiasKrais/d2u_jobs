@@ -131,6 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.0.7-DEV:</p>
 <ul>
+	<li>Sprachdetails werden ausgeblendet, wenn Speicherung der Sprache nicht vorgesehen ist.</li>
 	<li>Bugfix: Prioritäten wurden beim Löschen nicht reorganisiert.</li>
 	<li>Modul 23-1 "D2U Stellenmarkt - Stellenanzeigen" kann optional den allgemeinen Bewerbungshinweis ausblenden.</li>
 </ul>
