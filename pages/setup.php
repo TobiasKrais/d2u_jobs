@@ -132,7 +132,7 @@ else if($old_tables_available) {
 <p>1.0.7:</p>
 <ul>
 	<li>Sprachdetails werden ausgeblendet, wenn Speicherung der Sprache nicht vorgesehen ist.</li>
-	<li>Bugfix: Prioritäten wurden beim Löschen eines Datensatzes nicht reorganisiert.</li>
+	<li>Bugfix: Prioritäten der Kategorienwurden beim Löschen eines Datensatzes nicht reorganisiert.</li>
 	<li>Modul 23-1 "D2U Stellenmarkt - Stellenanzeigen" kann optional den allgemeinen Bewerbungshinweis ausblenden.</li>
 </ul>
 <p>1.0.6:</p>
