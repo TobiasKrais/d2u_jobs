@@ -129,10 +129,10 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.0.7-DEV:</p>
+<p>1.0.7:</p>
 <ul>
 	<li>Sprachdetails werden ausgeblendet, wenn Speicherung der Sprache nicht vorgesehen ist.</li>
-	<li>Bugfix: Prioritäten wurden beim Löschen nicht reorganisiert.</li>
+	<li>Bugfix: Prioritäten wurden beim Löschen eines Datensatzes nicht reorganisiert.</li>
 	<li>Modul 23-1 "D2U Stellenmarkt - Stellenanzeigen" kann optional den allgemeinen Bewerbungshinweis ausblenden.</li>
 </ul>
 <p>1.0.6:</p>
