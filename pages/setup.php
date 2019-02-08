@@ -129,6 +129,10 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.0.8-DEV:</p>
+<ul>
+	<li>Erlaubt HTML Tags im Namen der Stellenanzeige.</li>
+</ul>
 <p>1.0.7:</p>
 <ul>
 	<li>Sprachdetails werden ausgeblendet, wenn Speicherung der Sprache nicht vorgesehen ist.</li>

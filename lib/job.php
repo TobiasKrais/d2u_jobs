@@ -331,7 +331,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 * @return Complete title tag.
 	 */
 	public function getTitleTag() {
-		return '<title>'. $this->name .' / '. \rex::getServerName() .'</title>';
+		return '<title>'. strip_tags($this->name) .' / '. \rex::getServerName() .'</title>';
 	}
 	
 	/**

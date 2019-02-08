@@ -61,7 +61,7 @@ else {
 		$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
 		print '<div class="col-12 col-md-8">';
 		print '<article class="job-box">';
-		print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_jobheader&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
+		print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_jobheader&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
 		print '<h2>'. $job->name .'</h2>';
 		if($job->city != "" || $job->reference_number != "") {
 			print '<p><b>';
@@ -138,9 +138,9 @@ else {
 			print '</div>';
 			foreach($jobs as $job) {
 				print '<div class="col-12 col-md-6 col-lg-4">';
-				print '<a href="'. $job->getUrl() .'" class="job-box-list-link" title="'. $job->name.'">';
+				print '<a href="'. $job->getUrl() .'" class="job-box-list-link" title="'. strip_tags($job->name).'">';
 				print '<div class="job-box job-box-list" data-height-watch>';
-				print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_joblist&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->name .'">';
+				print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_joblist&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
 				print '<h2>'. $job->name .'</h2>';
 				if($job->city != "" || $job->reference_number != "") {
 					print '<p>';
