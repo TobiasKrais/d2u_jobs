@@ -3,53 +3,53 @@ $sql = rex_sql::factory();
 // Install database
 $sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_jobs` (
 	`job_id` int(10) unsigned NOT NULL auto_increment,
-	`reference_number` varchar(20) collate utf8_general_ci default NULL,
-	`category_ids` varchar(255) collate utf8_general_ci default NULL,
-	`date` varchar(10) collate utf8_general_ci default NULL,
-	`city` varchar(255) collate utf8_general_ci default NULL,
-	`picture` varchar(255) collate utf8_general_ci default NULL,
-	`online_status` varchar(10) collate utf8_general_ci default 'online',
+	`reference_number` varchar(20) collate utf8mb4_unicode_ci default NULL,
+	`category_ids` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`date` varchar(10) collate utf8mb4_unicode_ci default NULL,
+	`city` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`picture` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`online_status` varchar(10) collate utf8mb4_unicode_ci default 'online',
 	`contact_id` int(10) default NULL,
 	PRIMARY KEY (`job_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
 $sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` (
 	`job_id` int(10) NOT NULL,
 	`clang_id` int(10) NOT NULL,
-	`name` varchar(255) collate utf8_general_ci default NULL,
-	`tasks_heading` varchar(255) collate utf8_general_ci default NULL,
-	`tasks_text` text collate utf8_general_ci default NULL,
-	`profile_heading` varchar(255) collate utf8_general_ci default NULL,
-	`profile_text` text collate utf8_general_ci default NULL,
-	`offer_heading` varchar(255) collate utf8_general_ci default NULL,
-	`offer_text` text collate utf8_general_ci default NULL,
-	`translation_needs_update` varchar(7) collate utf8_general_ci default NULL,
+	`name` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`tasks_heading` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`tasks_text` text collate utf8mb4_unicode_ci default NULL,
+	`profile_heading` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`profile_text` text collate utf8mb4_unicode_ci default NULL,
+	`offer_heading` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`offer_text` text collate utf8mb4_unicode_ci default NULL,
+	`translation_needs_update` varchar(7) collate utf8mb4_unicode_ci default NULL,
 	`updatedate` int(11) default NULL,
-	`updateuser` varchar(255) collate utf8_general_ci default NULL,
+	`updateuser` varchar(255) collate utf8mb4_unicode_ci default NULL,
 	PRIMARY KEY (`job_id`, `clang_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
 
 $sql->setQuery("CREATE TABLE IF NOT EXISTS ". rex::getTablePrefix() ."d2u_jobs_categories (
 	category_id int(10) unsigned NOT NULL auto_increment,
 	priority int(10) default NULL,
-	picture varchar(255) collate utf8_general_ci default NULL,
+	picture varchar(255) collate utf8mb4_unicode_ci default NULL,
 	PRIMARY KEY (category_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
 $sql->setQuery("CREATE TABLE IF NOT EXISTS ". rex::getTablePrefix() ."d2u_jobs_categories_lang (
 	category_id int(10) NOT NULL,
 	clang_id int(10) NOT NULL,
-	name varchar(255) collate utf8_general_ci default NULL,
-	translation_needs_update varchar(7) collate utf8_general_ci default NULL,
+	name varchar(255) collate utf8mb4_unicode_ci default NULL,
+	translation_needs_update varchar(7) collate utf8mb4_unicode_ci default NULL,
 	PRIMARY KEY (category_id, clang_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
 
 $sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_contacts` (
 	`contact_id` int(10) unsigned NOT NULL auto_increment,
-	`name` varchar(255) collate utf8_general_ci default NULL,
-	`picture` varchar(255) collate utf8_general_ci default NULL,
-	`phone` varchar(255) collate utf8_general_ci default NULL,
-	`email` varchar(50) collate utf8_general_ci default NULL,
+	`name` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`picture` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`phone` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`email` varchar(50) collate utf8mb4_unicode_ci default NULL,
 	PRIMARY KEY (`contact_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci AUTO_INCREMENT=1;");
+) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
 
 // Create views for url addon
 $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_jobs AS
