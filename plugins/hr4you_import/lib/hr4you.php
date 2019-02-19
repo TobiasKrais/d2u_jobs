@@ -256,7 +256,7 @@ class hr4you {
 	 * @return string Prepared string
 	 */
 	private static function trimString($string) {
-		$string = strip_tags($string, '<ul></ul><b></b><i></i><strong></strong><li></li><br><br /><p></p>');
+		$string = strip_tags($string, '<ul></ul><li></li><b></b><i></i><strong></strong><br><br /><p></p><small></small>');
 		$string = trim(preg_replace('/\t+/', '', $string));
 		$string = str_replace(['&nbsp;', '&crarr;'], ' ', $string);
 		$string = preg_replace("/\s+/", " ", $string); 
