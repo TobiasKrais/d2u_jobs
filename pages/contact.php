@@ -125,7 +125,7 @@ if ($func == '') {
 	$query = 'SELECT contact_id, name, email '
 		. 'FROM '. rex::getTablePrefix() .'d2u_jobs_contacts '
 		. 'ORDER BY name ASC';
-    $list = rex_list::factory($query);
+    $list = rex_list::factory($query, 1000);
 
     $list->addTableAttribute('class', 'table-striped table-hover');
 

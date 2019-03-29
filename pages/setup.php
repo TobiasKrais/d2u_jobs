@@ -131,6 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.0.8-DEV:</p>
 <ul>
+	<li>Listen im Backend werden jetzt nicht mehr in Seiten unterteilt.</li>
 	<li>YRewrite Multidomain support.</li>
 	<li>Erlaubt HTML Tags im Namen der Stellenanzeige.</li>
 </ul>
