@@ -451,7 +451,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 						."offer_heading = '". $this->offer_heading ."', "
 						."offer_text = '". addslashes(htmlspecialchars($this->offer_text)) ."', "
 						."translation_needs_update = '". $this->translation_needs_update ."', "
-						."updatedate = ". time();
+						."updatedate = CURRENT_TIMESTAMP ";
 				if(\rex::getUser()) {
 					$query .= ", updateuser = '". \rex::getUser()->getLogin() ."' ";
 				}

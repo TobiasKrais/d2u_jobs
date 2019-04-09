@@ -53,8 +53,8 @@ if(rex_request('import', 'string') == "d2u_stellenmarkt" && $old_tables_availabl
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` CHANGE `angebot_text` `offer_text` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ADD `translation_needs_update` VARCHAR(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `offer_text`;
 		UPDATE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` SET `translation_needs_update` = 'no';
-		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ADD `updatedate` INT(11) NULL DEFAULT NULL;
-		UPDATE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` SET `updatedate` = UNIX_TIMESTAMP();
+		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ADD `updatedate` DATETIME NULL DEFAULT NULL;
+		UPDATE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` SET `updatedate` = CURRENT_TIMESTAMP;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ADD `updateuser` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
 		ALTER TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` ENGINE = InnoDB;
 
@@ -131,6 +131,8 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.0.8-DEV:</p>
 <ul>
+	<li>Bild in sitemap.xml eingefügt.</li>
+	<li>Anpassungen an URL Addon 2.x.</li>
 	<li>Listen im Backend werden jetzt nicht mehr in Seiten unterteilt.</li>
 	<li>YRewrite Multidomain support.</li>
 	<li>Erlaubt HTML Tags im Namen der Stellenanzeige.</li>

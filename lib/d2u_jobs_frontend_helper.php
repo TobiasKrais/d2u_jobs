@@ -11,16 +11,13 @@ class d2u_jobs_frontend_helper {
 		$alternate_URLs = [];
 
 		// Prepare objects first for sorting in correct order
-		$urlParamKey = "";
-		if(\rex_addon::get("url")->isAvailable()) {
-			$url_data = UrlGenerator::getData();
-			$urlParamKey = isset($url_data->urlParamKey) ? $url_data->urlParamKey : "";
-		}		
+		$url_namespace = d2u_addon_frontend_helper::getUrlNamespace();
+		$url_id = d2u_addon_frontend_helper::getUrlId();
 		
-		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && isset($url_data->urlParamKey) && $url_data->urlParamKey === "job_id")) {
+		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_id") {
 			$job_id = filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-				$job_id = UrlGenerator::getId();
+			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+				$job_id = $url_id;
 			}
 			foreach(rex_clang::getAllIds(TRUE) as $this_lang_key) {
 				$lang_job = new D2U_Jobs\Job($job_id, $this_lang_key);
@@ -29,10 +26,10 @@ class d2u_jobs_frontend_helper {
 				}
 			}
 		}
-		else if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && isset($url_data->urlParamKey) && $url_data->urlParamKey === "job_category_id")) {
+		else if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_category_id") {
 			$category_id = filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-				$category_id = UrlGenerator::getId();
+			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+				$category_id = $url_id;
 			}
 			foreach(rex_clang::getAllIds(TRUE) as $this_lang_key) {
 				$lang_category = new D2U_Jobs\Category($category_id, $this_lang_key);
@@ -53,16 +50,15 @@ class d2u_jobs_frontend_helper {
 		$breadcrumbs = [];
 
 		// Prepare objects first for sorting in correct order
+		$url_namespace = d2u_addon_frontend_helper::getUrlNamespace();
+		$url_id = d2u_addon_frontend_helper::getUrlId();
+
 		$category = FALSE;
 		$job = FALSE;
-		$url_data = [];
-		if(\rex_addon::get("url")->isAvailable()) {
-			$url_data = UrlGenerator::getData();
-		}
-		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && isset($url_data->urlParamKey) && $url_data->urlParamKey === "job_id")) {
+		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_id") {
 			$job_id = filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-				$job_id = UrlGenerator::getId();
+			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+				$job_id = $url_id;
 			}
 			$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
 			foreach($job->categories as $category) {
@@ -70,10 +66,10 @@ class d2u_jobs_frontend_helper {
 				break;
 			}
 		}
-		else if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && isset($url_data->urlParamKey) && $url_data->urlParamKey === "job_category_id")) {
+		else if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_category_id") {
 			$category_id = filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-				$category_id = UrlGenerator::getId();
+			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+				$category_id = $url_id;
 			}
 			$category = new D2U_Jobs\Category($category_id, rex_clang::getCurrentId());
 		}
@@ -97,17 +93,14 @@ class d2u_jobs_frontend_helper {
 		$meta_tags = "";
 
 		// Prepare objects first for sorting in correct order
-		$urlParamKey = "";
-		if(\rex_addon::get("url")->isAvailable()) {
-			$url_data = UrlGenerator::getData();
-			$urlParamKey = isset($url_data->urlParamKey) ? $url_data->urlParamKey : "";
-		}
+		$url_namespace = d2u_addon_frontend_helper::getUrlNamespace();
+		$url_id = d2u_addon_frontend_helper::getUrlId();
 
 		// Job
-		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && isset($url_data->urlParamKey) && $url_data->urlParamKey === "job_id")) {
+		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_id") {
 			$job_id = filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-				$job_id = UrlGenerator::getId();
+			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+				$job_id = $url_id;
 			}
 			$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
 			$meta_tags .= $job->getMetaAlternateHreflangTags();
@@ -116,10 +109,10 @@ class d2u_jobs_frontend_helper {
 			$meta_tags .= $job->getTitleTag() . PHP_EOL;
 		}
 		// Category
-		else if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && isset($url_data->urlParamKey) && $url_data->urlParamKey === "job_category_id")) {
+		else if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_category_id") {
 			$category_id = filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-				$category_id = UrlGenerator::getId();
+			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+				$category_id = $url_id;
 			}
 			$category = new D2U_Jobs\Category($category_id, rex_clang::getCurrentId());
 			$meta_tags .= $category->getMetaAlternateHreflangTags();

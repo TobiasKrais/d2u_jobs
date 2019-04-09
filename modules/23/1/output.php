@@ -10,11 +10,8 @@ if(!function_exists('prepareText')) {
 	}
 }
 
-$urlParamKey = "";
-if(\rex_addon::get("url")->isAvailable()) {
-	$url_data = UrlGenerator::getData();
-	$urlParamKey = isset($url_data->urlParamKey) ? $url_data->urlParamKey : "";
-}
+$url_namespace = d2u_addon_frontend_helper::getUrlNamespace();
+$url_id = d2u_addon_frontend_helper::getUrlId();
 
 $category_id = "REX_VALUE[1]";
 $category = FALSE;
@@ -22,10 +19,10 @@ if($category_id > 0) {
 	$category = new D2U_Jobs\Category($category_id, rex_clang::getCurrentId());
 }
 else {
-	if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && $urlParamKey === "job_category_id")) {
+	if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_category_id") {
 		$category_id = filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT);
-		if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-			$category_id = UrlGenerator::getId();
+		if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+			$category_id = $url_id;
 		}
 		$category = new D2U_Jobs\Category($category_id, rex_clang::getCurrentId());
 	}
@@ -52,10 +49,10 @@ else {
 	$tag_close = $sprog->getConfig('wildcard_close_tag');
 
 	// Output job details
-	if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || (rex_addon::get("url")->isAvailable() && $urlParamKey === "job_id")) {
+	if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_id") {
 		$job_id = filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT);
-		if(\rex_addon::get("url")->isAvailable() && UrlGenerator::getId() > 0) {
-			$job_id = UrlGenerator::getId();
+		if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
+			$job_id = $url_id;
 		}
 		
 		$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
