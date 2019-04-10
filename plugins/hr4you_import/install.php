@@ -19,7 +19,7 @@ if($sql->getRows() == 0) {
 }
 
 // Insert frontend translations
-if(class_exists(d2u_jobs_hr4you_lang_helper)) {
+if(class_exists('d2u_jobs_hr4you_lang_helper')) {
 	d2u_jobs_hr4you_lang_helper::factory()->install();
 }
 
