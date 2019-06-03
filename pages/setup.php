@@ -129,7 +129,7 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.0.8-DEV:</p>
+<p>1.0.8:</p>
 <ul>
 	<li>Bild in sitemap.xml eingefügt.</li>
 	<li>Anpassungen an URL Addon 2.x.</li>
