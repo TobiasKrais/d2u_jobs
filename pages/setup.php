@@ -129,9 +129,9 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.0.9-DEV:</p>
+<p>1.0.9:</p>
 <ul>
-	<li>...</li>
+	<li>Bugfix: Fatal error beim Speichern verursacht durch die URL Addon Version 2 Anpassungen behoben.</li>
 </ul>
 <p>1.0.8:</p>
 <ul>

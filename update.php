@@ -96,7 +96,7 @@ if(\rex_addon::get('url')->isAvailable()) {
 			. "'', '[]', 'before', UNIX_TIMESTAMP(), '". rex::getUser()->getValue('login') ."', UNIX_TIMESTAMP(), '". rex::getUser()->getValue('login') ."');");
 	}
 
-	d2u_addon_backend_helper::generateUrlCache();
+	\d2u_addon_backend_helper::generateUrlCache();
 }
 
 // Media Manager media types
