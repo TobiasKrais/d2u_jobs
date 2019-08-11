@@ -79,13 +79,13 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 * value the replacement. 
 	 */
 	protected $replacements_russian = [
-		'd2u_jobs_announcement' => 'Завершить объявление',
-		'd2u_jobs_footer' => 'Отправьте нам свои полные документы с возможной начальной датой и ваши ожидания по зарплате по электронной почте:',
+		'd2u_jobs_announcement' => 'Отправить заявку',
+		'd2u_jobs_footer' => 'Присылайте Ваше резюме и документы с возможной датой начала работы и ваши ожидания по зарплате по электронной почте:',
 		'd2u_jobs_phone' => 'тел.',
-		'd2u_jobs_questions' => 'Если у вас есть вопросы относительно этой позиции, пожалуйста, обращайтесь:',
+		'd2u_jobs_questions' => 'Если у вас есть вопросы относительно этой вакансии, мы всегда к Вашим услугам:',
 		'd2u_jobs_reference_number' => 'ссылка',
-		'd2u_jobs_region' => 'область',
-		'd2u_jobs_vacancies' => 'вакансии',
+		'd2u_jobs_region' => 'Область',
+		'd2u_jobs_vacancies' => 'Вакансии',
 	];
 
 	/**
