@@ -42,9 +42,9 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_russian = [
 		'd2u_jobs_hr4you_application_link' => 'Онлайн-заявка',
-		'd2u_jobs_hr4you_offer_heading' => 'наше предложение',
+		'd2u_jobs_hr4you_offer_heading' => 'Наше предложение',
 		'd2u_jobs_hr4you_profile_heading' => 'Ваш профиль',
-		'd2u_jobs_hr4you_tasks_heading' => 'ваши задания',
+		'd2u_jobs_hr4you_tasks_heading' => 'Желаемая должность',
 	];
 
 	/**
