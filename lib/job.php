@@ -436,6 +436,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			}
 		}
 
+		$regenerate_urls = false;
 		if(!$error) {
 			// Save the language specific part
 			$pre_save_job = new Job($this->job_id, $this->clang_id);
@@ -461,11 +462,17 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$result = \rex_sql::factory();
 				$result->setQuery($query);
 				$error = $result->hasError();
+				
+				if(!$error && $pre_save_category->name != $this->name) {
+					$regenerate_urls = true;
+				}
 			}
 		}
 
 		// Update URLs
-		\d2u_addon_backend_helper::generateUrlCache('job_id');
+		if($regenerate_urls) {
+			\d2u_addon_backend_helper::generateUrlCache('job_id');
+		}
 		
 		return $error;
 	}
