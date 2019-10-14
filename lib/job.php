@@ -465,7 +465,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		}
 
 		// Update URLs
-		\d2u_addon_backend_helper::generateUrlCache();
+		\d2u_addon_backend_helper::generateUrlCache('job_id');
 		
 		return $error;
 	}

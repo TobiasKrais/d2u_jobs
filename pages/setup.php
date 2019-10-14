@@ -131,7 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.1.0-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Anpassungen an neueste Version des URL Addons Version 2.</li>
 </ul>
 <p>1.0.9:</p>
 <ul>
@@ -158,7 +158,7 @@ else if($old_tables_available) {
 	<li>Niederländische Frontendübersetzung hinzugefügt.</li>
 	<li>Bugfix: CronJob wird - wenn installiert - nicht immer richtig aktiviert.</li>
 	<li>Referenznummer kein Pflichtfeld mehr.</li>
-	<li>HR4You Import verwendet jetzt Redaxo eigene Methode zum einfügen von Bildern in den Medienpool (https://github.com/redaxo/redaxo/issues/1614).</li>
+	<li>HR4You Import verwendet jetzt Redaxo eigene Methode zum Einfügen von Bildern in den Medienpool (https://github.com/redaxo/redaxo/issues/1614).</li>
 	<li>Media Manager Bildtypen für Module hinzugefügt.</li>
 	<li>CSS für Module hinzugefügts.</li>
 </ul>
