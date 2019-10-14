@@ -292,14 +292,14 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		$error = 0;
 
 		// Save the not language specific part
-		$pre_save_category = new Category($this->category_id, $this->clang_id);
+		$pre_save_object = new Category($this->category_id, $this->clang_id);
 	
 		// save priority, but only if new or changed
-		if($this->priority != $pre_save_category->priority || $this->category_id == 0) {
+		if($this->priority != $pre_save_object->priority || $this->category_id == 0) {
 			$this->setPriority();
 		}
 
-		if($this->category_id == 0 || $pre_save_category != $this) {
+		if($this->category_id == 0 || $pre_save_object != $this) {
 			$query = \rex::getTablePrefix() ."d2u_jobs_categories SET "
 					."priority = ". $this->priority .", "
 					."picture = '". $this->picture ."' ";
@@ -324,8 +324,8 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		$regenerate_urls = false;
 		if($error == 0) {
 			// Save the language specific part
-			$pre_save_category = new Category($this->category_id, $this->clang_id);
-			if($pre_save_category != $this) {
+			$pre_save_object = new Category($this->category_id, $this->clang_id);
+			if($pre_save_object != $this) {
 				$query = "REPLACE INTO ". \rex::getTablePrefix() ."d2u_jobs_categories_lang SET "
 						."category_id = '". $this->category_id ."', "
 						."clang_id = '". $this->clang_id ."', "
@@ -336,7 +336,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 				$result->setQuery($query);
 				$error = $result->hasError();
 				
-				if(!$error && $pre_save_category->name != $this->name) {
+				if(!$error && $pre_save_object->name != $this->name) {
 					$regenerate_urls = true;
 				}
 			}

@@ -463,7 +463,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$result->setQuery($query);
 				$error = $result->hasError();
 				
-				if(!$error && $pre_save_category->name != $this->name) {
+				if(!$error && $pre_save_object->name != $this->name) {
 					$regenerate_urls = true;
 				}
 			}
