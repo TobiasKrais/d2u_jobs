@@ -131,6 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.1.0-DEV:</p>
 <ul>
+	<li>Backend: Einstellungen und Setup Tabs rechts eingeordnet um sie vom Inhalt besser zu unterscheiden.</li>
 	<li>Anpassungen an neueste Version des URL Addons Version 2.</li>
 </ul>
 <p>1.0.9:</p>
