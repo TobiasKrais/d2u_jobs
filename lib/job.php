@@ -184,6 +184,12 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			}
 			$this->online_status = "online";			
 		}
+		
+		// Don't forget to regenerate URL cache to make online machine available
+		if(rex_addon::get("url")->isAvailable()) {
+			d2u_addon_backend_helper::generateUrlCache("job_id");
+			d2u_addon_backend_helper::generateUrlCache("job_category_id");
+		}
 	}
 	
 	/**
