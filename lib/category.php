@@ -304,7 +304,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 					."priority = ". $this->priority .", "
 					."picture = '". $this->picture ."' ";
 			if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
-				$query .= ", hr4you_category_id = ". ($this->hr4you_category_id > 0 ? $this->hr4you_category_id : 0) ." ";
+				$query .= ", hr4you_category_id = ". ($this->hr4you_category_id ?: 0) ." ";
 			}
 
 			if($this->category_id == 0) {
