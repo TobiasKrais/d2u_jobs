@@ -4,6 +4,17 @@
  */
 class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	/**
+	 * @var string[] Array with chinese replacements. Key is the wildcard,
+	 * value the replacement. 
+	 */
+	protected $replacements_chinese = [
+		'd2u_jobs_hr4you_application_link' => '在线申请表',
+		'd2u_jobs_hr4you_offer_heading' => '我们的报价',
+		'd2u_jobs_hr4you_profile_heading' => '您的个人资料',
+		'd2u_jobs_hr4you_tasks_heading' => '你的任务',
+	];
+	
+	/**
 	 * @var string[] Array with english replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
@@ -12,17 +23,6 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_hr4you_offer_heading' => 'We offer',
 		'd2u_jobs_hr4you_profile_heading' => 'Your Profile',
 		'd2u_jobs_hr4you_tasks_heading' => 'Your Tasks',
-	];
-	
-	/**
-	 * @var string[] Array with german replacements. Key is the wildcard,
-	 * value the replacement. 
-	 */
-	protected $replacements_german = [
-		'd2u_jobs_hr4you_application_link' => 'Online Bewerbungsformular',
-		'd2u_jobs_hr4you_offer_heading' => 'Unser Angebot',
-		'd2u_jobs_hr4you_profile_heading' => 'Ihr Profil',
-		'd2u_jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
 	];
 	
 	/**
@@ -37,6 +37,28 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	];
 
 	/**
+	 * @var string[] Array with german replacements. Key is the wildcard,
+	 * value the replacement. 
+	 */
+	protected $replacements_german = [
+		'd2u_jobs_hr4you_application_link' => 'Formulario online',
+		'd2u_jobs_hr4you_offer_heading' => 'Ofrecemos',
+		'd2u_jobs_hr4you_profile_heading' => 'Su Perfil',
+		'd2u_jobs_hr4you_tasks_heading' => 'Sus tareas',
+	];
+	
+	/**
+	 * @var string[] Array with spanish replacements. Key is the wildcard,
+	 * value the replacement. 
+	 */
+	protected $replacements_spanish = [
+		'd2u_jobs_hr4you_application_link' => 'Online Bewerbungsformular',
+		'd2u_jobs_hr4you_offer_heading' => 'Unser Angebot',
+		'd2u_jobs_hr4you_profile_heading' => 'Ihr Profil',
+		'd2u_jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
+	];
+	
+	/**
 	 * @var string[] Array with russian replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
@@ -47,17 +69,6 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_hr4you_tasks_heading' => 'Желаемая должность',
 	];
 
-	/**
-	 * @var string[] Array with chinese replacements. Key is the wildcard,
-	 * value the replacement. 
-	 */
-	protected $replacements_chinese = [
-		'd2u_jobs_hr4you_application_link' => '在线申请表',
-		'd2u_jobs_hr4you_offer_heading' => '我们的报价',
-		'd2u_jobs_hr4you_profile_heading' => '您的个人资料',
-		'd2u_jobs_hr4you_tasks_heading' => '你的任务',
-	];
-	
 	/**
 	 * Factory method.
 	 * @return d2u_immo_lang_helper Object

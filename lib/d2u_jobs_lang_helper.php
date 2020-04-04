@@ -18,6 +18,20 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	];
 	
 	/**
+	 * @var string[] Array with netherlands replacements. Key is the wildcard,
+	 * value the replacement. 
+	 */
+	protected $replacements_dutch = [
+		'd2u_jobs_announcement' => 'Naar openstaande vacatures',
+		'd2u_jobs_footer' => 'U kunt uw motivatiebrief met CV onder vermelding van vroegst mogelijke opzegtermijn en salaris wens per E-Mail, met in het onderwerp „Sollicitatie <Vacature nummer>” sturen naar:',
+		'd2u_jobs_phone' => 'Telefoon:',
+		'd2u_jobs_questions' => 'Indien u naar aanleiding van deze vacature nog vragen heeft kunt u contact opnemen met:',
+		'd2u_jobs_reference_number' => 'Vacature nummer',
+		'd2u_jobs_region' => 'Regio',
+		'd2u_jobs_vacancies' => "Vacatures",
+	];
+
+	/**
 	 * @var string[] Array with english replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
@@ -57,23 +71,22 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_reference_number' => 'Referenznummer',
 		'd2u_jobs_region' => 'Region',
 		'd2u_jobs_vacancies' => 'Stellenangebote',
-
 	];
 	
 	/**
-	 * @var string[] Array with netherlands replacements. Key is the wildcard,
+	 * @var string[] Array with spanish replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected $replacements_dutch = [
-		'd2u_jobs_announcement' => 'Naar openstaande vacatures',
-		'd2u_jobs_footer' => 'U kunt uw motivatiebrief met CV onder vermelding van vroegst mogelijke opzegtermijn en salaris wens per E-Mail, met in het onderwerp „Sollicitatie <Vacature nummer>” sturen naar:',
-		'd2u_jobs_phone' => 'Telefoon:',
-		'd2u_jobs_questions' => 'Indien u naar aanleiding van deze vacature nog vragen heeft kunt u contact opnemen met:',
-		'd2u_jobs_reference_number' => 'Vacature nummer',
-		'd2u_jobs_region' => 'Regio',
-		'd2u_jobs_vacancies' => "Vacatures",
+	protected $replacements_spanish = [
+		'd2u_jobs_announcement' => 'Anuncio completo',
+		'd2u_jobs_footer' => 'Por favor, envíenos sus documentos completos de solicitud con la posible fecha de inicio y sus expectativas salariales por correo electrónico a:',
+		'd2u_jobs_phone' => 'Teléfono',
+		'd2u_jobs_questions' => 'Si tiene preguntas relativas a esto, por favor contáctenos',
+		'd2u_jobs_reference_number' => 'Número de referencia',
+		'd2u_jobs_region' => 'Región',
+		'd2u_jobs_vacancies' => 'Vacantes',
 	];
-
+	
 	/**
 	 * @var string[] Array with russian replacements. Key is the wildcard,
 	 * value the replacement. 
