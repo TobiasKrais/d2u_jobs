@@ -57,6 +57,7 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 			$success = FALSE;
 		}
 		else {
+			\d2u_addon_backend_helper::update_searchit_url_index();
 			// remember id, for each database lang object needs same id
 			$job_id = $job->job_id;
 		}
@@ -87,6 +88,8 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()));
 	$job->job_id = $job_id; // Ensure correct ID in case language has no object
 	$job->delete();
+
+	\d2u_addon_backend_helper::update_searchit_url_index();
 	
 	$func = '';
 }
@@ -96,6 +99,8 @@ else if($func == 'changestatus') {
 	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()));
 	$job->job_id = $job_id; // Ensure correct ID in case language has no object
 	$job->changeStatus();
+
+	\d2u_addon_backend_helper::update_searchit_url_index();
 	
 	header("Location: ". rex_url::currentBackendPage());
 	exit;

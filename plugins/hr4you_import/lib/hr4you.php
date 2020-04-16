@@ -196,6 +196,8 @@ class hr4you {
 				self::log('Picture '. $old_picture .' deleted.');
 			}
 		}
+
+		\d2u_addon_backend_helper::update_searchit_url_index();
 		
 		return TRUE;
 	}
