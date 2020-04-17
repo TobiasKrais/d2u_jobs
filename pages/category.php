@@ -38,9 +38,6 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 			$category->delete(FALSE);
 		}
 		else if($category->save() > 0){
-			// And regenerate search_it index
-			\d2u_addon_backend_helper::update_searchit_url_index();
-
 			$success = FALSE;
 		}
 		else {
@@ -79,9 +76,6 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 
 	if(count($uses_jobs) == 0) {
 		$category->delete(TRUE);
-
-		// And regenerate search_it index
-		\d2u_addon_backend_helper::update_searchit_url_index();
 	}
 	else {
 		$message = '<ul>';
@@ -101,9 +95,6 @@ else if($func == 'changestatus') {
 	$category = new D2U_Jobs\Category($category_id, rex_config::get("d2u_helper", "default_lang"));
 	$category->category_id = $category_id; // Ensure correct ID in case language has no object
 	$category->changeStatus();
-	
-	// And regenerate search_it index
-	\d2u_addon_backend_helper::update_searchit_url_index();
 	
 	header("Location: ". rex_url::currentBackendPage());
 	exit;
