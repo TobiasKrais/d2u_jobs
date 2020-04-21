@@ -56,6 +56,10 @@ else {
 		}
 		
 		$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
+		// Redirect if object is not online
+		if($job->online_status != "online") {
+			\rex_redirect(rex_article::getNotfoundArticleId(), rex_clang::getCurrentId());
+		}
 		print '<div class="col-12 col-md-8">';
 		print '<article class="job-box">';
 		print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_jobheader&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';

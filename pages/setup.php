@@ -131,6 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.1.0-DEV:</p>
 <ul>
+	<li>Modul 23-1 "D2U Stellenmarkt - Stellenanzeigen" leitet Offlinestellen auf die Fehlerseite weiter.</li>
 	<li>Aktualisiert beim Speichern automatisch den search_it index.</li>
 	<li>Spanische Frontend Übersetzungen hinzugefügt.</li>
 	<li>Backend: Beim online stellen eines Stellenangebots in der Stellenliste gab es beim Aufruf im Frontend einen Fatal Error, da der URL cache nicht neu generiert wurde.</li>
