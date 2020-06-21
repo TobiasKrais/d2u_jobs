@@ -131,6 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.1.0-DEV:</p>
 <ul>
+	<li>Bugfix beim Speichern einer Stelle wenn HR4You Plugin aktiviert ist.</li>
 	<li>Benötigt Redaxo >= 5.10, da die neue Klasse rex_version verwendet wird.</li>
 	<li>Modul 23-1 "D2U Stellenmarkt - Stellenanzeigen" leitet Offlinestellen auf die Fehlerseite weiter.</li>
 	<li>Aktualisiert beim Speichern automatisch den search_it index.</li>

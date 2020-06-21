@@ -423,7 +423,6 @@ class Job implements \D2U_Helper\ITranslationHelper {
 					."contact_id = ". $this->contact->contact_id ." ";
 			if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
 				$query .= ", hr4you_job_id = ". $this->hr4you_job_id .", "
-						."hr4you_lead_in = '". $this->hr4you_lead_in ."', "
 						."hr4you_url_application_form = '". $this->hr4you_url_application_form ."'";
 			}
 
@@ -463,7 +462,8 @@ class Job implements \D2U_Helper\ITranslationHelper {
 					$query .= ", updateuser = '". \rex::getUser()->getLogin() ."' ";
 				}
 				else if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
-					$query .= ", updateuser = 'hr4you_autoimport' ";
+					$query .= ", hr4you_lead_in = '". $this->hr4you_lead_in ."' "
+							. ", updateuser = 'hr4you_autoimport' ";
 				}
 				$result = \rex_sql::factory();
 				$result->setQuery($query);
