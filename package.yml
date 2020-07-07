@@ -16,7 +16,7 @@ page:
 requires:
     redaxo: '>=5.10.0'
     packages:
-        d2u_helper: '>=1.6.2'
+        d2u_helper: '>=1.7.0'
         sprog: '>=1.0.0'
         url: '>=1.0.1'
         yrewrite: '>=2.0.1'
