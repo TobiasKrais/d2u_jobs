@@ -129,6 +129,10 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.1.1-DEV:</p>
+<ul>
+	<li>...</li>
+</ul>
 <p>1.1.0:</p>
 <ul>
 	<li>Bugfix beim Speichern einer Stelle wenn HR4You Plugin aktiviert ist.</li>
