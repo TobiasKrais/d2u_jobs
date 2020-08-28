@@ -131,7 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.1.1-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Bugfix: Beim Speichern von Stellen trat ein Fehler auf wenn das URL Addon >2 eingesetzt wird.</li>
 </ul>
 <p>1.1.0:</p>
 <ul>
