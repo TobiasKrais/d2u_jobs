@@ -6,9 +6,12 @@ $sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_
 	`reference_number` varchar(20) collate utf8mb4_unicode_ci default NULL,
 	`category_ids` varchar(255) collate utf8mb4_unicode_ci default NULL,
 	`date` varchar(10) collate utf8mb4_unicode_ci default NULL,
-	`city` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`city` varchar(50) collate utf8mb4_unicode_ci default NULL,
+	`zip_code` varchar(10) collate utf8mb4_unicode_ci default NULL,
+	`country_code` varchar(2) collate utf8mb4_unicode_ci default NULL,
 	`picture` varchar(255) collate utf8mb4_unicode_ci default NULL,
 	`online_status` varchar(10) collate utf8mb4_unicode_ci default 'online',
+	`type` varchar(20) collate utf8mb4_unicode_ci default NULL,
 	`contact_id` int(10) default NULL,
 	PRIMARY KEY (`job_id`)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");

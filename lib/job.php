@@ -31,6 +31,16 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	var $city = "";
 	
 	/**
+	 * @var string Zip code
+	 */
+	var $zip_code = "";
+	
+	/**
+	 * @var string Country code
+	 */
+	var $country_code = "DE";
+	
+	/**
 	 * @var string Picture name
 	 */
 	var $picture = "";
@@ -54,6 +64,13 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 * @var string job offer name
 	 */
 	var $name = "";
+
+	/**
+	 * @var string job type. According to Google structured data for jobs, types
+	 * can be "FULL_TIME", "PART_TIME", "CONTRACTOR", "TEMPORARY", "INTERN",
+	 * "VOLUNTEER", "PER_DIEM", "OTHER"
+	 */
+	var $type = "FULL_TIME";
 
 	/**
 	 * @var string HR4YOU job ID
@@ -131,6 +148,8 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$this->reference_number = $result->getValue("reference_number");
 				$this->date = $result->getValue("date");
 				$this->city = $result->getValue("city");
+				$this->zip_code = $result->getValue("zip_code");
+				$this->country_code = $result->getValue("country_code") ?? $this->country_code;
 				$this->picture = $result->getValue("picture");
 				$this->contact = new Contact($result->getValue("contact_id"));
 				$category_ids = preg_grep('/^\s*$/s', explode("|", $result->getValue("category_ids")), PREG_GREP_INVERT);
@@ -147,6 +166,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$this->offer_heading = $result->getValue("offer_heading");
 				$this->offer_text = stripslashes(htmlspecialchars_decode($result->getValue("offer_text")));
 				$this->translation_needs_update = $result->getValue("translation_needs_update");
+				$this->type = $result->getValue("type");
 
 				if(\rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
 					$this->hr4you_job_id = $result->getValue("hr4you_job_id") > 0 ? $result->getValue("hr4you_job_id") : 0;
@@ -256,6 +276,41 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		}
 		
 		return $jobs;
+	}
+	
+	/**
+	 * Get job as structured data JSON LD code.
+	 * @return string JSON LD code containing job data
+	 */
+	public function getJsonLdCode() {
+		$json_job ='<script type="application/ld+json">'. PHP_EOL
+			.'{'.PHP_EOL
+				.'"@context" : "https://schema.org/",'. PHP_EOL
+				.'"@type" : "JobPosting",'. PHP_EOL
+				.'"title" : "'. addslashes($this->name) .'",'. PHP_EOL
+				.'"description" : "'. addslashes($this->tasks_text) .'",'. PHP_EOL
+				.'"datePosted" : "'. $this->date .'",'. PHP_EOL
+//				.'"validThrough" : "'. date( "Y-m-d", strtotime( $this->date. " +2 month" ) ) .'T00:00",'. PHP_EOL
+				.'"employmentType" : "'. ($this->type ?? 'FULL_TIME') .'",'. PHP_EOL
+				.'"hiringOrganization" : {'. PHP_EOL
+					.'"@type" : "Organization",'. PHP_EOL
+					.'"name" : "'. addslashes(\rex_config::get('d2u_jobs', 'company_name', '')) .'",'. PHP_EOL
+					.'"sameAs" : "'. (\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer()) .'",'. PHP_EOL
+					.'"logo" : "'. rtrim((\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer()), "/") . \rex_url::media(\rex_config::get('d2u_jobs', 'logo', '')) .'"'. PHP_EOL
+				.'},'. PHP_EOL
+				.'"jobLocation": {'. PHP_EOL
+					.'"@type": "Place",'. PHP_EOL
+					.'"address": {'. PHP_EOL
+						.'"@type": "PostalAddress",'. PHP_EOL
+//						.'"streetAddress": "1600 Amphitheatre Pkwy, ",'. PHP_EOL
+						.'"addressLocality": "'. $this->city .'"'. PHP_EOL
+						.($this->zip_code != "" ? ', "postalCode": "'. $this->zip_code .'"'. PHP_EOL : "")
+						.($this->country_code != "" ? ', "addressCountry": "'. $this->country_code .'"'. PHP_EOL : "")
+					.'}'. PHP_EOL
+				.'}'. PHP_EOL
+			.'}'. PHP_EOL
+		.'</script>';
+		return $json_job;
 	}
 
 	/**
@@ -416,11 +471,14 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			$query = \rex::getTablePrefix() ."d2u_jobs_jobs SET "
 					."reference_number = '". $this->reference_number ."', "
 					."category_ids = '|". implode("|", array_keys($this->categories)) ."|', "
+					."contact_id = ". $this->contact->contact_id .", "
 					."date = '". $this->date ."', "
 					."city = '". $this->city ."', "
+					."zip_code = '". $this->zip_code ."', "
+					."country_code = '". $this->country_code ."', "
 					."picture = '". $this->picture ."', "
 					."online_status = '". $this->online_status ."', "
-					."contact_id = ". $this->contact->contact_id ." ";
+					."type = '". $this->type ."' ";
 			if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
 				$query .= ", hr4you_job_id = ". $this->hr4you_job_id .", "
 						."hr4you_url_application_form = '". $this->hr4you_url_application_form ."'";

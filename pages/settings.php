@@ -7,6 +7,10 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 	$link_ids = filter_input_array(INPUT_POST, ['REX_INPUT_LINK'=> ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
 	$settings['article_id'] = $link_ids["REX_INPUT_LINK"][1];
 	
+	// Special treatment for media fields
+	$input_media = (array) rex_post('REX_INPUT_MEDIA', 'array', []);
+	$settings['logo'] = $input_media['logo'];
+
 	// Checkbox also needs special treatment if empty
 	$settings['hr4you_autoimport'] = array_key_exists('hr4you_autoimport', $settings) ? "active" : "inactive";
 	$settings['lang_wildcard_overwrite'] = array_key_exists('lang_wildcard_overwrite', $settings) ? "true" : "false";
@@ -81,6 +85,15 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 							print '</select>';
 							print '</dl>';
 						}
+					?>
+				</div>
+			</fieldset>
+			<fieldset>
+				<legend><small><i class="rex-icon fa-google"></i></small> <?php echo rex_i18n::msg('d2u_jobs_settings_google'); ?></legend>
+				<div class="panel-body-wrapper slide">
+					<?php
+						d2u_addon_backend_helper::form_input('d2u_jobs_settings_company_name', 'settings[company_name]', $this->getConfig('company_name'), TRUE, FALSE, "text");
+						d2u_addon_backend_helper::form_mediafield('d2u_jobs_settings_logo', 'logo', $this->getConfig('logo'));
 					?>
 				</div>
 			</fieldset>

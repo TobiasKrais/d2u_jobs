@@ -4,7 +4,7 @@ if(class_exists('D2UModuleManager')) {
 	$modules = [];
 	$modules[] = new D2UModule("23-1",
 		"D2U Stellenmarkt - Stellenanzeigen",
-		7);
+		8);
 	$modules[] = new D2UModule("23-2",
 		"D2U Stellenmarkt - Kategorien",
 		2);
@@ -13,8 +13,13 @@ if(class_exists('D2UModuleManager')) {
 	$d2u_module_manager->autoupdate();
 }
 
-// 1.0.2 Update database
-rex_sql_table::get(rex::getTable('d2u_jobs_jobs'))->ensureColumn(new \rex_sql_column('reference_number', 'varchar(20)', true, null))->alter();
+// Update database columns
+rex_sql_table::get(rex::getTable('d2u_jobs_jobs'))
+	->ensureColumn(new \rex_sql_column('reference_number', 'varchar(20)', true, null))
+	->ensureColumn(new \rex_sql_column('type', 'varchar(20)', true, null))
+	->ensureColumn(new \rex_sql_column('zip_code', 'varchar(10)', true, null))
+	->ensureColumn(new \rex_sql_column('country_code', 'varchar(2)', true, null))
+	->alter();
 
 $sql = rex_sql::factory();
 // Update database to 1.0.8

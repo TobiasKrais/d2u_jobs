@@ -161,6 +161,21 @@ class hr4you {
 			$job->reference_number = $xml_job->referenznummer->__toString();
 			$job->tasks_heading = self::getHeadline($xml_job->block1_html) != '' ? self::getHeadline($xml_job->block1_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_tasks_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			$job->tasks_text = self::trimString(self::stripHeadline($xml_job->block1_html));
+			if((int) $xml_job->stellenart_id->__toString() == 3) {
+				$job->type = "VOLUNTEER";
+			}
+			else if((int)$xml_job->stellenart_id->__toString() == 5) {
+				$job->type = "CONTRACTOR";
+			}
+			else if(in_array((int) $xml_job->stellenart_id->__toString(), [6, 8])) {
+				$job->type = "FULL_TIME";
+			}
+			else if(in_array((int) $xml_job->stellenart_id->__toString(), [7, 9, 10])) {
+				$job->type = "PART_TIME";
+			}
+			else {
+				$job->type = "OTHER";
+			}
 			$job->translation_needs_update = 'no';
 			$job->save();
 

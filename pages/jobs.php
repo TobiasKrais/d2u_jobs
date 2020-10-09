@@ -29,9 +29,12 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 				$job->categories[$category_id] = new D2U_Jobs\Category($category_id, $rex_clang->getId());
 			}
 			$job->date = $form['date'];
+			$job->zip_code = $form['zip_code'];
 			$job->city = $form['city'];
+			$job->country_code = $form['country_code'];
 			$job->picture = $input_media[1];
 			$job->online_status = array_key_exists('online_status', $form) ? "online" : "offline";
+			$job->type = $form['type'];
 			$job->contact = new D2U_Jobs\Contact($form['contact_id']);
 			if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
 				$job->hr4you_lead_in = $form['hr4you_lead_in'];
@@ -132,9 +135,31 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							}
 							d2u_addon_backend_helper::form_select('d2u_helper_category', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
 							d2u_addon_backend_helper::form_input('d2u_jobs_date', 'form[date]', $job->date, TRUE, $readonly, 'date');
+							d2u_addon_backend_helper::form_input('d2u_jobs_zip_code', 'form[zip_code]', $job->zip_code, TRUE, $readonly);
 							d2u_addon_backend_helper::form_input('d2u_jobs_city', 'form[city]', $job->city, TRUE, $readonly);
+							$options_country_code = [
+								'AT' => 'AT',
+								'CH' => 'CH',
+								'DE' => 'DE',
+								'DN' => 'DN',
+								'ES' => 'ES',
+								'FR' => 'FR',
+								'GB' => 'GB',
+								'IT' => 'IT',
+								'NL' => 'NL',
+								'PL' => 'PL',
+								'US' => 'US',
+							];
+							d2u_addon_backend_helper::form_select('d2u_jobs_country_code', 'form[country_code]', $options_country_code, [$job->country_code], 1, FALSE, $readonly);
 							d2u_addon_backend_helper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', $job->online_status == "online", $readonly);
 							d2u_addon_backend_helper::form_mediafield('d2u_helper_picture', '1', $job->picture, $readonly);
+							$options_type = ['FULL_TIME' => rex_i18n::msg('d2u_jobs_type_FULL_TIME'),
+								'PART_TIME' => rex_i18n::msg('d2u_jobs_type_PART_TIME'),
+								'CONTRACTOR' => rex_i18n::msg('d2u_jobs_type_CONTRACTOR'),
+								'TEMPORARY' => rex_i18n::msg('d2u_jobs_type_TEMPORARY'),
+								'VOLUNTEER' => rex_i18n::msg('d2u_jobs_type_VOLUNTEER'),
+								'OTHER' => rex_i18n::msg('d2u_jobs_type_OTHER')];
+							d2u_addon_backend_helper::form_select('d2u_jobs_type', 'form[type]', $options_type, [$job->type], 1, FALSE, $readonly);
 							$options_contacts = [];
 							foreach(D2U_Jobs\Contact::getAll() as $contact) {
 								if($contact->name != "") {

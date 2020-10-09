@@ -29,6 +29,7 @@ else {
 }
 
 $hide_application_hint = "REX_VALUE[2]" == 'true' ? TRUE : FALSE;
+$show_json_ld = "REX_VALUE[3]" == 'true' ? TRUE : FALSE;
 
 if(rex::isBackend()) {
 	// Ausgabe im BACKEND	
@@ -36,10 +37,16 @@ if(rex::isBackend()) {
 	<h1 style="font-size: 1.5em;">Stellenmarkt Ausgabe</h1>
 <?php
 	if($category === FALSE) {
-		print "Anzuzeigende Kategorien: Alle";
+		print "<p>Anzuzeigende Kategorien: Alle</p>";
 	}
 	else {
-		print "Anzuzeigende Kategorie: ". $category->name;
+		print "<p>Anzuzeigende Kategorie: ". $category->name ."</p>";
+	}
+	if($show_json_ld) {
+		print "<p>Die Anzeigen werden im JSON-LD Format für z.B. Google Jobs veröffentlicht.</p>";
+	}
+	else {
+		print "<p>Die Anzeigen werden NICHT im JSON-LD Format für z.B. Google Jobs veröffentlicht.</p>";
 	}
 }
 else {
@@ -123,6 +130,11 @@ else {
 		print '</div>';
 		print '</div>';
 		print '</div>';
+		
+		// Show job as JSON-LD
+		if($show_json_ld) {
+			print $job->getJsonLdCode();
+		}
 	}
 	else {
 		// Output Job list

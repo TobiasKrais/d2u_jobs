@@ -132,6 +132,9 @@ else if($old_tables_available) {
 <p>1.1.1-DEV:</p>
 <ul>
 	<li>Bugfix: Beim Speichern von Stellen trat ein Fehler auf wenn das URL Addon >2 eingesetzt wird.</li>
+	<li>Weitere Felder für Stellen hinzugefügt: Postleitzahl, Land und Stellenart.</li>
+	<li>Modul 23-1 "D2U Stellenmarkt - Stellenanzeigen" kann Stellen nun im JSON-LD Format ausgeben, damit z.B. Google Jobs die Anzeigen auslesen kann.
+		Zur Aktivierung müssen die neuen Optionen in den Einstellungen ausgefüllt werden und die neue Option im Beispielmodul aktiviert werden.</li>
 </ul>
 <p>1.1.0:</p>
 <ul>
