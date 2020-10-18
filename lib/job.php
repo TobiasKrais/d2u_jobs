@@ -280,7 +280,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	
 	/**
 	 * Get job as structured data JSON LD code.
-	 * @return string JSON LD code containing job data
+	 * @return string JSON LD code containing job data including script tag
 	 */
 	public function getJsonLdCode() {
 		$json_job ='<script type="application/ld+json">'. PHP_EOL
