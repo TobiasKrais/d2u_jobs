@@ -3,10 +3,12 @@
 	padding: 15px;
 	margin-bottom: 15px !important;
 }
+.job-box .heading {
+	padding-bottom: 1em;
+}
 .job-box h2 {
-	font-size: 1.125rem;
+	font-size: 1.5rem;
 	font-weight: bold;
-	line-height: 1.5rem;
 	margin: 0;
 	padding: 0 0 0.25em 0;
 }
@@ -14,11 +16,23 @@
 	font-size: 1rem;
 	font-weight: bold;
 	margin: 0;
-	padding: 0 0 0.25em 0;
+	padding: 0.75em 0 0.25em 0;
+}
+.job-box p {
+	padding-bottom: 0.25em;
+}
+.job-box .prolog {
+	padding-bottom: 0.5em;
+}
+.job-box .contact-heading {
+	padding-top: 0;
 }
 .job-box img {
 	margin-bottom: 15px;
 	width: 100%;
+}
+.job-box.contact img {
+	max-width: 150px;
 }
 .job-box-list:hover img {
 	-webkit-transition: all 0.2s ease-out;

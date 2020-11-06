@@ -13,7 +13,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_phone' => '电话',
 		'd2u_jobs_questions' => '如果您对该职位有任何疑问，请联系我们：',
 		'd2u_jobs_reference_number' => '参考号',
-		'd2u_jobs_region' => '区域',
+		'd2u_jobs_region' => '市',
 		'd2u_jobs_vacancies' => '招聘岗位',
 	];
 	
@@ -27,7 +27,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_phone' => 'Telefoon:',
 		'd2u_jobs_questions' => 'Indien u naar aanleiding van deze vacature nog vragen heeft kunt u contact opnemen met:',
 		'd2u_jobs_reference_number' => 'Vacature nummer',
-		'd2u_jobs_region' => 'Regio',
+		'd2u_jobs_region' => 'Stad',
 		'd2u_jobs_vacancies' => "Vacatures",
 	];
 
@@ -41,7 +41,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_phone' => 'Phone',
 		'd2u_jobs_questions' => 'If you have questions regarding this position, please contact:',
 		'd2u_jobs_reference_number' => 'Reference number',
-		'd2u_jobs_region' => 'Region',
+		'd2u_jobs_region' => 'City',
 		'd2u_jobs_vacancies' => 'Vacancies',
 	];
 	
@@ -55,7 +55,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_phone' => 'Tél.',
 		'd2u_jobs_questions' => 'Si vous avez des questions concernant ce poste, veuillez contacter:',
 		'd2u_jobs_reference_number' => 'Numéro de réference',
-		'd2u_jobs_region' => 'Région',
+		'd2u_jobs_region' => 'Ville',
 		'd2u_jobs_vacancies' => "Offres d'emploi",
 	];
 
@@ -69,7 +69,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_phone' => 'Tel.',
 		'd2u_jobs_questions' => 'Wenn Sie Fragen zur ausgeschriebenen Stelle haben, wenden Sie sich bitte an:',
 		'd2u_jobs_reference_number' => 'Referenznummer',
-		'd2u_jobs_region' => 'Region',
+		'd2u_jobs_region' => 'Ort',
 		'd2u_jobs_vacancies' => 'Stellenangebote',
 	];
 	
@@ -83,7 +83,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_phone' => 'Teléfono',
 		'd2u_jobs_questions' => 'Si tiene preguntas relativas a esto, por favor contáctenos',
 		'd2u_jobs_reference_number' => 'Número de referencia',
-		'd2u_jobs_region' => 'Región',
+		'd2u_jobs_region' => 'Ciudad',
 		'd2u_jobs_vacancies' => 'Vacantes',
 	];
 	
@@ -97,7 +97,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 		'd2u_jobs_phone' => 'тел.',
 		'd2u_jobs_questions' => 'Если у вас есть вопросы относительно этой вакансии, мы всегда к Вашим услугам:',
 		'd2u_jobs_reference_number' => 'ссылка',
-		'd2u_jobs_region' => 'Область',
+		'd2u_jobs_region' => 'город',
 		'd2u_jobs_vacancies' => 'Вакансии',
 	];
 

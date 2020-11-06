@@ -131,7 +131,8 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.2.1-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Region in Ort umbenannt.</li>
+	<li>Neues Feld Prolog hinzugefügt.</li>
 </ul>
 <p>1.2.0:</p>
 <ul>

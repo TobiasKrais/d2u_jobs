@@ -45,6 +45,7 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 			$job->clang_id = $rex_clang->getId();
 		}
 		$job->name = $form['lang'][$rex_clang->getId()]['name'];
+		$job->prolog = $form['lang'][$rex_clang->getId()]['prolog'];
 		$job->tasks_heading = $form['lang'][$rex_clang->getId()]['tasks_heading'];
 		$job->tasks_text = $form['lang'][$rex_clang->getId()]['tasks_text'];
 		$job->profile_heading = $form['lang'][$rex_clang->getId()]['profile_heading'];
@@ -222,6 +223,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							</script>
 							<div id="details_clang_<?php print $rex_clang->getId(); ?>">
 								<?php
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_prolog', "form[lang][". $rex_clang->getId() ."][prolog]", $job->prolog, 5, FALSE, $readonly_lang, TRUE);
 									d2u_addon_backend_helper::form_input('d2u_helper_name', "form[lang][". $rex_clang->getId() ."][name]", $job->name, $required, $readonly_lang);
 									d2u_addon_backend_helper::form_input('d2u_jobs_tasks_heading', "form[lang][". $rex_clang->getId() ."][tasks_heading]", $job->tasks_heading, $required, $readonly_lang);
 									d2u_addon_backend_helper::form_textarea('d2u_jobs_tasks_text', "form[lang][". $rex_clang->getId() ."][tasks_text]", $job->tasks_text, 5, FALSE, $readonly_lang, TRUE);

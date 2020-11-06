@@ -13,6 +13,7 @@ d2u_jobs_offer_text = Beschreibung "Unser Angebot"
 d2u_jobs_phone = Telefonnummer
 d2u_jobs_profile_heading = Überschrift "Ihr Profil"
 d2u_jobs_profile_text = Profilbeschreibung
+d2u_jobs_prolog = Vorspann
 d2u_jobs_reference_number = Referenznummer
 d2u_jobs_settings_company_name = Firmenname
 d2u_jobs_settings_email = E-Mailadresse allgemeiner Kontakt

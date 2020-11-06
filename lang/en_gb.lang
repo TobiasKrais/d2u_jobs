@@ -13,6 +13,7 @@ d2u_jobs_offer_text = Description "We offer"
 d2u_jobs_phone = Phone number
 d2u_jobs_profile_heading = Headline "Your profile"
 d2u_jobs_profile_text = Description "Your profile"
+d2u_jobs_prolog = Opening credits
 d2u_jobs_reference_number = Reference number
 d2u_jobs_settings_company_name = Company name
 d2u_jobs_settings_email = E-mail address general contact

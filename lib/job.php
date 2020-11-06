@@ -88,6 +88,11 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	var $hr4you_url_application_form = "";
 	
 	/**
+	 * @var string prolog text
+	 */
+	var $prolog = "";
+
+	/**
 	 * @var string Heading tasks
 	 */
 	var $tasks_heading = "";
@@ -159,11 +164,12 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$this->online_status = $result->getValue("online_status");
 				$this->name = stripslashes($result->getValue("name"));
 
-				$this->tasks_heading = $result->getValue("tasks_heading");
+				$this->prolog = stripslashes($result->getValue("prolog"));
+				$this->tasks_heading = stripslashes($result->getValue("tasks_heading"));
 				$this->tasks_text = stripslashes(htmlspecialchars_decode($result->getValue("tasks_text")));
-				$this->profile_heading = $result->getValue("profile_heading");
+				$this->profile_heading = stripslashes($result->getValue("profile_heading"));
 				$this->profile_text = stripslashes(htmlspecialchars_decode($result->getValue("profile_text")));
-				$this->offer_heading = $result->getValue("offer_heading");
+				$this->offer_heading = stripslashes($result->getValue("offer_heading"));
 				$this->offer_text = stripslashes(htmlspecialchars_decode($result->getValue("offer_text")));
 				$this->translation_needs_update = $result->getValue("translation_needs_update");
 				$this->type = $result->getValue("type");
@@ -508,11 +514,12 @@ class Job implements \D2U_Helper\ITranslationHelper {
 						."job_id = '". $this->job_id ."', "
 						."clang_id = '". $this->clang_id ."', "
 						."name = '". addslashes($this->name) ."', "
-						."tasks_heading = '". $this->tasks_heading ."', "
+						."prolog = '". addslashes($this->prolog) ."', "
+						."tasks_heading = '". addslashes($this->tasks_heading) ."', "
 						."tasks_text = '". addslashes(htmlspecialchars($this->tasks_text)) ."', "
-						."profile_heading = '". $this->profile_heading ."', "
+						."profile_heading = '". addslashes($this->profile_heading) ."', "
 						."profile_text = '". addslashes(htmlspecialchars($this->profile_text)) ."', "
-						."offer_heading = '". $this->offer_heading ."', "
+						."offer_heading = '". addslashes($this->offer_heading) ."', "
 						."offer_text = '". addslashes(htmlspecialchars($this->offer_text)) ."', "
 						."translation_needs_update = '". $this->translation_needs_update ."', "
 						."updatedate = CURRENT_TIMESTAMP ";
