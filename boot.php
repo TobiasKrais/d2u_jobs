@@ -127,5 +127,14 @@ function rex_d2u_jobs_media_is_in_use(rex_extension_point $ep) {
 		}
     }
 
+	// Settings
+	$addon = rex_addon::get("d2u_jobs");
+	if($addon->hasConfig("logo") && $addon->getConfig("logo") == $filename) {
+		$message = '<a href="javascript:openPage(\'index.php?page=d2u_jobs/settings\')">'.
+			 rex_i18n::msg('d2u_jobs') ." - ". rex_i18n::msg('d2u_helper_settings') . '</a>';
+		if(!in_array($message, $warning)) {
+			$warning[] = $message;
+		}
+	}
 	return $warning;
 }
