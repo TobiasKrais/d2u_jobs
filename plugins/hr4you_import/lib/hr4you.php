@@ -212,8 +212,6 @@ class hr4you {
 			}
 		}
 
-		\d2u_addon_backend_helper::update_searchit_url_index();
-		
 		return TRUE;
 	}
 
