@@ -134,6 +134,7 @@ else if($old_tables_available) {
 	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Region in Ort umbenannt.</li>
 	<li>Neues Feld Prolog hinzugefügt.</li>
 	<li>Prüft vor dem Löschen einer Datei im Medienpool, ob sie in den Einstellungen des Addons verwendet wird.</li>
+	<li>Spanische Übersetzungen werden nun korrekt installiert.</li>
 </ul>
 <p>1.2.0:</p>
 <ul>
