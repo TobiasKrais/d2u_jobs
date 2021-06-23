@@ -131,6 +131,8 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.2.1-DEV:</p>
 <ul>
+	<li>Methode d2u_jobs_frontend_helper::getMetaTags() entfernt, da das URL Addon eine bessere Funktion anbietet.
+		Ebenso die Methoden getMetaAlternateHreflangTags(), getMetaDescriptionTag(), getCanonicalTag und getTitleTag() der aller Klassen, die diese Methoden abgeboten hatten.</li>
 	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Region in Ort umbenannt.</li>
 	<li>Neues Feld Prolog hinzugefügt.</li>
 	<li>Prüft vor dem Löschen einer Datei im Medienpool, ob sie in den Einstellungen des Addons verwendet wird.</li>
