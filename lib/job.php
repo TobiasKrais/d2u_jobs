@@ -337,15 +337,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		}
 		return FALSE;
 	}
-	
-	/**
-	 * Get the <link rel="canonical"> tag for page header.
-	 * @return Complete tag.
-	 */
-	public function getCanonicalTag() {
-		return '<link rel="canonical" href="'. $this->getURL() .'">';
-	}
-	
+
 	/**
 	 * Get all jobs imported by HR4You Plugin
 	 * @return Job[] Array with jobs
@@ -365,42 +357,6 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		return $jobs;
 	}
 
-	/**
-	 * Get the <meta rel="alternate" hreflang=""> tags for page header.
-	 * @return Complete tags.
-	 */
-	public function getMetaAlternateHreflangTags() {
-		$hreflang_tags = "";
-		foreach(\rex_clang::getAll(TRUE) as $rex_clang) {
-			if($rex_clang->getId() == $this->clang_id && $this->translation_needs_update != "delete") {
-				$hreflang_tags .= '<link rel="alternate" type="text/html" hreflang="'. $rex_clang->getCode() .'" href="'. $this->getURL() .'" title="'. str_replace('"', '', $this->name) .'">';
-			}
-			else {
-				$job = new Job($this->job_id, $rex_clang->getId());
-				if($job->translation_needs_update != "delete") {
-					$hreflang_tags .= '<link rel="alternate" type="text/html" hreflang="'. $rex_clang->getCode() .'" href="'. $job->getURL() .'" title="'. str_replace('"', '', $job->name) .'">';
-				}
-			}
-		}
-		return $hreflang_tags;
-	}
-	
-	/**
-	 * Get the <meta name="description"> tag for page header.
-	 * @return Complete tag.
-	 */
-	public function getMetaDescriptionTag() {
-		return '<meta name="description" content="'. substr(strip_tags($this->tasks_text), 0, 141) .'...">';
-	}
-
-	/**
-	 * Get the <title> tag for page header.
-	 * @return Complete title tag.
-	 */
-	public function getTitleTag() {
-		return '<title>'. strip_tags($this->name) .' / '. \rex::getServerName() .'</title>';
-	}
-	
 	/**
 	 * Get objects concerning translation updates
 	 * @param int $clang_id Redaxo language ID

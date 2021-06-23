@@ -84,43 +84,4 @@ class d2u_jobs_frontend_helper {
 		
 		return $breadcrumbs;
 	}
-	
-	/**
-	 * Returns breadcrumbs. Not from article path, but only part from this addon.
-	 * @return string[] Breadcrumb elements
-	 */
-	public static function getMetaTags() {
-		$meta_tags = "";
-
-		// Prepare objects first for sorting in correct order
-		$url_namespace = d2u_addon_frontend_helper::getUrlNamespace();
-		$url_id = d2u_addon_frontend_helper::getUrlId();
-
-		// Job
-		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_id") {
-			$job_id = filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
-				$job_id = $url_id;
-			}
-			$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
-			$meta_tags .= $job->getMetaAlternateHreflangTags();
-			$meta_tags .= $job->getCanonicalTag() . PHP_EOL;
-			$meta_tags .= $job->getMetaDescriptionTag() . PHP_EOL;
-			$meta_tags .= $job->getTitleTag() . PHP_EOL;
-		}
-		// Category
-		else if(filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_category_id") {
-			$category_id = filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT);
-			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
-				$category_id = $url_id;
-			}
-			$category = new D2U_Jobs\Category($category_id, rex_clang::getCurrentId());
-			$meta_tags .= $category->getMetaAlternateHreflangTags();
-			$meta_tags .= $category->getCanonicalTag() . PHP_EOL;
-			$meta_tags .= $category->getMetaDescriptionTag() . PHP_EOL;
-			$meta_tags .= $category->getTitleTag() . PHP_EOL;
-		}
-
-		return $meta_tags;
-	}
 }
