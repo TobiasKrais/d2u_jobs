@@ -285,6 +285,62 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	}
 	
 	/**
+	 * Get all country codes that are used in jobs
+	 * @param boolean $ignore_offline If only online jobs should be returned TRUE, otherwise FALSE
+	 * @return Job[] Array with jobs
+	 */
+	public static function getAllCountryCodes($ignore_offline = true) {
+		$query = "SELECT country_code FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs ";
+		if($ignore_offline) {
+			$query .= "WHERE online_status = 'online'";
+		}
+		$query .= " GROUP BY country_code ORDER BY country_code DESC";
+
+		$result = \rex_sql::factory();
+		$result->setQuery($query);
+		
+		$country_codes = [];
+		for($i = 0; $i < $result->getRows(); $i++) {
+			$country_codes[] = $result->getValue('country_code');
+			$result->next();
+		}
+		
+		return $country_codes;
+	}
+
+	/**
+	 * Get all jobs for a country
+	 * @param int $clang_id Redaxo language ID
+	 * @param string $country_code 2 digit country code
+	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
+	 * @return Job[] Array with jobs
+	 */
+	public static function getByCountryCode($clang_id, $country_code, $online_only = TRUE) {
+		$query = "SELECT lang.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
+				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
+					."ON lang.job_id = jobs.job_id "
+				."WHERE clang_id = ". $clang_id;
+		if($online_only) {
+			$query .= " AND online_status = 'online'";
+		}
+		if($country_code > 0) {
+			$query .= " AND country_code = '". $country_code ."'";
+		}
+		$query .= " ORDER BY date DESC";
+
+		$result = \rex_sql::factory();
+		$result->setQuery($query);
+		
+		$jobs = [];
+		for($i = 0; $i < $result->getRows(); $i++) {
+			$jobs[$result->getValue('job_id')] = new Job($result->getValue('job_id'), $clang_id);
+			$result->next();
+		}
+		
+		return $jobs;
+	}
+
+	/**
 	 * Get job as structured data JSON LD code.
 	 * @return string JSON LD code containing job data including script tag
 	 */
