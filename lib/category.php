@@ -139,7 +139,43 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		}
 		return $categories;
 	}
-	
+
+	/**
+	 * Get all categories.
+	 * @param int $preferred_clang_id Redaxo clang id.
+	 * @param boolean $ignoreOfflines Ignore offline categories
+	 * @return Category[] Array with Category objects.
+	 */
+	public static function getAllIgnoreLanguage($preferred_clang_id, $ignoreOfflines = TRUE) {
+		$query = "SELECT lang.category_id FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
+			."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_categories AS categories "
+				."ON lang.category_id = categories.category_id "
+			.'ORDER BY name';
+		$result = \rex_sql::factory();
+		$result->setQuery($query);
+		
+		$categories = [];
+		for($i = 0; $i < $result->getRows(); $i++) {
+			if($ignoreOfflines) {
+				$query_check_offline = "SELECT lang.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
+					."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
+						."ON lang.job_id = jobs.job_id "
+					."WHERE category_ids LIKE '%|". $result->getValue("category_id") ."|%' AND online_status = 'online'";
+
+				$result_check_offline = \rex_sql::factory();
+				$result_check_offline->setQuery($query_check_offline);
+				if($result_check_offline->getRows() > 0) {
+					$categories[$result->getValue("category_id")] = new Category($result->getValue("category_id"), $preferred_clang_id);
+				}
+			}
+			else {
+				$categories[$result->getValue("category_id")] = new Category($result->getValue("category_id"), $preferred_clang_id);
+			}
+			$result->next();
+		}
+		return $categories;
+	}
+
 	/**
 	 * Get object by HR4You ID
 	 * @param int $hr4you_id HR4You ID

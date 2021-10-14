@@ -60,9 +60,11 @@ class d2u_jobs_frontend_helper {
 			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
 				$job_id = $url_id;
 			}
-			$job = new D2U_Jobs\Job($job_id, rex_clang::getCurrentId());
-			foreach($job->categories as $category) {
-				$category = $category;
+			$target_clang = filter_input(INPUT_GET, 'target_clang', FILTER_VALIDATE_INT) ?: rex_clang::getCurrentId();
+			$job = new \D2U_Jobs\Job($job_id, $target_clang);
+			foreach($job->categories as $job_category) {
+				// Do not take the category object due to target_clang my differ
+				$category = new D2U_Jobs\Category($job_category->category_id, rex_clang::getCurrentId());
 				break;
 			}
 		}

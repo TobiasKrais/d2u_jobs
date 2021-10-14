@@ -139,7 +139,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 */
 	public function __construct($job_id, $clang_id) {
 		$this->clang_id = $clang_id;
-		if($job_id > 0) { 
+		if($job_id > 0) {
 			$query = "SELECT * FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 						."ON jobs.job_id = lang.job_id "
@@ -180,9 +180,6 @@ class Job implements \D2U_Helper\ITranslationHelper {
 					$this->hr4you_url_application_form = $result->getValue("hr4you_url_application_form");
 				}
 			}
-		}
-		else {
-			return $this;
 		}
 	}
 	
@@ -242,7 +239,6 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			$result->setQuery($query);
 		}
 	}
-	
 
 	/**
 	 * Create an empty object instance.
@@ -283,7 +279,44 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		
 		return $jobs;
 	}
-	
+
+	/**
+	 * Get all jobs
+	 * @param int $preferred_clang_id Preferred Redaxo language ID
+	 * @param int $category_id Category ID if only jobs of that category should be returned.
+	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
+	 * @return Job[] Array with jobs
+	 */
+	public static function getAllIgnoreLanguage($preferred_clang_id, $category_id = 0, $online_only = TRUE) {
+		$query = "SELECT lang.job_id, clang_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
+				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
+					."ON lang.job_id = jobs.job_id";
+		$where = [];
+		if($online_only) {
+			$where[] = " online_status = 'online'";
+		}
+		if($category_id > 0) {
+			$where[] = " category_ids LIKE '%|". $category_id ."|%'";
+		}
+		$query .= ($where ? ' WHERE '. implode(' AND', $where) : ''). " ORDER BY date DESC";
+
+		$result = \rex_sql::factory();
+		$result->setQuery($query);
+		
+		$jobs = [];
+		for($i = 0; $i < $result->getRows(); $i++) {
+			if(!isset($jobs[$result->getValue('job_id')]) || (isset($jobs[$result->getValue('job_id')]) && $result->getValue('clang_id') == $preferred_clang_id)) {
+				$job = new self($result->getValue('job_id'), $result->getValue('clang_id'));
+				if($job->job_id > 0) {
+					$jobs[$result->getValue('job_id')] = $job;
+				}
+			}
+			$result->next();
+		}
+		
+		return $jobs;
+	}
+
 	/**
 	 * Get all country codes that are used in jobs
 	 * @param boolean $ignore_offline If only online jobs should be returned TRUE, otherwise FALSE
@@ -323,7 +356,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		if($online_only) {
 			$query .= " AND online_status = 'online'";
 		}
-		if($country_code > 0) {
+		if($country_code) {
 			$query .= " AND country_code = '". $country_code ."'";
 		}
 		$query .= " ORDER BY date DESC";
@@ -334,6 +367,43 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		$jobs = [];
 		for($i = 0; $i < $result->getRows(); $i++) {
 			$jobs[$result->getValue('job_id')] = new Job($result->getValue('job_id'), $clang_id);
+			$result->next();
+		}
+		
+		return $jobs;
+	}
+
+	/**
+	 * Get all jobs for a country ignoring the language
+	 * @param int $preferred_clang_id Redaxo language ID
+	 * @param string $country_code 2 digit country code
+	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
+	 * @return Job[] Array with jobs
+	 */
+	public static function getByCountryCodeIgnoreLanguage($preferred_clang_id, $country_code, $online_only = TRUE) {
+		$query = "SELECT lang.job_id, clang_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
+				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
+					."ON lang.job_id = jobs.job_id";
+		$where = [];
+		if($country_code) {
+			$where[] = " country_code = '". $country_code ."'";
+		}
+		if($online_only) {
+			$where[] = " online_status = 'online'";
+		}
+		$query .= ($where ? ' WHERE '. implode(' AND', $where) : ''). " ORDER BY date DESC";
+
+		$result = \rex_sql::factory();
+		$result->setQuery($query);
+		
+		$jobs = [];
+		for($i = 0; $i < $result->getRows(); $i++) {
+			if(!isset($jobs[$result->getValue('job_id')]) || (isset($jobs[$result->getValue('job_id')]) && $result->getValue('clang_id') == $preferred_clang_id)) {
+				$job = new self($result->getValue('job_id'), $result->getValue('clang_id'));
+				if($job->job_id > 0) {
+					$jobs[$result->getValue('job_id')] = $job;
+				}
+			}
 			$result->next();
 		}
 		
