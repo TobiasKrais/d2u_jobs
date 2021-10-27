@@ -132,6 +132,7 @@ else if($old_tables_available) {
 <p>1.2.1-DEV:</p>
 <ul>
 	<li>Methoden zum Auslesen der Ländercodes und zur Ausgabe der Jobs nach Ländern hinzugefügt.</li>
+	<li>Mehrsprachige Systeme: Stelle muss nicht mehr in Hautsprache eingegeben werden.</li>
 	<li>Methode d2u_jobs_frontend_helper::getMetaTags() entfernt, da das URL Addon eine bessere Funktion anbietet.
 		Ebenso die Methoden getMetaAlternateHreflangTags(), getMetaDescriptionTag(), getCanonicalTag und getTitleTag() der aller Klassen, die diese Methoden abgeboten hatten.</li>
 	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Region in Ort umbenannt.</li>
