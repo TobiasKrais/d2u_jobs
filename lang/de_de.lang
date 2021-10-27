@@ -5,6 +5,7 @@ d2u_jobs_contacts = Kontaktpersonen
 d2u_jobs_country_code = Ländercode
 d2u_jobs_date = Datum
 d2u_jobs_email = E-Mail Adresse
+d2u_jobs_internal_name = Interne Bezeichnung
 d2u_jobs_jobs = Stellen
 d2u_jobs_no_contacts_found = Es wurden noch keine Kontakte angelegt.
 d2u_jobs_no_jobs_found = Es wurden noch keine Stellenangebote angelegt.

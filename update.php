@@ -17,6 +17,7 @@ if(class_exists('D2UModuleManager')) {
 rex_sql_table::get(rex::getTable('d2u_jobs_jobs'))
 	->ensureColumn(new \rex_sql_column('reference_number', 'varchar(20)', true, null))
 	->ensureColumn(new \rex_sql_column('type', 'varchar(20)', true, null))
+	->ensureColumn(new \rex_sql_column('internal_name', 'varchar(255)', true, null))
 	->ensureColumn(new \rex_sql_column('zip_code', 'varchar(10)', true, null))
 	->ensureColumn(new \rex_sql_column('country_code', 'varchar(2)', true, null))
 	->alter();
@@ -38,6 +39,18 @@ if (rex_version::compare($this->getVersion(), '1.0.8', '<')) {
 	$sql->setQuery("ALTER TABLE ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang DROP updatedate;");
 	$sql->setQuery("ALTER TABLE ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang CHANGE `updatedate_new` `updatedate` DATETIME NOT NULL;");
 }
+
+// Update database 1.2.1
+$sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+	. 'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs ON lang.job_id = jobs.job_id');
+for($i = 0; $i < $sql->getRows(); $i++) {
+	$sql_update = rex_sql::factory();
+	if($sql->getValue('internal_name') == '') {
+		$sql_update->setQuery('UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs SET internal_name = "'. $sql->getValue('name') .'" WHERE job_id = '. $sql->getValue('job_id'));
+	}
+	$sql->next();
+}
+$sql->setQuery('UPDATE `'. \rex::getTablePrefix() .'d2u_jobs_jobs_lang` SET translation_needs_update = "no" WHERE translation_needs_update = ""');
 
 // Create views for url addon
 $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_jobs AS

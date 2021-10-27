@@ -62,9 +62,9 @@ class d2u_jobs_frontend_helper {
 			}
 			$target_clang = filter_input(INPUT_GET, 'target_clang', FILTER_VALIDATE_INT) ?: rex_clang::getCurrentId();
 			$job = new \D2U_Jobs\Job($job_id, $target_clang);
-			foreach($job->categories as $job_category) {
+			foreach(array_keys($job->categories) as $job_category_id) {
 				// Do not take the category object due to target_clang my differ
-				$category = new D2U_Jobs\Category($job_category->category_id, rex_clang::getCurrentId());
+				$category = new D2U_Jobs\Category($job_category_id, rex_clang::getCurrentId());
 				break;
 			}
 		}
@@ -77,10 +77,10 @@ class d2u_jobs_frontend_helper {
 		}
 
 		// Breadcrumbs
-		if($category !== FALSE) {
+		if($category->name) {
 			$breadcrumbs[] = '<a href="' . $category->getUrl() . '">' . $category->name . '</a>';
 		}
-		if($job !== FALSE) {
+		if($job->name) {
 			$breadcrumbs[] = '<a href="' . $job->getUrl() . '">' . $job->name . '</a>';
 		}
 		

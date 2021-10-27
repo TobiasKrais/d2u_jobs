@@ -21,6 +21,11 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	var $reference_number = "";
 	
 	/**
+	 * @var string Reference number
+	 */
+	var $internal_name = "";
+	
+	/**
 	 * @var string date (Format YYYY-MM-DD).
 	 */
 	var $date = "";
@@ -162,6 +167,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 					$this->categories[$category_id] = new Category($category_id, $this->clang_id);
 				}
 				$this->online_status = $result->getValue("online_status");
+				$this->internal_name = stripslashes($result->getValue("internal_name"));
 				$this->name = stripslashes($result->getValue("name"));
 
 				$this->prolog = stripslashes($result->getValue("prolog"));
@@ -565,6 +571,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 					."zip_code = '". $this->zip_code ."', "
 					."country_code = '". $this->country_code ."', "
 					."picture = '". $this->picture ."', "
+					."internal_name = '". addslashes($this->internal_name) ."', "
 					."online_status = '". $this->online_status ."', "
 					."type = '". $this->type ."' ";
 			if(\rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {

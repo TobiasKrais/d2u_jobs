@@ -149,6 +149,7 @@ class hr4you {
 			$job->date = $xml_job->von_datum->__toString();
 			$job->hr4you_lead_in = $xml_job->einleitung->__toString();
 			$job->hr4you_url_application_form = $xml_job->url_application_form->__toString();
+			$job->internal_name = $xml_job->titel->__toString();
 			$job->name = $xml_job->titel->__toString();
 			$job->offer_heading = self::getHeadline($xml_job->block3_html) != '' ? self::getHeadline($xml_job->block3_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_offer_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			$job->offer_text = self::trimString(self::stripHeadline($xml_job->block3_html));

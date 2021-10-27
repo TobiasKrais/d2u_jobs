@@ -5,6 +5,7 @@ $sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_
 	`job_id` int(10) unsigned NOT NULL auto_increment,
 	`reference_number` varchar(20) collate utf8mb4_unicode_ci default NULL,
 	`category_ids` varchar(255) collate utf8mb4_unicode_ci default NULL,
+	`internal_name` varchar(255) collate utf8mb4_unicode_ci default NULL,
 	`date` varchar(10) collate utf8mb4_unicode_ci default NULL,
 	`city` varchar(50) collate utf8mb4_unicode_ci default NULL,
 	`zip_code` varchar(10) collate utf8mb4_unicode_ci default NULL,
