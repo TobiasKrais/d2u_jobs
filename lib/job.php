@@ -519,6 +519,15 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			if($job->job_id == 0 && \rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
 				$job = new Job($result->getValue("job_id"), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			}
+			if($job->job_id == 0) {
+				foreach (\rex_clang::getAllIds() as $clang_id) {
+					$temp_job = new \D2U_Jobs\Job($result->getValue("job_id"), $clang_id);
+					if($temp_job->job_id) {
+						$job = $temp_job;
+						break;
+					}
+				}
+			}
 			$objects[] = $job;
 			$result->next();
 		}
@@ -561,7 +570,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		// Save the not language specific part
 		$pre_save_job = new Job($this->job_id, $this->clang_id);
 
-		if($this->job_id == 0 || $pre_save_job != $this) {
+		if($this->job_id == 0 || $pre_save_job !== $this) {
 			$query = \rex::getTablePrefix() ."d2u_jobs_jobs SET "
 					."reference_number = '". $this->reference_number ."', "
 					."category_ids = '|". implode("|", array_keys($this->categories)) ."|', "
@@ -585,7 +594,6 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			else {
 				$query = "UPDATE ". $query ." WHERE job_id = ". $this->job_id;
 			}
-
 			$result = \rex_sql::factory();
 			$result->setQuery($query);
 			if($this->job_id == 0) {

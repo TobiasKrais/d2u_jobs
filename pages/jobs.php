@@ -2,10 +2,16 @@
 $func = rex_request('func', 'string');
 $entry_id = rex_request('entry_id', 'int');
 $message = rex_get('message', 'string');
+$message_type = rex_request('message_type', 'string');
 
 // Print comments
 if($message != "") {
-	print rex_view::success(rex_i18n::msg($message));
+	if($message_type == 'error') {
+		print rex_view::error(rex_i18n::msg($message));
+	}
+	else {
+		print rex_view::success(rex_i18n::msg($message));
+	}
 }
 
 // save settings
@@ -54,7 +60,6 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 		$job->offer_heading = $form['lang'][$rex_clang->getId()]['offer_heading'];
 		$job->offer_text = $form['lang'][$rex_clang->getId()]['offer_text'];
 		$job->translation_needs_update = $form['lang'][$rex_clang->getId()]['translation_needs_update'];
-
 		if($job->translation_needs_update == "delete") {
 			$job->delete(FALSE);
 		}
@@ -66,19 +71,23 @@ if (filter_input(INPUT_POST, "btn_save") == 1 || filter_input(INPUT_POST, "btn_a
 			$job_id = $job->job_id;
 		}
 	}
-
 	// message output
 	$message = 'form_save_error';
-	if($success) {
+	$message_type = 'error';
+	if($success && $job->job_id == 0) {
+		$message = 'd2u_jobs_not_saved_no_lang';
+	}
+	else if($success) {
 		$message = 'form_saved';
+		$message_type = 'success';
 	}
 	
 	// Redirect to make reload and thus double save impossible
 	if(filter_input(INPUT_POST, "btn_apply") == 1 && $job !== FALSE) {
-		header("Location: ". rex_url::currentBackendPage(array("entry_id"=>$job->job_id, "func"=>'edit', "message"=>$message), FALSE));
+		header("Location: ". rex_url::currentBackendPage(["entry_id"=>$job->job_id, "func"=>'edit', "message"=>$message, "message_type"=>$message_type], FALSE));
 	}
 	else {
-		header("Location: ". rex_url::currentBackendPage(array("message"=>$message), FALSE));
+		header("Location: ". rex_url::currentBackendPage(["message"=>$message, "message_type"=>$message_type], FALSE));
 	}
 	exit;
 }
