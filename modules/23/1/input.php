@@ -25,7 +25,7 @@
 </div>
 <div class="row">
 	<div class="col-xs-4">
-		<input type="checkbox" name="REX_INPUT_VALUE[2]" value="true" <?php echo "REX_VALUE[2]" == 'true' ? ' checked="checked"' : ''; ?> style="float: right;" />
+		<input type="checkbox" name="REX_INPUT_VALUE[2]" value="true" <?php echo "REX_VALUE[2]" == 'true' ? ' checked="checked"' : ''; ?> class="form-control d2u_helper_toggle" />
 	</div>
 	<div class="col-xs-8">
 		Allgemeiner Bewerbungshinweis unterhalb der Stellenanzeige verbergen.<br />
@@ -36,7 +36,7 @@
 </div>
 <div class="row">
 	<div class="col-xs-4">
-		<input type="checkbox" name="REX_INPUT_VALUE[3]" value="true" <?php echo "REX_VALUE[3]" == 'true' ? ' checked="checked"' : ''; ?> style="float: right;" />
+		<input type="checkbox" name="REX_INPUT_VALUE[3]" value="true" <?php echo "REX_VALUE[3]" == 'true' ? ' checked="checked"' : ''; ?> class="form-control d2u_helper_toggle" />
 	</div>
 	<div class="col-xs-8">
 		Stellen im JSON-LD Format ausgeben, damit Stellensuchmaschinen (z.B. Google Jobs) die Stelle anzeigen können.<br />
