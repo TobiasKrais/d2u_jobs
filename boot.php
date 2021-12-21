@@ -6,10 +6,29 @@ if(rex::isBackend() && is_object(rex::getUser())) {
 	rex_perm::register('d2u_jobs[settings]', rex_i18n::msg('d2u_jobs_rights_settings'), rex_perm::OPTIONS);	
 }
 
+// EPs
 if(rex::isBackend()) {
 	rex_extension::register('ART_PRE_DELETED', 'rex_d2u_jobs_article_is_in_use');
 	rex_extension::register('CLANG_DELETED', 'rex_d2u_jobs_clang_deleted');
 	rex_extension::register('MEDIA_IS_IN_USE', 'rex_d2u_jobs_media_is_in_use');
+}
+else {
+	// Delete attachments after sending application e-mails
+	rex_extension::register('YFORM_EMAIL_SENT', function (rex_extension_point $ep_yform_sent) {
+		if($ep_yform_sent->getSubject() == 'd2u_jobs_application') {
+			rex_extension::register('RESPONSE_SHUTDOWN', function (rex_extension_point $ep_response_shutdown) {
+				$folder = rex_path::pluginData('yform', 'manager') .'upload/frontend';
+				if(file_exists($folder)) {
+					$objects = scandir($folder);
+					foreach ($objects as $object) {
+						if ($object != "." && $object != "..") {
+							unlink($folder ."/". $object);
+						}
+					} 
+				}
+			});
+		}
+	});
 }
 
 /**
