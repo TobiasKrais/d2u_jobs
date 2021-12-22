@@ -129,7 +129,7 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.2.1-DEV:</p>
+<p>1.2.1:</p>
 <ul>
 	<li>Methoden zum Auslesen der Ländercodes und zur Ausgabe der Jobs nach Ländern hinzugefügt.</li>
 	<li>Mehrsprachige Systeme: Stelle muss nicht mehr in Hautsprache eingegeben werden.</li>
