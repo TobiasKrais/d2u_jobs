@@ -135,7 +135,7 @@ else if($old_tables_available) {
 	<li>Mehrsprachige Systeme: Stelle muss nicht mehr in Hautsprache eingegeben werden.</li>
 	<li>Methode d2u_jobs_frontend_helper::getMetaTags() entfernt, da das URL Addon eine bessere Funktion anbietet.
 		Ebenso die Methoden getMetaAlternateHreflangTags(), getMetaDescriptionTag(), getCanonicalTag und getTitleTag() der aller Klassen, die diese Methoden abgeboten hatten.</li>
-	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Region in Ort umbenannt.</li>
+	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Bwerbungsformular optional hinzugefügt und Region in Ort umbenannt.</li>
 	<li>Neues Feld Prolog hinzugefügt.</li>
 	<li>Prüft vor dem Löschen einer Datei im Medienpool, ob sie in den Einstellungen des Addons verwendet wird.</li>
 	<li>Spanische Übersetzungen werden nun korrekt installiert.</li>

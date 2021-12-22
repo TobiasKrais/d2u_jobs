@@ -8,7 +8,6 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	 * value the replacement. 
 	 */
 	protected $replacements_chinese = [
-		'd2u_jobs_hr4you_application_link' => '在线申请表',
 		'd2u_jobs_hr4you_offer_heading' => '我们的报价',
 		'd2u_jobs_hr4you_profile_heading' => '您的个人资料',
 		'd2u_jobs_hr4you_tasks_heading' => '你的任务',
@@ -19,7 +18,6 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	 * value the replacement. 
 	 */
 	protected $replacements_english = [
-		'd2u_jobs_hr4you_application_link' => 'Online application form',
 		'd2u_jobs_hr4you_offer_heading' => 'We offer',
 		'd2u_jobs_hr4you_profile_heading' => 'Your Profile',
 		'd2u_jobs_hr4you_tasks_heading' => 'Your Tasks',
@@ -30,21 +28,19 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	 * value the replacement. 
 	 */
 	protected $replacements_french = [
-		'd2u_jobs_hr4you_application_link' => 'Formulaire de demande en ligne',
 		'd2u_jobs_hr4you_offer_heading' => 'Notre offre',
 		'd2u_jobs_hr4you_profile_heading' => 'Votre profil',
 		'd2u_jobs_hr4you_tasks_heading' => 'Vos tâches',
 	];
 
 	/**
-	 * @var string[] Array with german replacements. Key is the wildcard,
+	 * @var string[] Array with spanish replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
 	protected $replacements_german = [
-		'd2u_jobs_hr4you_application_link' => 'Formulario online',
-		'd2u_jobs_hr4you_offer_heading' => 'Ofrecemos',
-		'd2u_jobs_hr4you_profile_heading' => 'Su Perfil',
-		'd2u_jobs_hr4you_tasks_heading' => 'Sus tareas',
+		'd2u_jobs_hr4you_offer_heading' => 'Unser Angebot',
+		'd2u_jobs_hr4you_profile_heading' => 'Ihr Profil',
+		'd2u_jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
 	];
 	
 	/**
@@ -52,10 +48,9 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	 * value the replacement. 
 	 */
 	protected $replacements_spanish = [
-		'd2u_jobs_hr4you_application_link' => 'Online Bewerbungsformular',
-		'd2u_jobs_hr4you_offer_heading' => 'Unser Angebot',
-		'd2u_jobs_hr4you_profile_heading' => 'Ihr Profil',
-		'd2u_jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
+		'd2u_jobs_hr4you_offer_heading' => 'Ofrecemos',
+		'd2u_jobs_hr4you_profile_heading' => 'Su Perfil',
+		'd2u_jobs_hr4you_tasks_heading' => 'Sus tareas',
 	];
 	
 	/**
@@ -63,7 +58,6 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	 * value the replacement. 
 	 */
 	protected $replacements_russian = [
-		'd2u_jobs_hr4you_application_link' => 'Онлайн-заявка',
 		'd2u_jobs_hr4you_offer_heading' => 'Наше предложение',
 		'd2u_jobs_hr4you_profile_heading' => 'Ваш профиль',
 		'd2u_jobs_hr4you_tasks_heading' => 'Желаемая должность',
@@ -102,7 +96,7 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 					$value = $this->replacements_english[$key];
 				}
 
-				$overwrite = rex_config::get('d2u_helper', 'lang_wildcard_overwrite', FALSE) === "true" ? TRUE : FALSE;
+				$overwrite = rex_config::get('d2u_jobs', 'lang_wildcard_overwrite', FALSE) === "true" ? TRUE : FALSE;
 				parent::saveValue($key, $value, $clang_id, $overwrite);
 			}
 		}

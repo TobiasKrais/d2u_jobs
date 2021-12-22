@@ -9,7 +9,11 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_chinese = [
 		'd2u_jobs_announcement' => '招标',
+		'd2u_jobs_application_link' => '在线申请表',
 		'd2u_jobs_footer' => '请将您的完整求职资料与可行的入职日期和薪水要求一并发送至电子邮箱：',
+		'd2u_jobs_module_attachment' => '申请文件：如履历、证书',
+		'd2u_jobs_module_form_thanks' => '感谢您的申请。 我们的人力资源部门会尽快与您联系。',
+		'd2u_jobs_module_form_your_data' => '申请资料概要',
 		'd2u_jobs_phone' => '电话',
 		'd2u_jobs_questions' => '如果您对该职位有任何疑问，请联系我们：',
 		'd2u_jobs_reference_number' => '参考号',
@@ -23,7 +27,11 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_dutch = [
 		'd2u_jobs_announcement' => 'Naar openstaande vacatures',
+		'd2u_jobs_application_link' => 'Solliciteer direct',
 		'd2u_jobs_footer' => 'U kunt uw motivatiebrief met CV onder vermelding van vroegst mogelijke opzegtermijn en salaris wens per E-Mail, met in het onderwerp „Sollicitatie <Vacature nummer>” sturen naar:',
+		'd2u_jobs_module_attachment' => 'Sollicitatiedocumenten: bijv. curriculum vitae, certificaten',
+		'd2u_jobs_module_form_thanks' => 'Bedankt voor je sollicitatie. Onze HR-afdeling neemt zo snel mogelijk contact met je op.',
+		'd2u_jobs_module_form_your_data' => 'Samenvatting van toepassingsgegevens',
 		'd2u_jobs_phone' => 'Telefoon:',
 		'd2u_jobs_questions' => 'Indien u naar aanleiding van deze vacature nog vragen heeft kunt u contact opnemen met:',
 		'd2u_jobs_reference_number' => 'Vacature nummer',
@@ -37,7 +45,11 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_english = [
 		'd2u_jobs_announcement' => 'Complete announcement',
+		'd2u_jobs_application_link' => 'Online application form',
 		'd2u_jobs_footer' => 'Please send us your complete application documents with the possible starting date and your salary expectations via email to:',
+		'd2u_jobs_module_attachment' => 'Application documents: e.g. CV, certificates',
+		'd2u_jobs_module_form_thanks' => 'Merci pour votre candidature. Notre service RH vous contactera dans les plus brefs délais.',
+		'd2u_jobs_module_form_your_data' => 'pplication data summary',
 		'd2u_jobs_phone' => 'Phone',
 		'd2u_jobs_questions' => 'If you have questions regarding this position, please contact:',
 		'd2u_jobs_reference_number' => 'Reference number',
@@ -51,7 +63,11 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_french = [
 		'd2u_jobs_announcement' => 'annonce complète',
+		'd2u_jobs_application_link' => 'Formulaire de demande en ligne',
 		'd2u_jobs_footer' => 'Veuillez nous envoyer vos documents de demande complets avec la date de début possible et vos attentes de salaire par courrier électronique à:',
+		'd2u_jobs_module_attachment' => 'Documents de candidature : par exemple, curriculum vitae, certificats',
+		'd2u_jobs_module_form_thanks' => 'Merci pour votre candidature. Notre service RH vous contactera dans les plus brefs délais.',
+		'd2u_jobs_module_form_your_data' => "Résumé des données d'application",
 		'd2u_jobs_phone' => 'Tél.',
 		'd2u_jobs_questions' => 'Si vous avez des questions concernant ce poste, veuillez contacter:',
 		'd2u_jobs_reference_number' => 'Numéro de réference',
@@ -65,7 +81,11 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_german = [
 		'd2u_jobs_announcement' => 'Zur Ausschreibung',
+		'd2u_jobs_application_link' => 'Online Bewerbungsformular',
 		'd2u_jobs_footer' => 'Bitte senden Sie uns Ihre kompletten Bewerbungsunterlagen mit dem frühestmöglichen Eintrittstermin und Ihrer Gehaltvorstellung per E-Mail mit dem Stichwort „Karriere“ im Betreff an:',
+		'd2u_jobs_module_attachment' => 'Bewerbungsunterlagen: z.B. Lebenslauf, Zeugnisse',
+		'd2u_jobs_module_form_thanks' => 'Vielen Dank für Ihre Bewerbung. Unsere Personalabteilung wird umgehend mit Ihnen Kontakt aufnehmen.',
+		'd2u_jobs_module_form_your_data' => 'Zusammenfassung Bewerbungsdaten',
 		'd2u_jobs_phone' => 'Tel.',
 		'd2u_jobs_questions' => 'Wenn Sie Fragen zur ausgeschriebenen Stelle haben, wenden Sie sich bitte an:',
 		'd2u_jobs_reference_number' => 'Referenznummer',
@@ -79,7 +99,11 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_spanish = [
 		'd2u_jobs_announcement' => 'Anuncio completo',
+		'd2u_jobs_application_link' => 'Formulario online',
 		'd2u_jobs_footer' => 'Por favor, envíenos sus documentos completos de solicitud con la posible fecha de inicio y sus expectativas salariales por correo electrónico a:',
+		'd2u_jobs_module_attachment' => 'Documentos de solicitud: p. Ej., Curriculum vitae, certificados',
+		'd2u_jobs_module_form_thanks' => 'Gracias por tu aplicación . Nuestro departamento de RRHH se pondrá en contacto contigo lo antes posible.',
+		'd2u_jobs_module_form_your_data' => 'Resumen de los datos de la aplicación ',
 		'd2u_jobs_phone' => 'Teléfono',
 		'd2u_jobs_questions' => 'Si tiene preguntas relativas a esto, por favor contáctenos',
 		'd2u_jobs_reference_number' => 'Número de referencia',
@@ -93,7 +117,11 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 */
 	protected $replacements_russian = [
 		'd2u_jobs_announcement' => 'Отправить заявку',
+		'd2u_jobs_application_link' => 'Онлайн-заявка',
 		'd2u_jobs_footer' => 'Присылайте Ваше резюме и документы с возможной датой начала работы и ваши ожидания по зарплате по электронной почте:',
+		'd2u_jobs_module_attachment' => 'Документы для подачи заявки: например, биографические данные, сертификаты.',
+		'd2u_jobs_module_form_thanks' => 'Спасибо за вашу заявку . Наш отдел кадров свяжется с вами в ближайшее время.',
+		'd2u_jobs_module_form_your_data' => 'Сводка данных приложения',
 		'd2u_jobs_phone' => 'тел.',
 		'd2u_jobs_questions' => 'Если у вас есть вопросы относительно этой вакансии, мы всегда к Вашим услугам:',
 		'd2u_jobs_reference_number' => 'ссылка',

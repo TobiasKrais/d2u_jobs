@@ -30,6 +30,7 @@ else {
 
 $hide_application_hint = "REX_VALUE[2]" == 'true' ? TRUE : FALSE;
 $show_json_ld = "REX_VALUE[3]" == 'true' ? TRUE : FALSE;
+$show_application_form = "REX_VALUE[4]" == 'true' ? TRUE : FALSE;
 
 if(rex::isBackend()) {
 	// Ausgabe im BACKEND	
@@ -70,7 +71,7 @@ else {
 		print '<div class="col-12 col-md-8">';
 		print '<article class="job-box">';
 		print '<img src="'. ($job->picture != "" ? 'index.php?rex_media_type=d2u_jobs_jobheader&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
-		if($job->prolog != "") {
+		if(!$show_application_form && $job->prolog) {
 			print '<div class="prolog">'. $job->prolog .'</div>';
 		}
 		print '<div class="heading">';
@@ -86,31 +87,98 @@ else {
 			print '</b></p>';
 		}
 		print '</div>';
-		if($job->hr4you_lead_in != "") {
-			print '<br>';
-			print $job->hr4you_lead_in;
+
+		$application_form = rex_request('apply', 'int', 0) > 0 ? true : false;
+		$job_application_link = $job->clang_id == rex_clang::getCurrentId() ? $job->getURL() . (strstr($job->getURL(), '?') ? '&' : '?').'apply=1' : rex_getUrl('', '', ['job_id' => $job->job_id, 'target_clang' => $job->clang_id, 'apply' => 1]);
+		if($application_form) {
+			print '<a name="application-form" class="anchor"></a>';
+			print '<h3>'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'</h3>';
+			$yform = new rex_yform;
+			$form_data = 'hidden|job_name|'. $job->name . ($job->reference_number ? ' (Referenznummer: '. $job->reference_number .')' : '') .'|REQUEST
+					text|name|'. \Sprog\Wildcard::get('d2u_helper_module_form_name', $job->clang_id) .' *|||{"required":"required"}
+					text|address|'. \Sprog\Wildcard::get('d2u_helper_module_form_street', $job->clang_id) .'|||
+					text|zip|'. \Sprog\Wildcard::get('d2u_helper_module_form_zip', $job->clang_id) .'|||
+					text|city|'. \Sprog\Wildcard::get('d2u_helper_module_form_city', $job->clang_id) .'|||
+					text|phone|'. \Sprog\Wildcard::get('d2u_helper_module_form_phone', $job->clang_id) .' *|||{"required":"required"}
+					text|email|'. \Sprog\Wildcard::get('d2u_helper_module_form_email', $job->clang_id) .' *|||{"required":"required"}
+					textarea|message|'. \Sprog\Wildcard::get('d2u_helper_module_form_message', $job->clang_id) .'
+					upload|upload|'. \Sprog\Wildcard::get('d2u_jobs_module_attachment', $job->clang_id) .'|0,10000|.pdf,.odt,.doc,.docx,.zip
+					checkbox|privacy_policy_accepted|'. \Sprog\Wildcard::get('d2u_helper_module_form_privacy_policy', $job->clang_id) .' *|0,1|0';
+			if(rex_addon::get('yform_spam_protection')->isAvailable()) {
+				$form_data .= '
+					spam_protection|honeypot|Leave empty|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_spam_detected', $job->clang_id) .'|0';					
+			}
+			else {
+				$form_data .= '
+					php|validate_timer|Spamprotection|<input name="validate_timer" type="hidden" value="'. microtime(true) .'" />|
+					validate|customfunction|validate_timer|d2u_addon_frontend_helper::yform_validate_timer|10|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_spambots', $job->clang_id) .'|
+
+					html|honeypot||<div class="mail-validate hide">
+					text|mailvalidate|'. \Sprog\Wildcard::get('d2u_helper_module_form_email', $job->clang_id) .'||no_db
+					validate|compare_value|mailvalidate||!=|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_spam_detected', $job->clang_id) .'|
+					html|honeypot||</div>';
+			}
+			$form_data .= '
+					html||<br>* '. \Sprog\Wildcard::get('d2u_helper_module_form_required', $job->clang_id) .'<br><br>
+
+					submit|submit|'. \Sprog\Wildcard::get('d2u_helper_module_form_send', $job->clang_id) .'|no_db
+
+					validate|empty|name|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_name', $job->clang_id) .'
+					validate|empty|phone|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_phone', $job->clang_id) .'
+					validate|empty|email|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_email', $job->clang_id) .'
+					validate|type|email|email|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_email', $job->clang_id) .'
+					validate|empty|privacy_policy_accepted|'. \Sprog\Wildcard::get('d2u_helper_module_form_validate_privacy_policy', $job->clang_id) .'
+
+					action|tpl2email|d2u_jobs_thanks_application|email
+					action|tpl2email|d2u_jobs_application|'. rex_config::get('d2u_jobs', 'email');
+			
+			$yform->setFormData(trim($form_data));
+			$yform->setValueField('php', ['php_attach', \Sprog\Wildcard::get('d2u_jobs_module_attachment', $job->clang_id), '<?php if (isset($this->params["value_pool"]["files"])) { $this->params["value_pool"]["email_attachments"] = $this->params["value_pool"]["files"]; } ?>']);
+			$yform->setObjectparams("form_action", $job_application_link);
+			$yform->setObjectparams("form_anchor", "application-form");
+			$yform->setObjectparams("Error-occured", \Sprog\Wildcard::get('d2u_helper_module_form_validate_title', $job->clang_id));
+			$yform->setObjectparams('real_field_names', TRUE);
+
+			// action - showtext
+			$yform->setActionField("showtext", [\Sprog\Wildcard::get('d2u_jobs_module_form_thanks', $job->clang_id),
+					'<div class="rex-message"><div class="rex-info"><p>',
+					'</p></div></div>',
+					1]);
+
+			echo $yform->getForm();
 		}
-		if($job->tasks_heading != "") {
-			print '<h3>'. $job->tasks_heading .'</h3>';
-			print prepareText($job->tasks_text);
-		}
-		if($job->profile_heading != "") {
-			print '<h3>'. $job->profile_heading .'</h3>';
-			print prepareText($job->profile_text);
-		}
-		if($job->offer_heading != "") {
-			print '<h3>'. $job->offer_heading .'</h3>';
-			print prepareText($job->offer_text);
-		}
-		if($job->hr4you_url_application_form != "") {
-			print '<br><br>';
-			print '<p class="appendix"><a target="_blank" href="'. $job->hr4you_url_application_form .'">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'</a></p>';
-		}
-		else if($hide_application_hint === FALSE) {
-			print '<br><br>';
-			print '<p class="appendix">'. $tag_open .'d2u_jobs_footer'. $tag_close
-				.'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
-				.'</p>';
+		else {
+			if($job->hr4you_lead_in != "") {
+				print '<br>';
+				print $job->hr4you_lead_in;
+			}
+			if($job->tasks_heading != "") {
+				print '<h3>'. $job->tasks_heading .'</h3>';
+				print prepareText($job->tasks_text);
+			}
+			if($job->profile_heading != "") {
+				print '<h3>'. $job->profile_heading .'</h3>';
+				print prepareText($job->profile_text);
+			}
+			if($job->offer_heading != "") {
+				print '<h3>'. $job->offer_heading .'</h3>';
+				print prepareText($job->offer_text);
+			}
+			if($job->hr4you_url_application_form != "") {
+				print '<br><br>';
+				print '<p class="appendix"><a target="_blank" href="'. $job->hr4you_url_application_form .'">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'</a></p>';
+			}
+			else if($show_application_form) {
+				print '<br><br>';
+				print '<p class="appendix"><a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'</a>'
+					.'</p>';
+			}
+			else if($hide_application_hint === FALSE) {
+				print '<br><br>';
+				print '<p class="appendix">'. $tag_open .'d2u_jobs_footer'. $tag_close
+					.'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
+					.'</p>';
+			}
 		}
 		print '</article>';
 		print '</div>';
