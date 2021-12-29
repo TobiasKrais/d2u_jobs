@@ -131,7 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.2.2-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Bugfix Ausgabe Texte für Google Jobs.</li>
 </ul>
 <p>1.2.1:</p>
 <ul>

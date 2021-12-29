@@ -425,14 +425,14 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			.'{'.PHP_EOL
 				.'"@context" : "https://schema.org/",'. PHP_EOL
 				.'"@type" : "JobPosting",'. PHP_EOL
-				.'"title" : "'. addslashes($this->name) .'",'. PHP_EOL
-				.'"description" : "'. addslashes($this->tasks_text) .'",'. PHP_EOL
+				.'"title" : "'. str_replace('"', "", $this->name) .'",'. PHP_EOL
+				.'"description" : "'. str_replace('"', "", $this->tasks_text) .'",'. PHP_EOL
 				.'"datePosted" : "'. $this->date .'",'. PHP_EOL
 //				.'"validThrough" : "'. date( "Y-m-d", strtotime( $this->date. " +2 month" ) ) .'T00:00",'. PHP_EOL
 				.'"employmentType" : "'. ($this->type ?? 'FULL_TIME') .'",'. PHP_EOL
 				.'"hiringOrganization" : {'. PHP_EOL
 					.'"@type" : "Organization",'. PHP_EOL
-					.'"name" : "'. addslashes(\rex_config::get('d2u_jobs', 'company_name', '')) .'",'. PHP_EOL
+					.'"name" : "'. str_replace('"', "", \rex_config::get('d2u_jobs', 'company_name', '')) .'",'. PHP_EOL
 					.'"sameAs" : "'. (\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer()) .'",'. PHP_EOL
 					.'"logo" : "'. rtrim((\rex_addon::get('yrewrite')->isAvailable() ? \rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer()), "/") . \rex_url::media(\rex_config::get('d2u_jobs', 'logo', '')) .'"'. PHP_EOL
 				.'},'. PHP_EOL
