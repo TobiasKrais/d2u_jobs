@@ -95,6 +95,7 @@ else {
 			print '<h3>'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'</h3>';
 			$yform = new rex_yform;
 			$form_data = 'hidden|job_name|'. $job->name . ($job->reference_number ? ' (Referenznummer: '. $job->reference_number .')' : '') .'|REQUEST
+					hidden|job_clang_id|'. $job->clang_id .'|REQUEST
 					text|name|'. \Sprog\Wildcard::get('d2u_helper_module_form_name', $job->clang_id) .' *|||{"required":"required"}
 					text|address|'. \Sprog\Wildcard::get('d2u_helper_module_form_street', $job->clang_id) .'|||
 					text|zip|'. \Sprog\Wildcard::get('d2u_helper_module_form_zip', $job->clang_id) .'|||
