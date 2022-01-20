@@ -74,7 +74,7 @@ class hr4you {
 					// File exists only in database, but no more physically: remove it before import
 					if($job_picture instanceof \rex_media) {
 						try {
-							\rex_mediapool_deleteMedia($job_picture->getFileName());
+							rex_media_service::deleteMedia($job_picture->getFileName());
 						}
 						catch(Exception $e) {
 							self::log('Picture physically not found. Error deleting media from mediapool database.');
@@ -86,10 +86,22 @@ class hr4you {
 					// Copy first
 					if(copy($xml_job->kopfgrafik_url, $target_picture)) {
 						chmod($target_picture, octdec(664));
-						$username = rex::getUser() ? rex::getUser()->getLogin() : "d2u_jobs_hr4you_plugin";
-						$sync_file_infos = \rex_mediapool_syncFile($job_picture_pathInfo['basename'], \rex_config::get('d2u_jobs', 'hr4you_media_category'), $xml_jobs->titel, null, null, $username);
-						$job_picture_filename = $sync_file_infos['filename'];
-						self::log('Job picture '. $job_picture_filename .' importet into database.');
+						
+						$data = [];
+						$data['title'] = $xml_jobs->titel;
+						$data['category_id'] = \rex_config::get('d2u_jobs', 'hr4you_media_category');
+						$data['file'] = [
+							'name' => $job_picture_pathInfo['basename'],
+							'path' => rex_path::media($job_picture_pathInfo['basename']),
+						];
+
+						try {
+							$media_info = rex_media_service::addMedia($data, false);
+							self::log('Job picture '. $media_info['filename'] .' importet into database.');
+						} catch (rex_api_exception $e) {
+							self::log('Job picture '. $job_picture_pathInfo['basename'] .' not importet into database: '. $e->getMessage());
+						}
+
 					}
 				}
 			}
@@ -203,13 +215,11 @@ class hr4you {
 
 		// Delete unused old pictures
 		foreach($old_pictures as $old_picture) {
-			$delete_result = \rex_mediapool_deleteMedia($old_picture);
-			if($delete_result['ok'] === FALSE) {
-				// File seems to be in use
-				self::log('Picture '. $old_picture .' deletion requested, but is in use.');
-			}
-			else {
+			try {
+				rex_media_service::deleteMedia($old_picture);
 				self::log('Picture '. $old_picture .' deleted.');
+			} catch (rex_api_exception $exception) {
+				self::log('Picture '. $old_picture .' deletion requested, but is in use.');
 			}
 		}
 

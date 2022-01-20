@@ -13,6 +13,5 @@ requires:
         extensions: [xml]
     packages:
         cronjob: '>=2.1.1'
-        media_manager: '>=2.2.0'
+        media_manager: '>=2.11'
         sprog: '>=1.0.0'
-    redaxo: '>=5.6.0'
