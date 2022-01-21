@@ -47,14 +47,14 @@ $sql->setQuery("CREATE TABLE IF NOT EXISTS ". rex::getTablePrefix() ."d2u_jobs_c
 	PRIMARY KEY (category_id, clang_id)
 ) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
 
-$sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_contacts` (
-	`contact_id` int(10) unsigned NOT NULL auto_increment,
-	`name` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`picture` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`phone` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`email` varchar(50) collate utf8mb4_unicode_ci default NULL,
-	PRIMARY KEY (`contact_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
+\rex_sql_table::get(\rex::getTable('d2u_jobs_contacts'))
+	->ensureColumn(new rex_sql_column('contact_id', 'int(10) unsigned', false, null, 'auto_increment'))
+	->setPrimaryKey('contact_id')
+	->ensureColumn(new \rex_sql_column('name', 'VARCHAR(255)', true))
+    ->ensureColumn(new \rex_sql_column('picture', 'VARCHAR(255)', true))
+    ->ensureColumn(new \rex_sql_column('phone', 'VARCHAR(50)', true))
+    ->ensureColumn(new \rex_sql_column('email', 'VARCHAR(50)', true))
+    ->ensure();
 
 // Create views for url addon
 $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_jobs AS
