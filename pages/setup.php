@@ -132,6 +132,7 @@ else if($old_tables_available) {
 <p>1.2.2-DEV:</p>
 <ul>
 	<li>Bugfix Ausgabe Texte für Google Jobs.</li>
+	<li>Bugfix: Beim Löschen von Medien die vom Addon verlinkt werden wurde der Name der verlinkenden Quelle in der Warnmeldung nicht immer korrekt angegeben.</li>
 	<li>hr4you_import Plugin: Anpassungen an Medienpool 2.11.</li>
 	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Sprache in Mails richtet sich nun nach Sprache der Stellenanzeige un nicht nach Frontendsprache.</li>
 </ul>
