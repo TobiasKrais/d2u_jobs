@@ -131,6 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.2.2-DEV:</p>
 <ul>
+	<li>Anpassungen an Publish Github Release to Redaxo.</li>
 	<li>Bugfix Ausgabe Texte für Google Jobs.</li>
 	<li>Bugfix: Beim Löschen von Medien die vom Addon verlinkt werden wurde der Name der verlinkenden Quelle in der Warnmeldung nicht immer korrekt angegeben.</li>
 	<li>hr4you_import Plugin: Anpassungen an Medienpool 2.11.</li>
