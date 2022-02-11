@@ -74,51 +74,28 @@ $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_j
 if(\rex_addon::get('url')->isAvailable()) {
 	$clang_id = count(rex_clang::getAllIds()) == 1 ? rex_clang::getStartId() : 0;
 	$article_id = rex_config::get('d2u_jobs', 'article_id', 0) > 0 ? rex_config::get('d2u_jobs', 'article_id') : rex_article::getSiteStartArticleId(); 
-	if(rex_version::compare(\rex_addon::get('url')->getVersion(), '1.5', '>=')) {
-		// Insert url schemes Version 2.x
-		$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_id';");
-		$sql->setQuery("INSERT INTO ". \rex::getTablePrefix() ."url_generator_profile (`namespace`, `article_id`, `clang_id`, `table_name`, `table_parameters`, `relation_1_table_name`, `relation_1_table_parameters`, `relation_2_table_name`, `relation_2_table_parameters`, `relation_3_table_name`, `relation_3_table_parameters`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
-			('job_id', "
-			. $article_id .", "
-			. $clang_id .", "
-			. "'1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs', "
-			. "'{\"column_id\":\"job_id\",\"column_clang_id\":\"clang_id\",\"restriction_1_column\":\"\",\"restriction_1_comparison_operator\":\"=\",\"restriction_1_value\":\"\",\"restriction_2_logical_operator\":\"\",\"restriction_2_column\":\"\",\"restriction_2_comparison_operator\":\"=\",\"restriction_2_value\":\"\",\"restriction_3_logical_operator\":\"\",\"restriction_3_column\":\"\",\"restriction_3_comparison_operator\":\"=\",\"restriction_3_value\":\"\",\"column_segment_part_1\":\"name\",\"column_segment_part_2_separator\":\"\-\",\"column_segment_part_2\":\"job_id\",\"column_segment_part_3_separator\":\"\\/\",\"column_segment_part_3\":\"\",\"relation_1_column\":\"category_id\",\"relation_1_position\":\"BEFORE\",\"relation_2_column\":\"\",\"relation_2_position\":\"BEFORE\",\"relation_3_column\":\"\",\"relation_3_position\":\"BEFORE\",\"append_user_paths\":\"\",\"append_structure_categories\":\"0\",\"column_seo_title\":\"seo_title\",\"column_seo_description\":\"seo_description\",\"column_seo_image\":\"picture\",\"sitemap_add\":\"1\",\"sitemap_frequency\":\"always\",\"sitemap_priority\":\"0.7\",\"column_sitemap_lastmod\":\"updatedate\"}', "
-			. "'relation_1_xxx_1_xxx_". rex::getTablePrefix() ."d2u_jobs_categories_lang', "
-			. "'{\"column_id\":\"category_id\",\"column_clang_id\":\"clang_id\",\"column_segment_part_1\":\"name\",\"column_segment_part_2_separator\":\"\\/\",\"column_segment_part_2\":\"\",\"column_segment_part_3_separator\":\"\\/\",\"column_segment_part_3\":\"\"}', "
-			. "'', '[]', '', '[]', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."');");
-		$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_category_id';");
-		$sql->setQuery("INSERT INTO ". \rex::getTablePrefix() ."url_generator_profile (`namespace`, `article_id`, `clang_id`, `table_name`, `table_parameters`, `relation_1_table_name`, `relation_1_table_parameters`, `relation_2_table_name`, `relation_2_table_parameters`, `relation_3_table_name`, `relation_3_table_parameters`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
-			('job_category_id', "
-			. $article_id .", "
-			. $clang_id .", "
-			. "'1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories', "
-			. "'{\"column_id\":\"category_id\",\"column_clang_id\":\"clang_id\",\"restriction_1_column\":\"\",\"restriction_1_comparison_operator\":\"=\",\"restriction_1_value\":\"\",\"restriction_2_logical_operator\":\"\",\"restriction_2_column\":\"\",\"restriction_2_comparison_operator\":\"=\",\"restriction_2_value\":\"\",\"restriction_3_logical_operator\":\"\",\"restriction_3_column\":\"\",\"restriction_3_comparison_operator\":\"=\",\"restriction_3_value\":\"\",\"column_segment_part_1\":\"name\",\"column_segment_part_2_separator\":\"\\/\",\"column_segment_part_2\":\"\",\"column_segment_part_3_separator\":\"\\/\",\"column_segment_part_3\":\"\",\"relation_1_column\":\"\",\"relation_1_position\":\"BEFORE\",\"relation_2_column\":\"\",\"relation_2_position\":\"BEFORE\",\"relation_3_column\":\"\",\"relation_3_position\":\"BEFORE\",\"append_user_paths\":\"\",\"append_structure_categories\":\"0\",\"column_seo_title\":\"seo_title\",\"column_seo_description\":\"seo_description\",\"column_seo_image\":\"picture\",\"sitemap_add\":\"1\",\"sitemap_frequency\":\"always\",\"sitemap_priority\":\"0.5\",\"column_sitemap_lastmod\":\"updatedate\"}', "
-			. "'', '[]', '', '[]', '', '[]', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."');");
-		\d2u_addon_backend_helper::generateUrlCache('job_id');
-		\d2u_addon_backend_helper::generateUrlCache('job_category_id');
-	}
-	else {
-		// Insert url schemes Version 1.x
-		$sql->setQuery("DELETE FROM ". rex::getTablePrefix() ."url_generate WHERE `table` = '1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs';");
-		$sql->setQuery("INSERT INTO `". rex::getTablePrefix() ."url_generate` (`article_id`, `clang_id`, `url`, `table`, `table_parameters`, `relation_table`, `relation_table_parameters`, `relation_insert`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
-			(". $article_id .", "
-			. $clang_id .", "
-			. "'', "
-			. "'1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs', "
-			. "'{\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_field_1\":\"name\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_field_2\":\"job_id\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_field_3\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_id\":\"job_id\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_clang_id\":\"". (count(rex_clang::getAllIds()) > 1 ? "clang_id" : "") ."\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_restriction_field\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_restriction_operator\":\"=\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_restriction_value\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_url_param_key\":\"job_id\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_seo_title\":\"seo_title\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_seo_description\":\"seo_description\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_seo_image\":\"picture\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_sitemap_add\":\"1\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_sitemap_frequency\":\"monthly\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_sitemap_priority\":\"1.0\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_sitemap_lastmod\":\"updatedate\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_path_names\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_path_categories\":\"0\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_relation_field\":\"category_id\"}', "
-			. "'1_xxx_relation_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories', "
-			. "'{\"1_xxx_relation_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_field_1\":\"name\",\"1_xxx_relation_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_field_2\":\"\",\"1_xxx_relation_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_field_3\":\"\",\"1_xxx_relation_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_id\":\"category_id\",\"1_xxx_relation_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_clang_id\":\"clang_id\"}', "
-			. "'before', UNIX_TIMESTAMP(), '". rex::getUser()->getValue('login') ."', UNIX_TIMESTAMP(), '". rex::getUser()->getValue('login') ."');");
-		$sql->setQuery("DELETE FROM ". rex::getTablePrefix() ."url_generate WHERE `table` = '1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories';");
-		$sql->setQuery("INSERT INTO `". rex::getTablePrefix() ."url_generate` (`article_id`, `clang_id`, `url`, `table`, `table_parameters`, `relation_table`, `relation_table_parameters`, `relation_insert`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
-			(". $article_id .", "
-			. $clang_id .", "
-			. "'', "
-			. "'1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories', "
-			. "'{\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_field_1\":\"name\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_field_2\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_field_3\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_id\":\"category_id\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_clang_id\":\"". (count(rex_clang::getAllIds()) > 1 ? "clang_id" : "") ."\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_restriction_field\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_restriction_operator\":\"=\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_restriction_value\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_url_param_key\":\"job_category_id\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_seo_title\":\"seo_title\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_seo_description\":\"seo_description\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_seo_image\":\"picture\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_sitemap_add\":\"1\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_sitemap_frequency\":\"always\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_sitemap_priority\":\"0.7\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_sitemap_lastmod\":\"updatedate\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_path_names\":\"\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_path_categories\":\"0\",\"1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories_relation_field\":\"\"}', "
-			. "'', '[]', 'before', UNIX_TIMESTAMP(), '". rex::getUser()->getValue('login') ."', UNIX_TIMESTAMP(), '". rex::getUser()->getValue('login') ."');");
-		\d2u_addon_backend_helper::generateUrlCache();
-	}
+
+	// Insert url schemes Version 2.x
+	$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_id';");
+	$sql->setQuery("INSERT INTO ". \rex::getTablePrefix() ."url_generator_profile (`namespace`, `article_id`, `clang_id`, `table_name`, `table_parameters`, `relation_1_table_name`, `relation_1_table_parameters`, `relation_2_table_name`, `relation_2_table_parameters`, `relation_3_table_name`, `relation_3_table_parameters`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
+		('job_id', "
+		. $article_id .", "
+		. $clang_id .", "
+		. "'1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs', "
+		. "'{\"column_id\":\"job_id\",\"column_clang_id\":\"clang_id\",\"restriction_1_column\":\"\",\"restriction_1_comparison_operator\":\"=\",\"restriction_1_value\":\"\",\"restriction_2_logical_operator\":\"\",\"restriction_2_column\":\"\",\"restriction_2_comparison_operator\":\"=\",\"restriction_2_value\":\"\",\"restriction_3_logical_operator\":\"\",\"restriction_3_column\":\"\",\"restriction_3_comparison_operator\":\"=\",\"restriction_3_value\":\"\",\"column_segment_part_1\":\"name\",\"column_segment_part_2_separator\":\"\-\",\"column_segment_part_2\":\"job_id\",\"column_segment_part_3_separator\":\"\\/\",\"column_segment_part_3\":\"\",\"relation_1_column\":\"category_id\",\"relation_1_position\":\"BEFORE\",\"relation_2_column\":\"\",\"relation_2_position\":\"BEFORE\",\"relation_3_column\":\"\",\"relation_3_position\":\"BEFORE\",\"append_user_paths\":\"\",\"append_structure_categories\":\"0\",\"column_seo_title\":\"seo_title\",\"column_seo_description\":\"seo_description\",\"column_seo_image\":\"picture\",\"sitemap_add\":\"1\",\"sitemap_frequency\":\"always\",\"sitemap_priority\":\"0.7\",\"column_sitemap_lastmod\":\"updatedate\"}', "
+		. "'relation_1_xxx_1_xxx_". rex::getTablePrefix() ."d2u_jobs_categories_lang', "
+		. "'{\"column_id\":\"category_id\",\"column_clang_id\":\"clang_id\",\"column_segment_part_1\":\"name\",\"column_segment_part_2_separator\":\"\\/\",\"column_segment_part_2\":\"\",\"column_segment_part_3_separator\":\"\\/\",\"column_segment_part_3\":\"\"}', "
+		. "'', '[]', '', '[]', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."');");
+	$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_category_id';");
+	$sql->setQuery("INSERT INTO ". \rex::getTablePrefix() ."url_generator_profile (`namespace`, `article_id`, `clang_id`, `table_name`, `table_parameters`, `relation_1_table_name`, `relation_1_table_parameters`, `relation_2_table_name`, `relation_2_table_parameters`, `relation_3_table_name`, `relation_3_table_parameters`, `createdate`, `createuser`, `updatedate`, `updateuser`) VALUES
+		('job_category_id', "
+		. $article_id .", "
+		. $clang_id .", "
+		. "'1_xxx_". rex::getTablePrefix() ."d2u_jobs_url_jobs_categories', "
+		. "'{\"column_id\":\"category_id\",\"column_clang_id\":\"clang_id\",\"restriction_1_column\":\"\",\"restriction_1_comparison_operator\":\"=\",\"restriction_1_value\":\"\",\"restriction_2_logical_operator\":\"\",\"restriction_2_column\":\"\",\"restriction_2_comparison_operator\":\"=\",\"restriction_2_value\":\"\",\"restriction_3_logical_operator\":\"\",\"restriction_3_column\":\"\",\"restriction_3_comparison_operator\":\"=\",\"restriction_3_value\":\"\",\"column_segment_part_1\":\"name\",\"column_segment_part_2_separator\":\"\\/\",\"column_segment_part_2\":\"\",\"column_segment_part_3_separator\":\"\\/\",\"column_segment_part_3\":\"\",\"relation_1_column\":\"\",\"relation_1_position\":\"BEFORE\",\"relation_2_column\":\"\",\"relation_2_position\":\"BEFORE\",\"relation_3_column\":\"\",\"relation_3_position\":\"BEFORE\",\"append_user_paths\":\"\",\"append_structure_categories\":\"0\",\"column_seo_title\":\"seo_title\",\"column_seo_description\":\"seo_description\",\"column_seo_image\":\"picture\",\"sitemap_add\":\"1\",\"sitemap_frequency\":\"always\",\"sitemap_priority\":\"0.5\",\"column_sitemap_lastmod\":\"updatedate\"}', "
+		. "'', '[]', '', '[]', '', '[]', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."', CURRENT_TIMESTAMP, '". rex::getUser()->getValue('login') ."');");
+	\d2u_addon_backend_helper::generateUrlCache('job_id');
+	\d2u_addon_backend_helper::generateUrlCache('job_category_id');
 }
 
 // Media Manager media types

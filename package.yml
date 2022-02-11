@@ -18,5 +18,5 @@ requires:
     packages:
         d2u_helper: '>=1.8.8'
         sprog: '>=1.0.0'
-        url: '>=1.0.1'
+        url: '>=2.0'
         yrewrite: '>=2.0.1'

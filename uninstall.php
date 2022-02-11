@@ -7,13 +7,8 @@ $sql->setQuery('DROP VIEW IF EXISTS ' . rex::getTablePrefix() . 'd2u_jobs_url_jo
 
 // Delete url schemes
 if(\rex_addon::get('url')->isAvailable()) {
-	if(rex_version::compare(\rex_addon::get('url')->getVersion(), '1.5', '>=')) {
-		$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_id';");
-		$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_category_id';");		
-	}
-	else {
-		$sql->setQuery("DELETE FROM `". rex::getTablePrefix() ."url_generate` WHERE `table` LIKE '%d2u_jobs_url_jobs%'");
-	}
+	$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_id';");
+	$sql->setQuery("DELETE FROM ". \rex::getTablePrefix() ."url_generator_profile WHERE `namespace` = 'job_category_id';");		
 }
 
 // Delete language replacements
