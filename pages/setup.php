@@ -129,11 +129,12 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.2.2-DEV:</p>
+<p>1.2.2:</p>
 <ul>
 	<li>Anpassungen an Publish Github Release to Redaxo.</li>
 	<li>Unterstützt nur noch URL Addon >= 2.0.</li>
-	<li>Bugfix Ausgabe Texte für Google Jobs.</li>
+	<li>Bugfix: Ausgabe Texte für Google Jobs.</li>
+	<li>Bugfix: Warnung beim Speichern von Stellen behoben.</li>
 	<li>Bugfix: Beim Löschen von Medien die vom Addon verlinkt werden wurde der Name der verlinkenden Quelle in der Warnmeldung nicht immer korrekt angegeben.</li>
 	<li>hr4you_import Plugin: Anpassungen an Medienpool 2.11.</li>
 	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Sprache in Mails richtet sich nun nach Sprache der Stellenanzeige un nicht nach Frontendsprache.</li>
