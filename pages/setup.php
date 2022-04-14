@@ -137,7 +137,7 @@ else if($old_tables_available) {
 	<li>Bugfix: Warnung beim Speichern von Stellen behoben.</li>
 	<li>Bugfix: Beim Löschen von Medien die vom Addon verlinkt werden wurde der Name der verlinkenden Quelle in der Warnmeldung nicht immer korrekt angegeben.</li>
 	<li>hr4you_import Plugin: Anpassungen an Medienpool 2.11.</li>
-	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Sprache in Mails richtet sich nun nach Sprache der Stellenanzeige un nicht nach Frontendsprache.</li>
+	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Sprache in Mails richtet sich nun nach Sprache der Stellenanzeige und nicht nach Frontendsprache.</li>
 </ul>
 <p>1.2.1:</p>
 <ul>
