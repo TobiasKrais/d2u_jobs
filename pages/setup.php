@@ -131,7 +131,7 @@ else if($old_tables_available) {
 <h2>Changelog</h2>
 <p>1.2.3-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Bugfix hr4you Import: Bilder wurden erst beim 2. Import mit der Stellenanzeige verknüpft.</li>
 </ul>
 <p>1.2.2:</p>
 <ul>

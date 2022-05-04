@@ -97,6 +97,7 @@ class hr4you {
 
 						try {
 							$media_info = rex_media_service::addMedia($data, false);
+							$job_picture_filename = $media_info['filename'];
 							self::log('Job picture '. $media_info['filename'] .' importet into database.');
 						} catch (rex_api_exception $e) {
 							self::log('Job picture '. $job_picture_pathInfo['basename'] .' not importet into database: '. $e->getMessage());
