@@ -129,10 +129,12 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.2.3-DEV:</p>
+<p>1.2.3:</p>
 <ul>
 	<li>.github Verzeichnis aus Installer Action ausgeschlossen.</li>
 	<li>Bugfix hr4you Import: Bilder wurden erst beim 2. Import mit der Stellenanzeige verknüpft.</li>
+	<li>Bugfix: HTML aus Meta Beschreibung entfernt.</li>
+	<li>Bugfix: HTML Attribute aus LD+JSON Code größtenteils entfernt.</li>
 </ul>
 <p>1.2.2:</p>
 <ul>

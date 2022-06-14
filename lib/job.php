@@ -172,11 +172,11 @@ class Job implements \D2U_Helper\ITranslationHelper {
 
 				$this->prolog = stripslashes($result->getValue("prolog"));
 				$this->tasks_heading = stripslashes($result->getValue("tasks_heading"));
-				$this->tasks_text = stripslashes(htmlspecialchars_decode($result->getValue("tasks_text")));
+				$this->tasks_text = stripslashes($result->getValue("tasks_text"));
 				$this->profile_heading = stripslashes($result->getValue("profile_heading"));
-				$this->profile_text = stripslashes(htmlspecialchars_decode($result->getValue("profile_text")));
+				$this->profile_text = stripslashes($result->getValue("profile_text"));
 				$this->offer_heading = stripslashes($result->getValue("offer_heading"));
-				$this->offer_text = stripslashes(htmlspecialchars_decode($result->getValue("offer_text")));
+				$this->offer_text = stripslashes($result->getValue("offer_text"));
 				$this->translation_needs_update = $result->getValue("translation_needs_update");
 				$this->type = $result->getValue("type");
 
@@ -426,7 +426,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				.'"@context" : "https://schema.org/",'. PHP_EOL
 				.'"@type" : "JobPosting",'. PHP_EOL
 				.'"title" : "'. str_replace('"', "", $this->name) .'",'. PHP_EOL
-				.'"description" : "'. str_replace('"', "", $this->tasks_text) .'",'. PHP_EOL
+				.'"description" : "'. str_replace('"', "'", strip_tags($this->tasks_text, '<p><a><b><strong>')) .'",'. PHP_EOL
 				.'"datePosted" : "'. $this->date .'",'. PHP_EOL
 //				.'"validThrough" : "'. date( "Y-m-d", strtotime( $this->date. " +2 month" ) ) .'T00:00",'. PHP_EOL
 				.'"employmentType" : "'. ($this->type ?? 'FULL_TIME') .'",'. PHP_EOL
@@ -613,11 +613,11 @@ class Job implements \D2U_Helper\ITranslationHelper {
 						."name = '". addslashes($this->name) ."', "
 						."prolog = '". addslashes($this->prolog) ."', "
 						."tasks_heading = '". addslashes($this->tasks_heading) ."', "
-						."tasks_text = '". addslashes(htmlspecialchars($this->tasks_text)) ."', "
+						."tasks_text = '". addslashes($this->tasks_text) ."', "
 						."profile_heading = '". addslashes($this->profile_heading) ."', "
-						."profile_text = '". addslashes(htmlspecialchars($this->profile_text)) ."', "
+						."profile_text = '". addslashes($this->profile_text) ."', "
 						."offer_heading = '". addslashes($this->offer_heading) ."', "
-						."offer_text = '". addslashes(htmlspecialchars($this->offer_text)) ."', "
+						."offer_text = '". addslashes($this->offer_text) ."', "
 						."translation_needs_update = '". $this->translation_needs_update ."', "
 						."updatedate = CURRENT_TIMESTAMP ";
 				if(\rex::getUser()) {

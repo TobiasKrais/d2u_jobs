@@ -1,51 +1,50 @@
 <?php
-$sql = rex_sql::factory();
 // Install database
-$sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_jobs` (
-	`job_id` int(10) unsigned NOT NULL auto_increment,
-	`reference_number` varchar(20) collate utf8mb4_unicode_ci default NULL,
-	`category_ids` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`internal_name` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`date` varchar(10) collate utf8mb4_unicode_ci default NULL,
-	`city` varchar(50) collate utf8mb4_unicode_ci default NULL,
-	`zip_code` varchar(10) collate utf8mb4_unicode_ci default NULL,
-	`country_code` varchar(2) collate utf8mb4_unicode_ci default NULL,
-	`picture` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`online_status` varchar(10) collate utf8mb4_unicode_ci default 'online',
-	`type` varchar(20) collate utf8mb4_unicode_ci default NULL,
-	`contact_id` int(10) default NULL,
-	PRIMARY KEY (`job_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
-$sql->setQuery("CREATE TABLE IF NOT EXISTS `". rex::getTablePrefix() ."d2u_jobs_jobs_lang` (
-	`job_id` int(10) NOT NULL,
-	`clang_id` int(10) NOT NULL,
-	`name` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`prolog` text collate utf8mb4_unicode_ci default NULL,
-	`tasks_heading` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`tasks_text` text collate utf8mb4_unicode_ci default NULL,
-	`profile_heading` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`profile_text` text collate utf8mb4_unicode_ci default NULL,
-	`offer_heading` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	`offer_text` text collate utf8mb4_unicode_ci default NULL,
-	`translation_needs_update` varchar(7) collate utf8mb4_unicode_ci default NULL,
-	`updatedate` DATETIME default NULL,
-	`updateuser` varchar(255) collate utf8mb4_unicode_ci default NULL,
-	PRIMARY KEY (`job_id`, `clang_id`)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
+\rex_sql_table::get(\rex::getTable('d2u_jobs_jobs'))
+	->ensureColumn(new rex_sql_column('job_id', 'INT(11) unsigned', false, null, 'auto_increment'))
+	->setPrimaryKey('job_id')
+    ->ensureColumn(new \rex_sql_column('reference_number', 'VARCHAR(20)', true))
+    ->ensureColumn(new \rex_sql_column('category_ids', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('internal_name', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('date', 'VARCHAR(10)', true))
+    ->ensureColumn(new \rex_sql_column('city', 'VARCHAR(50)', true))
+    ->ensureColumn(new \rex_sql_column('zip_code', 'VARCHAR(10)', true))
+    ->ensureColumn(new \rex_sql_column('country_code', 'VARCHAR(2)', true))
+    ->ensureColumn(new \rex_sql_column('picture', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('online_status', 'VARCHAR(10)', true))
+    ->ensureColumn(new \rex_sql_column('type', 'VARCHAR(20)', true))
+    ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, 0))
+    ->ensure();
+\rex_sql_table::get(\rex::getTable('d2u_jobs_jobs_lang'))
+	->ensureColumn(new rex_sql_column('job_id', 'INT(11) unsigned', false, null, 'auto_increment'))
+    ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', false, 1))
+	->setPrimaryKey(['job_id', 'clang_id'])
+    ->ensureColumn(new \rex_sql_column('name', 'VARCHAR(191)'))
+    ->ensureColumn(new \rex_sql_column('prolog', 'TEXT', true, null))
+    ->ensureColumn(new \rex_sql_column('tasks_heading', 'VARCHAR(191)', true, null))
+    ->ensureColumn(new \rex_sql_column('tasks_text', 'TEXT', true, null))
+    ->ensureColumn(new \rex_sql_column('profile_heading', 'VARCHAR(191)', true, null))
+    ->ensureColumn(new \rex_sql_column('profile_text', 'TEXT', true, null))
+    ->ensureColumn(new \rex_sql_column('offer_heading', 'VARCHAR(191)', true, null))
+    ->ensureColumn(new \rex_sql_column('offer_text', 'TEXT', true, null))
+    ->ensureColumn(new \rex_sql_column('translation_needs_update', 'VARCHAR(7)', true, 'no'))
+    ->ensureColumn(new \rex_sql_column('updatedate', 'DATETIME'))
+    ->ensureColumn(new \rex_sql_column('updateuser', 'VARCHAR(191)'))
+    ->ensure();
 
-$sql->setQuery("CREATE TABLE IF NOT EXISTS ". rex::getTablePrefix() ."d2u_jobs_categories (
-	category_id int(10) unsigned NOT NULL auto_increment,
-	priority int(10) default NULL,
-	picture varchar(255) collate utf8mb4_unicode_ci default NULL,
-	PRIMARY KEY (category_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
-$sql->setQuery("CREATE TABLE IF NOT EXISTS ". rex::getTablePrefix() ."d2u_jobs_categories_lang (
-	category_id int(10) NOT NULL,
-	clang_id int(10) NOT NULL,
-	name varchar(255) collate utf8mb4_unicode_ci default NULL,
-	translation_needs_update varchar(7) collate utf8mb4_unicode_ci default NULL,
-	PRIMARY KEY (category_id, clang_id)
-) ENGINE=INNODB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci AUTO_INCREMENT=1;");
+\rex_sql_table::get(\rex::getTable('d2u_jobs_categories'))
+	->ensureColumn(new rex_sql_column('category_id', 'INT(11) unsigned', false, null, 'auto_increment'))
+	->setPrimaryKey('category_id')
+    ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, 0))
+    ->ensureColumn(new \rex_sql_column('picture', 'VARCHAR(255)', true))
+    ->ensure();
+\rex_sql_table::get(\rex::getTable('d2u_jobs_categories_lang'))
+	->ensureColumn(new rex_sql_column('category_id', 'INT(11) unsigned', false, null, 'auto_increment'))
+    ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', false, 1))
+	->setPrimaryKey(['category_id', 'clang_id'])
+    ->ensureColumn(new \rex_sql_column('name', 'VARCHAR(255)'))
+    ->ensureColumn(new \rex_sql_column('translation_needs_update', 'VARCHAR(7)'))
+    ->ensure();
 
 \rex_sql_table::get(\rex::getTable('d2u_jobs_contacts'))
 	->ensureColumn(new rex_sql_column('contact_id', 'int(10) unsigned', false, null, 'auto_increment'))
@@ -56,9 +55,30 @@ $sql->setQuery("CREATE TABLE IF NOT EXISTS ". rex::getTablePrefix() ."d2u_jobs_c
     ->ensureColumn(new \rex_sql_column('email', 'VARCHAR(50)', true))
     ->ensure();
 
+$sql = rex_sql::factory();
+
+// Update database 1.2.1: 
+$sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+	. 'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs ON lang.job_id = jobs.job_id');
+for($i = 0; $i < $sql->getRows(); $i++) {
+	$sql_update = rex_sql::factory();
+	// set internal name
+	if($sql->getValue('internal_name') == '') {
+		$sql_update->setQuery('UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs SET internal_name = "'. $sql->getValue('name') .'" WHERE job_id = '. $sql->getValue('job_id'));
+	}
+	// decode HTML entities
+	if(rex_version::compare($this->getVersion(), '1.2.3', '<')) {
+		$sql_update->setQuery('UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang SET tasks_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode($sql->getValue('tasks_text'))))) .'", '
+			. 'profile_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode($sql->getValue('profile_text'))))) .'", '
+			. 'offer_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode($sql->getValue('offer_text'))))) .'" '
+			. 'WHERE job_id = '. $sql->getValue('job_id') .' AND clang_id = '. $sql->getValue('clang_id'));
+	}
+	$sql->next();
+}
+
 // Create views for url addon
 $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_jobs AS
-	SELECT lang.job_id, lang.clang_id, lang.name, lang.name AS seo_title, lang.tasks_text AS seo_description, jobs.picture, SUBSTRING(SUBSTRING_INDEX(category_ids, "|", 2), 2) AS category_id, lang.updatedate
+	SELECT lang.job_id, lang.clang_id, lang.name, lang.name AS seo_title, TRIM(ExtractValue(lang.tasks_text, "//text()")) AS seo_description, jobs.picture, SUBSTRING(SUBSTRING_INDEX(category_ids, "|", 2), 2) AS category_id, lang.updatedate
 	FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang
 	LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs ON lang.job_id = jobs.job_id
 	LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_categories_lang AS categories ON category_id = categories.category_id AND lang.clang_id = categories.clang_id
@@ -139,4 +159,18 @@ if (!$this->hasConfig('article_id')) {
 // Insert frontend translations
 if(class_exists('d2u_jobs_lang_helper')) {
 	d2u_jobs_lang_helper::factory()->install();
+}
+
+// Update modules
+if(class_exists('D2UModuleManager')) {
+	$modules = [];
+	$modules[] = new D2UModule("23-1",
+		"D2U Stellenmarkt - Stellenanzeigen",
+		11);
+	$modules[] = new D2UModule("23-2",
+		"D2U Stellenmarkt - Kategorien",
+		2);
+
+	$d2u_module_manager = new D2UModuleManager($modules, "", "d2u_jobs");
+	$d2u_module_manager->autoupdate();
 }
