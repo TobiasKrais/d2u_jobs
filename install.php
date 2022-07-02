@@ -5,6 +5,7 @@
 	->setPrimaryKey('job_id')
     ->ensureColumn(new \rex_sql_column('reference_number', 'VARCHAR(20)', true))
     ->ensureColumn(new \rex_sql_column('category_ids', 'VARCHAR(191)', true))
+    ->ensureColumn(new \rex_sql_column('contact_id', 'INT(11)', false))
     ->ensureColumn(new \rex_sql_column('internal_name', 'VARCHAR(191)', true))
     ->ensureColumn(new \rex_sql_column('date', 'VARCHAR(10)', true))
     ->ensureColumn(new \rex_sql_column('city', 'VARCHAR(50)', true))

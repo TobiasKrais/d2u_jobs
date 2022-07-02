@@ -129,6 +129,10 @@ else if($old_tables_available) {
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.2.4-DEV:</p>
+<ul>
+	<li>Bugfix Kontakt ID wurde in aktueller install.php nicht hinzugefügt.</li>
+</ul>
 <p>1.2.3:</p>
 <ul>
 	<li>.github Verzeichnis aus Installer Action ausgeschlossen.</li>
