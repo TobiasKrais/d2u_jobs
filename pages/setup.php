@@ -132,6 +132,7 @@ else if($old_tables_available) {
 <p>1.2.4-DEV:</p>
 <ul>
 	<li>Bugfix Kontakt ID wurde in aktueller install.php nicht hinzugefügt.</li>
+	<li>Verbesserte Fehlermeldung, wenn vergessen wurde Sprachbezogene Daten einzugeben.</li>
 </ul>
 <p>1.2.3:</p>
 <ul>
