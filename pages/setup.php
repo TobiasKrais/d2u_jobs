@@ -133,6 +133,7 @@ else if($old_tables_available) {
 <ul>
 	<li>Bugfix Kontakt ID wurde in aktueller install.php nicht hinzugefügt.</li>
 	<li>Verbesserte Fehlermeldung, wenn vergessen wurde Sprachbezogene Daten einzugeben.</li>
+	<li>hr4you_import Plugin: Wandelt HTML-Entities beim Import in ihre entsprechenden Zeichen um.</li>
 </ul>
 <p>1.2.3:</p>
 <ul>

@@ -164,17 +164,17 @@ class hr4you {
 			$job->hr4you_url_application_form = $xml_job->url_application_form->__toString();
 			$job->internal_name = $xml_job->titel->__toString();
 			$job->name = $xml_job->titel->__toString();
-			$job->offer_heading = self::getHeadline($xml_job->block3_html) != '' ? self::getHeadline($xml_job->block3_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_offer_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
-			$job->offer_text = self::trimString(self::stripHeadline($xml_job->block3_html));
+			$job->offer_heading = html_entity_decode(self::getHeadline($xml_job->block3_html) != '' ? self::getHeadline($xml_job->block3_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_offer_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
+			$job->offer_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block3_html)));
 			$job->online_status = "online";
 			if($job_picture_filename != "") {
 				$job->picture = $job_picture_filename;
 			}
-			$job->profile_heading = self::getHeadline($xml_job->block2_html) != '' ? self::getHeadline($xml_job->block2_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_profile_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
-			$job->profile_text = self::trimString(self::stripHeadline($xml_job->block2_html));
+			$job->profile_heading = html_entity_decode(self::getHeadline($xml_job->block2_html) != '' ? self::getHeadline($xml_job->block2_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_profile_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
+			$job->profile_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block2_html)));
 			$job->reference_number = $xml_job->referenznummer->__toString();
-			$job->tasks_heading = self::getHeadline($xml_job->block1_html) != '' ? self::getHeadline($xml_job->block1_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_tasks_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
-			$job->tasks_text = self::trimString(self::stripHeadline($xml_job->block1_html));
+			$job->tasks_heading = html_entity_decode(self::getHeadline($xml_job->block1_html) != '' ? self::getHeadline($xml_job->block1_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_tasks_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
+			$job->tasks_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block1_html)));
 			if((int) $xml_job->stellenart_id->__toString() == 3) {
 				$job->type = "VOLUNTEER";
 			}
