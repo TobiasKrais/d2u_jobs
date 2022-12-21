@@ -55,7 +55,7 @@ if (filter_input(INPUT_POST, "btn_save") == 'save') {
 				<div class="panel-body-wrapper slide">
 					<?php
 						d2u_addon_backend_helper::form_input('d2u_jobs_settings_email', 'settings[email]', $this->getConfig('email'), TRUE, FALSE, 'email');
-						d2u_addon_backend_helper::form_linkfield('d2u_helper_article_id', '1', $this->getConfig('article_id'), rex_config::get("d2u_helper", "default_lang"));
+						d2u_addon_backend_helper::form_linkfield('d2u_helper_article_id', '1', $this->getConfig('article_id'), intval(rex_config::get("d2u_helper", "default_lang")));
 					?>
 				</div>
 			</fieldset>

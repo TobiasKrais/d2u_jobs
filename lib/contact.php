@@ -114,7 +114,7 @@ class Contact {
 	 * @return Job[] Jobs
 	 */
 	public function getJobs() {
-		$clang_id = \rex_config::get("d2u_helper", "default_lang");
+		$clang_id = \intval(rex_config::get("d2u_helper", "default_lang"));
 		$query = "SELECT jobs.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 			."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 				."ON jobs.job_id = lang.job_id AND lang.clang_id = ". $clang_id ." "

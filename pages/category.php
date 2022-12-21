@@ -68,7 +68,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 		$form = (array) rex_post('form', 'array', []);
 		$category_id = $form['category_id'];
 	}
-	$category = new D2U_Jobs\Category($category_id, rex_config::get("d2u_helper", "default_lang"));
+	$category = new D2U_Jobs\Category($category_id, intval(rex_config::get("d2u_helper", "default_lang")));
 	$category->category_id = $category_id; // Ensure correct ID in case language has no object
 
 	// Check if object is used
@@ -92,7 +92,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 // Change online status of category
 else if($func == 'changestatus') {
 	$category_id = $entry_id;
-	$category = new D2U_Jobs\Category($category_id, rex_config::get("d2u_helper", "default_lang"));
+	$category = new D2U_Jobs\Category($category_id, intval(rex_config::get("d2u_helper", "default_lang")));
 	$category->category_id = $category_id; // Ensure correct ID in case language has no object
 	$category->changeStatus();
 	
@@ -113,7 +113,7 @@ if ($func == 'edit' || $func == 'add') {
 					<div class="panel-body-wrapper slide">
 						<?php
 							// Do not use last object from translations, because you don't know if it exists in DB
-							$category = new D2U_Jobs\Category($entry_id, rex_config::get("d2u_helper", "default_lang"));
+							$category = new D2U_Jobs\Category($entry_id, intval(rex_config::get("d2u_helper", "default_lang")));
 							$readonly = TRUE;
 							if(rex::getUser()->isAdmin() || rex::getUser()->hasPerm('d2u_jobs[edit_data]')) {
 								$readonly = FALSE;
@@ -130,7 +130,7 @@ if ($func == 'edit' || $func == 'add') {
 				<?php
 					foreach(rex_clang::getAll() as $rex_clang) {
 						$category = new D2U_Jobs\Category($entry_id, $rex_clang->getId());
-						$required = $rex_clang->getId() == rex_config::get("d2u_helper", "default_lang") ? TRUE : FALSE;
+						$required = $rex_clang->getId() === intval(rex_config::get("d2u_helper", "default_lang")) ? TRUE : FALSE;
 						
 						$readonly_lang = TRUE;
 						if(rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('d2u_jobs[edit_lang]') && rex::getUser()->getComplexPerm('clang')->hasPerm($rex_clang->getId()))) {
@@ -141,7 +141,7 @@ if ($func == 'edit' || $func == 'add') {
 						<legend><?php echo rex_i18n::msg('d2u_helper_text_lang') .' "'. $rex_clang->getName() .'"'; ?></legend>
 						<div class="panel-body-wrapper slide">
 							<?php
-								if($rex_clang->getId() != rex_config::get("d2u_helper", "default_lang")) {
+								if($rex_clang->getId() !== intval(rex_config::get("d2u_helper", "default_lang"))) {
 									$options_translations = [];
 									$options_translations["yes"] = rex_i18n::msg('d2u_helper_translation_needs_update');
 									$options_translations["no"] = rex_i18n::msg('d2u_helper_translation_is_uptodate');
@@ -200,7 +200,7 @@ if ($func == '') {
 	$query = 'SELECT category.category_id, name, priority '
 		. 'FROM '. rex::getTablePrefix() .'d2u_jobs_categories AS category '
 		. 'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_categories_lang AS lang '
-			. 'ON category.category_id = lang.category_id AND lang.clang_id = '. rex_config::get("d2u_helper", "default_lang") .' '
+			. 'ON category.category_id = lang.category_id AND lang.clang_id = '. intval(rex_config::get("d2u_helper", "default_lang")) .' '
 		.'ORDER BY priority ASC';
     $list = rex_list::factory($query, 1000);
 
