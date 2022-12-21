@@ -238,7 +238,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			."WHERE job_id = ". $this->job_id;
 		$result_main = \rex_sql::factory();
 		$result_main->setQuery($query_main);
-		if($result_main->getRows() == 0) {
+		if(intval($result_main->getRows()) === 0) {
 			$query = "DELETE FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs "
 				."WHERE job_id = ". $this->job_id;
 			$result = \rex_sql::factory();

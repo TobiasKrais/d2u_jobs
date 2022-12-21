@@ -89,7 +89,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 			."WHERE category_id = ". $this->category_id;
 		$result_main = \rex_sql::factory();
 		$result_main->setQuery($query_main);
-		if($result_main->getRows() == 0) {
+		if(intval($result_main->getRows()) === 0) {
 			$query = "DELETE FROM ". \rex::getTablePrefix() ."d2u_jobs_categories "
 				."WHERE category_id = ". $this->category_id;
 			$result = \rex_sql::factory();
