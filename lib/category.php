@@ -74,10 +74,10 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	
 	/**
 	 * Deletes the object in all languages.
-	 * @param int $delete_all If TRUE, all translations and main object are deleted. If 
-	 * FALSE, only this translation will be deleted.
+	 * @param bool $delete_all If true, all translations and main object are deleted. If 
+	 * false, only this translation will be deleted.
 	 */
-	public function delete($delete_all = TRUE) {
+	public function delete($delete_all = true):void {
 		$query_lang = "DELETE FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang "
 			."WHERE category_id = ". $this->category_id
 			. ($delete_all ? '' : ' AND clang_id = '. $this->clang_id) ;
@@ -96,7 +96,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 			$result->setQuery($query);
 
 			// reset priorities
-			$this->setPriority(TRUE);			
+			$this->setPriority(true);			
 		}
 
 		\d2u_addon_backend_helper::generateUrlCache('job_category_id');
@@ -109,7 +109,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	 * @param boolean $ignoreOfflines Ignore offline categories
 	 * @return Category[] Array with Category objects.
 	 */
-	public static function getAll($clang_id, $ignoreOfflines = TRUE) {
+	public static function getAll($clang_id, $ignoreOfflines = true) {
 		$query = "SELECT lang.category_id FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
 			."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_categories AS categories "
 				."ON lang.category_id = categories.category_id "
@@ -146,7 +146,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	 * @param boolean $ignoreOfflines Ignore offline categories
 	 * @return Category[] Array with Category objects.
 	 */
-	public static function getAllIgnoreLanguage($preferred_clang_id, $ignoreOfflines = TRUE) {
+	public static function getAllIgnoreLanguage($preferred_clang_id, $ignoreOfflines = true) {
 		$query = "SELECT lang.category_id FROM ". \rex::getTablePrefix() ."d2u_jobs_categories_lang AS lang "
 			."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_categories AS categories "
 				."ON lang.category_id = categories.category_id "
@@ -179,7 +179,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	/**
 	 * Get object by HR4You ID
 	 * @param int $hr4you_id HR4You ID
-	 * @return Category Category object, if available, otherwise FALSE
+	 * @return Category Category object, if available, otherwise false
 	 */
 	public static function getByHR4YouID($hr4you_id) {
 		if(\rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
@@ -192,7 +192,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 				return new Category($result->getValue("category_id"), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			}
 		}
-		return FALSE;
+		return false;
 	}
 		
 	/**
@@ -200,7 +200,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	 * @param boolean $only_online Show only online jobs
 	 * @return Job[] Jobs in this category
 	 */
-	public function getJobs($only_online = FALSE) {
+	public function getJobs($only_online = false) {
 		$query = "SELECT lang.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 			."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."ON lang.job_id = jobs.job_id "
@@ -230,7 +230,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		$query = 'SELECT category_id FROM '. \rex::getTablePrefix() .'d2u_jobs_categories_lang '
 				."WHERE clang_id = ". $clang_id ." AND translation_needs_update = 'yes' "
 				.'ORDER BY name';
-		if($type == 'missing') {
+		if($type === 'missing') {
 			$query = 'SELECT main.category_id FROM '. \rex::getTablePrefix() .'d2u_jobs_categories AS main '
 					.'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_categories_lang AS target_lang '
 						.'ON main.category_id = target_lang.category_id AND target_lang.clang_id = '. $clang_id .' '
@@ -254,10 +254,10 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	
 	/*
 	 * Returns the URL of this object.
-	 * @param string $including_domain TRUE if Domain name should be included
+	 * @param string $including_domain true if Domain name should be included
 	 * @return string URL
 	 */
-	public function getURL($including_domain = FALSE) {
+	public function getURL($including_domain = false) {
 		if($this->url == "") {
 				
 			$parameterArray = [];
@@ -281,7 +281,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	
 	/**
 	 * Updates or inserts the object into database.
-	 * @return boolean TRUE if successful
+	 * @return boolean true if successful
 	 */
 	public function save() {
 		$error = 0;
@@ -290,11 +290,11 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		$pre_save_object = new Category($this->category_id, $this->clang_id);
 	
 		// save priority, but only if new or changed
-		if($this->priority != $pre_save_object->priority || $this->category_id == 0) {
+		if($this->priority != $pre_save_object->priority || $this->category_id === 0) {
 			$this->setPriority();
 		}
 
-		if($this->category_id == 0 || $pre_save_object != $this) {
+		if($this->category_id === 0 || $pre_save_object != $this) {
 			$query = \rex::getTablePrefix() ."d2u_jobs_categories SET "
 					."priority = ". $this->priority .", "
 					."picture = '". $this->picture ."' ";
@@ -302,7 +302,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 				$query .= ", hr4you_category_id = ". ($this->hr4you_category_id ?: 0) ." ";
 			}
 
-			if($this->category_id == 0) {
+			if($this->category_id === 0) {
 				$query = "INSERT INTO ". $query;
 			}
 			else {
@@ -310,8 +310,8 @@ class Category implements \D2U_Helper\ITranslationHelper {
 			}
 			$result = \rex_sql::factory();
 			$result->setQuery($query);
-			if($this->category_id == 0) {
-				$this->category_id = $result->getLastId();
+			if($this->category_id === 0) {
+				$this->category_id = intval($result->getLastId());
 				$error = $result->hasError();
 			}
 		}
@@ -350,7 +350,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 	 * Reassigns priorities in database.
 	 * @param boolean $delete Reorder priority after deletion
 	 */
-	private function setPriority($delete = FALSE) {
+	private function setPriority($delete = false):void {
 		// Pull prios from database
 		$query = "SELECT category_id, priority FROM ". \rex::getTablePrefix() ."d2u_jobs_categories "
 			."WHERE category_id <> ". $this->category_id ." ORDER BY priority";
@@ -364,7 +364,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		
 		// When prio is too high or was deleted, simply add at end 
 		if($this->priority > $result->getRows() || $delete) {
-			$this->priority = $result->getRows() + 1;
+			$this->priority = intval($result->getRows()) + 1;
 		}
 
 		$categories = [];
@@ -377,7 +377,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		// Save all prios
 		foreach($categories as $prio => $category_id) {
 			$query = "UPDATE ". \rex::getTablePrefix() ."d2u_jobs_categories "
-					."SET priority = ". ($prio + 1) ." " // +1 because array_splice recounts at zero
+					."SET priority = ". (intval($prio) + 1) ." " // +1 because array_splice recounts at zero
 					."WHERE category_id = ". $category_id;
 			$result = \rex_sql::factory();
 			$result->setQuery($query);

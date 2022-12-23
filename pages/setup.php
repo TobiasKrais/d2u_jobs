@@ -18,7 +18,7 @@ $d2u_module_manager->showManagerList();
 // Import from Redaxo 4 D2U Stellenmarkt
 $sql = rex_sql::factory();
 $sql->setQuery("SHOW TABLES LIKE '". rex::getTablePrefix() ."d2u_stellenmarkt_stellen'");
-$old_tables_available = $sql->getRows() > 0 ? TRUE : FALSE;
+$old_tables_available = $sql->getRows() > 0 ? true : false;
 if(rex_request('import', 'string') == "d2u_stellenmarkt" && $old_tables_available) {
 	$sql->setQuery("DROP TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs`;		
 			DROP TABLE `". rex::getTablePrefix() ."d2u_jobs_jobs_lang`;		
@@ -114,7 +114,7 @@ else if($old_tables_available) {
 	print "<h2>Import aus Redaxo 4 D2U Stellenmarkt Addon</h2>";
 	print "<p>Es wurden die D2U Stellenmarkt Addon Tabellen aus Redaxo 4 in der Datenbank gefunden."
 	. "Sollen die Daten importiert werden und die alten Tabellen gelöscht werden? ACHTUNG: dabei werden alle vorhandenen Daten gelöscht!</p>";
-	print '<a href="'. rex_url::currentBackendPage(["import" => "d2u_stellenmarkt"], FALSE) .'"><button class="btn btn-save">Import und vorhandene Daten löschen</button></a>';
+	print '<a href="'. rex_url::currentBackendPage(["import" => "d2u_stellenmarkt"], false) .'"><button class="btn btn-save">Import und vorhandene Daten löschen</button></a>';
 	print "</fieldset>";
 }
 

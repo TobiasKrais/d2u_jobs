@@ -14,7 +14,7 @@ $url_namespace = d2u_addon_frontend_helper::getUrlNamespace();
 $url_id = d2u_addon_frontend_helper::getUrlId();
 
 $category_id = "REX_VALUE[1]";
-$category = FALSE;
+$category = false;
 if($category_id > 0) {
 	$category = new D2U_Jobs\Category($category_id, rex_clang::getCurrentId());
 }
@@ -28,16 +28,16 @@ else {
 	}
 }
 
-$hide_application_hint = "REX_VALUE[2]" == 'true' ? TRUE : FALSE;
-$show_json_ld = "REX_VALUE[3]" == 'true' ? TRUE : FALSE;
-$show_application_form = "REX_VALUE[4]" == 'true' ? TRUE : FALSE;
+$hide_application_hint = "REX_VALUE[2]" == 'true' ? true : false;
+$show_json_ld = "REX_VALUE[3]" == 'true' ? true : false;
+$show_application_form = "REX_VALUE[4]" == 'true' ? true : false;
 
 if(rex::isBackend()) {
 	// Ausgabe im BACKEND	
 ?>
 	<h1 style="font-size: 1.5em;">Stellenmarkt Ausgabe</h1>
 <?php
-	if($category === FALSE) {
+	if($category === false) {
 		print "<p>Anzuzeigende Kategorien: Alle</p>";
 	}
 	else {
@@ -138,7 +138,7 @@ else {
 			$yform->setObjectparams("form_action", $job_application_link);
 			$yform->setObjectparams("form_anchor", "application-form");
 			$yform->setObjectparams("Error-occured", \Sprog\Wildcard::get('d2u_helper_module_form_validate_title', $job->clang_id));
-			$yform->setObjectparams('real_field_names', TRUE);
+			$yform->setObjectparams('real_field_names', true);
 
 			// action - showtext
 			$yform->setActionField("showtext", [\Sprog\Wildcard::get('d2u_jobs_module_form_thanks', $job->clang_id),
@@ -174,7 +174,7 @@ else {
 				print '<p class="appendix"><a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'</a>'
 					.'</p>';
 			}
-			else if($hide_application_hint === FALSE) {
+			else if($hide_application_hint === false) {
 				print '<br><br>';
 				print '<p class="appendix">'. $tag_open .'d2u_jobs_footer'. $tag_close
 					.'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
@@ -212,13 +212,13 @@ else {
 	}
 	else {
 		// Output Job list
-		$jobs = D2U_Jobs\Job::getAll(rex_clang::getCurrentId(), $category_id, TRUE);
+		$jobs = D2U_Jobs\Job::getAll(rex_clang::getCurrentId(), $category_id, true);
 		print '<div class="col-12">';
 		print '<div class="row" data-match-height>';
 		if(count($jobs) > 0) {
 			print '<div class="col-12">';
 			print '<h1>'. $tag_open .'d2u_jobs_vacancies'. $tag_close .' ';
-			if($category !== FALSE) {
+			if($category !== false) {
 				print $category->name;
 			}
 			print '</h1>';

@@ -19,20 +19,20 @@ class hr4you {
 
 	/**
 	 * Perform HR4You XML import
-	 * @return boolean TRUE if successfull
+	 * @return boolean true if successfull
 	 */
 	public static function import() {
-		$hr4you_xml_url = \rex_config::get('d2u_jobs', 'hr4you_xml_url', FALSE);
-		if($hr4you_xml_url === FALSE) {
+		$hr4you_xml_url = \rex_config::get('d2u_jobs', 'hr4you_xml_url', false);
+		if($hr4you_xml_url === false) {
 			print \rex_view::error(\rex_i18n::msg('d2u_jobs_hr4you_settings_failure_xml_url'));
-			return FALSE;
+			return false;
 		}
 		
 		$xml_stream = stream_context_create(['http' => ['header' => 'Accept: application/xml']]);
-		$xml_contents = file_get_contents($hr4you_xml_url, FALSE, $xml_stream);
-		if($xml_contents === FALSE) {
+		$xml_contents = file_get_contents($hr4you_xml_url, false, $xml_stream);
+		if($xml_contents === false) {
 			print \rex_view::error(\rex_i18n::msg('d2u_jobs_hr4you_import_failure_xml_url'));
-			return FALSE;
+			return false;
 		}
 		$xml_jobs = new SimpleXMLElement($xml_contents);
 
@@ -47,7 +47,7 @@ class hr4you {
 				$old_pictures[$old_job->picture] = $old_job->picture;
 			}
 			// D2U_Jobs\Contacts
-			if($old_job->contact !== FALSE && !array_key_exists($old_job->contact->contact_id, $old_contacts)) {
+			if($old_job->contact !== false && !array_key_exists($old_job->contact->contact_id, $old_contacts)) {
 				$old_contacts[$old_job->contact->contact_id] = $old_job->contact;
 				if(!in_array($old_job->contact->picture, $old_pictures)) {
 					$old_pictures[$old_job->contact->picture] = $old_job->contact->picture;
@@ -109,7 +109,7 @@ class hr4you {
 
 			// Import contact
 			$contact = \D2U_Jobs\Contact::getByMail($xml_job->ap_email);
-			if($contact === FALSE) {
+			if($contact === false) {
 				$contact = \D2U_Jobs\Contact::factory();
 				self::log('Contact '. $contact->name .' added.');
 			}
@@ -133,14 +133,14 @@ class hr4you {
 			
 			// Category
 			$category = \D2U_Jobs\Category::getByHR4YouID($xml_job->berufskategorie_id->__toString());
-			if($category === FALSE) {
+			if($category === false) {
 				self::log('Category with HR4You ID '. $xml_job->berufskategorie_id->__toString() .' does not exist. Falback to default category.');
 				$category = new \D2U_Jobs\Category(\rex_config::get('d2u_jobs', 'hr4you_default_category'), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			}
 
 			// Import job
 			$job = \D2U_Jobs\Job::getByHR4YouID($xml_job->jobid->__toString());
-			if($job == FALSE) {
+			if($job == false) {
 				$job = \D2U_Jobs\Job::factory();
 				$job->clang_id = \rex_config::get('d2u_jobs', 'hr4you_default_lang');
 				$job->hr4you_job_id = $xml_job->jobid->__toString();
@@ -204,7 +204,7 @@ class hr4you {
 
 		// Delete unused old jobs
 		foreach ($old_jobs as $old_job) {
-			$old_job->delete(TRUE);
+			$old_job->delete(true);
 			self::log('Job '. $old_job->name .' deleted.');
 		}
 		
@@ -224,7 +224,7 @@ class hr4you {
 			}
 		}
 
-		return TRUE;
+		return true;
 	}
 
 	/**
@@ -301,7 +301,7 @@ class hr4you {
 
 		// Write to log
 		if(!is_dir(rex_path::addonCache('d2u_jobs'))) {
-			mkdir(rex_path::addonCache('d2u_jobs'), 0755, TRUE);
+			mkdir(rex_path::addonCache('d2u_jobs'), 0755, true);
 		}
 		file_put_contents(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt'), $log);
 	}

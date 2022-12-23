@@ -63,7 +63,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	/**
 	 * @var Contact Contact person responsible for the job
 	 */
-	var $contact = FALSE;
+	var $contact = false;
 	
 	/**
 	 * @var string job offer name
@@ -192,8 +192,8 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	/**
 	 * Changes the online status of this object
 	 */
-	public function changeStatus() {
-		if($this->online_status == "online") {
+	public function changeStatus():void {
+		if($this->online_status === "online") {
 			if($this->job_id > 0) {
 				$query = "UPDATE ". \rex::getTablePrefix() ."d2u_jobs_jobs "
 					."SET online_status = 'offline' "
@@ -223,10 +223,10 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	
 	/**
 	 * Deletes the object in all languages.
-	 * @param int $delete_all If TRUE, all translations and main object are deleted. If 
-	 * FALSE, only this translation will be deleted.
+	 * @param bool $delete_all If true, all translations and main object are deleted. If 
+	 * false, only this translation will be deleted.
 	 */
-	public function delete($delete_all = TRUE) {
+	public function delete($delete_all = true):void {
 		$query_lang = "DELETE FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang "
 			."WHERE job_id = ". $this->job_id
 			. ($delete_all ? '' : ' AND clang_id = '. $this->clang_id) ;
@@ -258,10 +258,10 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 * Get all jobs
 	 * @param int $clang_id Redaxo language ID
 	 * @param int $category_id Category ID if only jobs of that category should be returned.
-	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
+	 * @param boolean $online_only If only online jobs should be returned true, otherwise false
 	 * @return Job[] Array with jobs
 	 */
-	public static function getAll($clang_id, $category_id = 0, $online_only = TRUE) {
+	public static function getAll($clang_id, $category_id = 0, $online_only = true) {
 		$query = "SELECT lang.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."ON lang.job_id = jobs.job_id "
@@ -290,10 +290,10 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 * Get all jobs
 	 * @param int $preferred_clang_id Preferred Redaxo language ID
 	 * @param int $category_id Category ID if only jobs of that category should be returned.
-	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
+	 * @param boolean $online_only If only online jobs should be returned true, otherwise false
 	 * @return Job[] Array with jobs
 	 */
-	public static function getAllIgnoreLanguage($preferred_clang_id, $category_id = 0, $online_only = TRUE) {
+	public static function getAllIgnoreLanguage($preferred_clang_id, $category_id = 0, $online_only = true) {
 		$query = "SELECT lang.job_id, clang_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."ON lang.job_id = jobs.job_id";
@@ -325,7 +325,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 
 	/**
 	 * Get all country codes that are used in jobs
-	 * @param boolean $ignore_offline If only online jobs should be returned TRUE, otherwise FALSE
+	 * @param boolean $ignore_offline If only online jobs should be returned true, otherwise false
 	 * @return Job[] Array with jobs
 	 */
 	public static function getAllCountryCodes($ignore_offline = true) {
@@ -351,10 +351,10 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 * Get all jobs for a country
 	 * @param int $clang_id Redaxo language ID
 	 * @param string $country_code 2 digit country code
-	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
+	 * @param boolean $online_only If only online jobs should be returned true, otherwise false
 	 * @return Job[] Array with jobs
 	 */
-	public static function getByCountryCode($clang_id, $country_code, $online_only = TRUE) {
+	public static function getByCountryCode($clang_id, $country_code, $online_only = true) {
 		$query = "SELECT lang.job_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."ON lang.job_id = jobs.job_id "
@@ -383,10 +383,10 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	 * Get all jobs for a country ignoring the language
 	 * @param int $preferred_clang_id Redaxo language ID
 	 * @param string $country_code 2 digit country code
-	 * @param boolean $online_only If only online jobs should be returned TRUE, otherwise FALSE
+	 * @param boolean $online_only If only online jobs should be returned true, otherwise false
 	 * @return Job[] Array with jobs
 	 */
-	public static function getByCountryCodeIgnoreLanguage($preferred_clang_id, $country_code, $online_only = TRUE) {
+	public static function getByCountryCodeIgnoreLanguage($preferred_clang_id, $country_code, $online_only = true) {
 		$query = "SELECT lang.job_id, clang_id FROM ". \rex::getTablePrefix() ."d2u_jobs_jobs_lang AS lang "
 				."LEFT JOIN ". \rex::getTablePrefix() ."d2u_jobs_jobs AS jobs "
 					."ON lang.job_id = jobs.job_id";
@@ -454,7 +454,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	/**
 	 * Get object by HR4You ID
 	 * @param int $hr4you_id HR4You ID
-	 * @return Job Job object, if available, otherwise FALSE
+	 * @return Job Job object, if available, otherwise false
 	 */
 	public static function getByHR4YouID($hr4you_id) {
 		if(\rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
@@ -467,7 +467,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				return new Job($result->getValue("job_id"), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			}
 		}
-		return FALSE;
+		return false;
 	}
 
 	/**
@@ -499,7 +499,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 		$query = 'SELECT job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang '
 				."WHERE clang_id = ". $clang_id ." AND translation_needs_update = 'yes' "
 				.'ORDER BY name';
-		if($type == 'missing') {
+		if($type === 'missing') {
 			$query = 'SELECT main.job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs AS main '
 					.'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS target_lang '
 						.'ON main.job_id = target_lang.job_id AND target_lang.clang_id = '. $clang_id .' '
@@ -519,7 +519,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			if($job->job_id == 0 && \rex_plugin::get("d2u_jobs", "hr4you_import")->isAvailable()) {
 				$job = new Job($result->getValue("job_id"), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
 			}
-			if($job->job_id == 0) {
+			if($job->job_id === 0) {
 				foreach (\rex_clang::getAllIds() as $clang_id) {
 					$temp_job = new \D2U_Jobs\Job($result->getValue("job_id"), $clang_id);
 					if($temp_job->job_id) {
@@ -537,10 +537,10 @@ class Job implements \D2U_Helper\ITranslationHelper {
 	
 	/**
 	 * Returns the URL of this object.
-	 * @param string $including_domain TRUE if Domain name should be included
+	 * @param string $including_domain true if Domain name should be included
 	 * @return string URL
 	 */
-	public function getURL($including_domain = FALSE) {
+	public function getURL($including_domain = false) {
 		if($this->url == "") {
 			$parameterArray = [];
 			$parameterArray['job_id'] = $this->job_id;
@@ -562,15 +562,15 @@ class Job implements \D2U_Helper\ITranslationHelper {
 
 	/**
 	 * Updates or inserts the object into database.
-	 * @return boolean TRUE if successful
+	 * @return boolean true if successful
 	 */
 	public function save() {
-		$error = FALSE;
+		$error = false;
 
 		// Save the not language specific part
 		$pre_save_job = new Job($this->job_id, $this->clang_id);
 
-		if($this->job_id == 0 || $pre_save_job !== $this) {
+		if($this->job_id === 0 || $pre_save_job !== $this) {
 			$query = \rex::getTablePrefix() ."d2u_jobs_jobs SET "
 					."reference_number = '". $this->reference_number ."', "
 					."category_ids = '|". implode("|", array_keys($this->categories)) ."|', "
@@ -588,7 +588,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 						."hr4you_url_application_form = '". $this->hr4you_url_application_form ."'";
 			}
 
-			if($this->job_id == 0) {
+			if($this->job_id === 0) {
 				$query = "INSERT INTO ". $query;
 			}
 			else {
@@ -596,8 +596,8 @@ class Job implements \D2U_Helper\ITranslationHelper {
 			}
 			$result = \rex_sql::factory();
 			$result->setQuery($query);
-			if($this->job_id == 0) {
-				$this->job_id = $result->getLastId();
+			if($this->job_id === 0) {
+				$this->job_id = intval($result->getLastId());
 				$error = $result->hasError();
 			}
 		}

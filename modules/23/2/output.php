@@ -1,5 +1,5 @@
 <?php
-$categories = D2U_Jobs\Category::getAll(rex_clang::getCurrentId(), TRUE);
+$categories = D2U_Jobs\Category::getAll(rex_clang::getCurrentId(), true);
 
 print '<div class="col-12">';
 print '<div class="row" data-match-height>';

@@ -74,11 +74,11 @@ function rex_d2u_jobs_clang_deleted(rex_extension_point $ep) {
 	// Delete
 	$categories = \D2U_Jobs\Category::getAll($clang_id);
 	foreach ($categories as $category) {
-		$category->delete(FALSE);
+		$category->delete(false);
 	}
-	$jobs = \D2U_Jobs\Job::getAll($clang_id, FALSE);
+	$jobs = \D2U_Jobs\Job::getAll($clang_id, false);
 	foreach ($jobs as $job) {
-		$job->delete(FALSE);
+		$job->delete(false);
 	}
 	
 	// Delete language settings

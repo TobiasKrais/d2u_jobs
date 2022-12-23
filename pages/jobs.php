@@ -16,16 +16,16 @@ if($message != "") {
 
 // save settings
 if (intval(filter_input(INPUT_POST, "btn_save")) === 1 || intval(filter_input(INPUT_POST, "btn_apply")) === 1) {
-	$form = (array) rex_post('form', 'array', []);
+	$form = rex_post('form', 'array', []);
 
 	// Media fields and links need special treatment
-	$input_media = (array) rex_post('REX_INPUT_MEDIA', 'array', array());
+	$input_media = rex_post('REX_INPUT_MEDIA', 'array', []);
 
-	$success = TRUE;
-	$job = FALSE;
+	$success = true;
+	$job = false;
 	$job_id = $form['job_id'];
 	foreach(rex_clang::getAll() as $rex_clang) {
-		if($job === FALSE) {
+		if($job === false) {
 			$job = new D2U_Jobs\Job($job_id, $rex_clang->getId());
 			$job->job_id = $job_id; // Ensure correct ID in case first language has no object
 			$job->reference_number = $form['reference_number'];
@@ -60,11 +60,11 @@ if (intval(filter_input(INPUT_POST, "btn_save")) === 1 || intval(filter_input(IN
 		$job->offer_heading = $form['lang'][$rex_clang->getId()]['offer_heading'];
 		$job->offer_text = $form['lang'][$rex_clang->getId()]['offer_text'];
 		$job->translation_needs_update = $form['lang'][$rex_clang->getId()]['translation_needs_update'];
-		if($job->translation_needs_update == "delete") {
-			$job->delete(FALSE);
+		if($job->translation_needs_update === "delete") {
+			$job->delete(false);
 		}
 		else if($job->save() > 0){
-			$success = FALSE;
+			$success = false;
 		}
 		else {
 			// remember id, for each database lang object needs same id
@@ -74,7 +74,7 @@ if (intval(filter_input(INPUT_POST, "btn_save")) === 1 || intval(filter_input(IN
 	// message output
 	$message = 'form_save_error';
 	$message_type = 'error';
-	if($success && $job->job_id == 0) {
+	if($success && $job->job_id === 0) {
 		$message = 'd2u_jobs_not_saved_no_lang';
 	}
 	else if($success) {
@@ -83,19 +83,19 @@ if (intval(filter_input(INPUT_POST, "btn_save")) === 1 || intval(filter_input(IN
 	}
 	
 	// Redirect to make reload and thus double save impossible
-	if(filter_input(INPUT_POST, "btn_apply") == 1 && $job !== FALSE) {
-		header("Location: ". rex_url::currentBackendPage(["entry_id"=>$job->job_id, "func"=>'edit', "message"=>$message, "message_type"=>$message_type], FALSE));
+	if(intval(filter_input(INPUT_POST, "btn_apply", FILTER_VALIDATE_INT)) === 1 &&$job !== false) {
+		header("Location: ". rex_url::currentBackendPage(["entry_id"=>$job->job_id, "func"=>'edit', "message"=>$message, "message_type"=>$message_type], false));
 	}
 	else {
-		header("Location: ". rex_url::currentBackendPage(["message"=>$message, "message_type"=>$message_type], FALSE));
+		header("Location: ". rex_url::currentBackendPage(["message"=>$message, "message_type"=>$message_type], false));
 	}
 	exit;
 }
 // Delete
-else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
+else if(intval(filter_input(INPUT_POST, "btn_delete", FILTER_VALIDATE_INT)) === 1 || $func === 'delete') {
 	$job_id = $entry_id;
-	if($job_id == 0) {
-		$form = (array) rex_post('form', 'array', []);
+	if($job_id === 0) {
+		$form = rex_post('form', 'array', []);
 		$job_id = $form['job_id'];
 	}
 	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()));
@@ -105,7 +105,7 @@ else if(filter_input(INPUT_POST, "btn_delete") == 1 || $func == 'delete') {
 	$func = '';
 }
 // Change online status of category
-else if($func == 'changestatus') {
+else if($func === 'changestatus') {
 	$job_id = $entry_id;
 	$job = new D2U_Jobs\Job($job_id, rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()));
 	$job->job_id = $job_id; // Ensure correct ID in case language has no object
@@ -116,13 +116,13 @@ else if($func == 'changestatus') {
 }
 
 // Form
-if ($func == 'edit' || $func == 'clone' || $func == 'add') {
+if ($func === 'edit' || $func === 'clone' || $func === 'add') {
 ?>
 	<form action="<?php print rex_url::currentBackendPage(); ?>" method="post">
 		<div class="panel panel-edit">
 			<header class="panel-heading"><div class="panel-title"><?php print rex_i18n::msg('d2u_jobs'); ?></div></header>
 			<div class="panel-body">
-				<input type="hidden" name="form[job_id]" value="<?php echo ($func == 'edit' ? $entry_id : 0); ?>">
+				<input type="hidden" name="form[job_id]" value="<?php echo ($func === 'edit' ? $entry_id : 0); ?>">
 				<fieldset>
 					<legend><?php echo rex_i18n::msg('d2u_helper_data_all_lang'); ?></legend>
 					<div class="panel-body-wrapper slide">
@@ -137,21 +137,21 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 								}
 							}
 
-							$readonly = TRUE;
+							$readonly = true;
 							if(rex::getUser()->isAdmin() || rex::getUser()->hasPerm('d2u_jobs[edit_data]')) {
-								$readonly = FALSE;
+								$readonly = false;
 							}
 							
-							d2u_addon_backend_helper::form_input('d2u_jobs_internal_name', "form[internal_name]", $job->internal_name, TRUE, $readonly);
-							d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, FALSE, $readonly, 'text');
+							d2u_addon_backend_helper::form_input('d2u_jobs_internal_name', "form[internal_name]", $job->internal_name, true, $readonly);
+							d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, false, $readonly, 'text');
 							$options_categories = [];
-							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()), FALSE) as $category) {
+							foreach(D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()), false) as $category) {
 								$options_categories[$category->category_id] = $category->name;
 							}
-							d2u_addon_backend_helper::form_select('d2u_helper_category', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, TRUE, $readonly);
-							d2u_addon_backend_helper::form_input('d2u_jobs_date', 'form[date]', $job->date, TRUE, $readonly, 'date');
-							d2u_addon_backend_helper::form_input('d2u_jobs_zip_code', 'form[zip_code]', $job->zip_code, TRUE, $readonly);
-							d2u_addon_backend_helper::form_input('d2u_jobs_city', 'form[city]', $job->city, TRUE, $readonly);
+							d2u_addon_backend_helper::form_select('d2u_helper_category', 'form[category_ids][]', $options_categories, (count($job->categories) > 0 ? array_keys($job->categories) : []), 5, true, $readonly);
+							d2u_addon_backend_helper::form_input('d2u_jobs_date', 'form[date]', $job->date, true, $readonly, 'date');
+							d2u_addon_backend_helper::form_input('d2u_jobs_zip_code', 'form[zip_code]', $job->zip_code, true, $readonly);
+							d2u_addon_backend_helper::form_input('d2u_jobs_city', 'form[city]', $job->city, true, $readonly);
 							$options_country_code = [
 								'AT' => 'AT',
 								'CH' => 'CH',
@@ -165,8 +165,8 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 								'PL' => 'PL',
 								'US' => 'US',
 							];
-							d2u_addon_backend_helper::form_select('d2u_jobs_country_code', 'form[country_code]', $options_country_code, [$job->country_code], 1, FALSE, $readonly);
-							d2u_addon_backend_helper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', $job->online_status == "online", $readonly);
+							d2u_addon_backend_helper::form_select('d2u_jobs_country_code', 'form[country_code]', $options_country_code, [$job->country_code], 1, false, $readonly);
+							d2u_addon_backend_helper::form_checkbox('d2u_helper_online_status', 'form[online_status]', 'online', $job->online_status === "online", $readonly);
 							d2u_addon_backend_helper::form_mediafield('d2u_helper_picture', '1', $job->picture, $readonly);
 							$options_type = ['FULL_TIME' => rex_i18n::msg('d2u_jobs_type_FULL_TIME'),
 								'PART_TIME' => rex_i18n::msg('d2u_jobs_type_PART_TIME'),
@@ -174,14 +174,14 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 								'TEMPORARY' => rex_i18n::msg('d2u_jobs_type_TEMPORARY'),
 								'VOLUNTEER' => rex_i18n::msg('d2u_jobs_type_VOLUNTEER'),
 								'OTHER' => rex_i18n::msg('d2u_jobs_type_OTHER')];
-							d2u_addon_backend_helper::form_select('d2u_jobs_type', 'form[type]', $options_type, [$job->type], 1, FALSE, $readonly);
+							d2u_addon_backend_helper::form_select('d2u_jobs_type', 'form[type]', $options_type, [$job->type], 1, false, $readonly);
 							$options_contacts = [];
 							foreach(D2U_Jobs\Contact::getAll() as $contact) {
 								if($contact->name != "") {
 									$options_contacts[$contact->contact_id] = $contact->name;
 								}
 							}
-							d2u_addon_backend_helper::form_select('d2u_jobs_contact', 'form[contact_id]', $options_contacts, ($job->contact === FALSE ? [] : [$job->contact->contact_id]), 1, FALSE, $readonly);
+							d2u_addon_backend_helper::form_select('d2u_jobs_contact', 'form[contact_id]', $options_contacts, ($job->contact === false ? [] : [$job->contact->contact_id]), 1, false, $readonly);
 						?>
 					</div>
 				</fieldset>
@@ -192,9 +192,9 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 						<legend><small><i class="rex-icon fa-cloud-download"></i></small> <?php echo rex_i18n::msg('d2u_jobs_hr4you'); ?></legend>
 						<div class="panel-body-wrapper slide">
 							<?php
-								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_import_job_id', 'form[hr4you_job_id]', $job->hr4you_job_id, FALSE, TRUE, 'number');
-								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_import_lead_in', 'form[hr4you_lead_in]', $job->hr4you_lead_in, FALSE, $readonly);
-								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_url_application_form', 'form[hr4you_url_application_form]', $job->hr4you_url_application_form, FALSE, $readonly);
+								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_import_job_id', 'form[hr4you_job_id]', $job->hr4you_job_id, false, true, 'number');
+								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_import_lead_in', 'form[hr4you_lead_in]', $job->hr4you_lead_in, false, $readonly);
+								d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_url_application_form', 'form[hr4you_url_application_form]', $job->hr4you_url_application_form, false, $readonly);
 							?>
 						</div>
 					</fieldset>
@@ -202,11 +202,11 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 					}
 					foreach(rex_clang::getAll() as $rex_clang) {
 						$job = new D2U_Jobs\Job($entry_id, $rex_clang->getId());
-						$required = $rex_clang->getId() == rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()) ? TRUE : FALSE;
+						$required = $rex_clang->getId() == rex_config::get("d2u_helper", "default_lang", rex_clang::getStartId()) ? true : false;
 						
-						$readonly_lang = TRUE;
+						$readonly_lang = true;
 						if(rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('d2u_jobs[edit_lang]') && rex::getUser()->getComplexPerm('clang')->hasPerm($rex_clang->getId()))) {
-							$readonly_lang = FALSE;
+							$readonly_lang = false;
 						}
 				?>
 					<fieldset>
@@ -217,7 +217,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 								$options_translations["yes"] = rex_i18n::msg('d2u_helper_translation_needs_update');
 								$options_translations["no"] = rex_i18n::msg('d2u_helper_translation_is_uptodate');
 								$options_translations["delete"] = rex_i18n::msg('d2u_helper_translation_delete');
-								d2u_addon_backend_helper::form_select('d2u_helper_translation', 'form[lang]['. $rex_clang->getId() .'][translation_needs_update]', $options_translations, [$job->translation_needs_update], 1, FALSE, $readonly_lang);
+								d2u_addon_backend_helper::form_select('d2u_helper_translation', 'form[lang]['. $rex_clang->getId() .'][translation_needs_update]', $options_translations, [$job->translation_needs_update], 1, false, $readonly_lang);
 							?>
 							<script>
 								// Hide on document load
@@ -232,14 +232,14 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 							</script>
 							<div id="details_clang_<?php print $rex_clang->getId(); ?>">
 								<?php
-									d2u_addon_backend_helper::form_textarea('d2u_jobs_prolog', "form[lang][". $rex_clang->getId() ."][prolog]", $job->prolog, 5, FALSE, $readonly_lang, TRUE);
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_prolog', "form[lang][". $rex_clang->getId() ."][prolog]", $job->prolog, 5, false, $readonly_lang, true);
 									d2u_addon_backend_helper::form_input('d2u_helper_name', "form[lang][". $rex_clang->getId() ."][name]", $job->name, false, $readonly_lang);
 									d2u_addon_backend_helper::form_input('d2u_jobs_tasks_heading', "form[lang][". $rex_clang->getId() ."][tasks_heading]", $job->tasks_heading, false, $readonly_lang);
-									d2u_addon_backend_helper::form_textarea('d2u_jobs_tasks_text', "form[lang][". $rex_clang->getId() ."][tasks_text]", $job->tasks_text, 5, FALSE, $readonly_lang, TRUE);
-									d2u_addon_backend_helper::form_input('d2u_jobs_profile_heading', "form[lang][". $rex_clang->getId() ."][profile_heading]", $job->profile_heading, FALSE, $readonly_lang);
-									d2u_addon_backend_helper::form_textarea('d2u_jobs_profile_text', "form[lang][". $rex_clang->getId() ."][profile_text]", $job->profile_text, 5, FALSE, $readonly_lang, TRUE);
-									d2u_addon_backend_helper::form_input('d2u_jobs_offer_heading', "form[lang][". $rex_clang->getId() ."][offer_heading]", $job->offer_heading, FALSE, $readonly_lang);
-									d2u_addon_backend_helper::form_textarea('d2u_jobs_offer_text', "form[lang][". $rex_clang->getId() ."][offer_text]", $job->offer_text, 5, FALSE, $readonly_lang, TRUE);
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_tasks_text', "form[lang][". $rex_clang->getId() ."][tasks_text]", $job->tasks_text, 5, false, $readonly_lang, true);
+									d2u_addon_backend_helper::form_input('d2u_jobs_profile_heading', "form[lang][". $rex_clang->getId() ."][profile_heading]", $job->profile_heading, false, $readonly_lang);
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_profile_text', "form[lang][". $rex_clang->getId() ."][profile_text]", $job->profile_text, 5, false, $readonly_lang, true);
+									d2u_addon_backend_helper::form_input('d2u_jobs_offer_heading', "form[lang][". $rex_clang->getId() ."][offer_heading]", $job->offer_heading, false, $readonly_lang);
+									d2u_addon_backend_helper::form_textarea('d2u_jobs_offer_text', "form[lang][". $rex_clang->getId() ."][offer_text]", $job->offer_text, 5, false, $readonly_lang, true);
 								?>
 							</div>
 						</div>
@@ -282,7 +282,7 @@ if ($func == 'edit' || $func == 'clone' || $func == 'add') {
 		print d2u_addon_backend_helper::getJS();
 }
 
-if ($func == '') {
+if ($func === '') {
 	$query = 'SELECT job.job_id, internal_name, `date`, city, online_status '. (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable() ? ', hr4you_job_id ' : '')
 		. 'FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS job '
 		.'ORDER BY online_status DESC, internal_name ASC';

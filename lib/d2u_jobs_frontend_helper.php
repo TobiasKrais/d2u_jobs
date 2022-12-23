@@ -19,7 +19,7 @@ class d2u_jobs_frontend_helper {
 			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
 				$job_id = $url_id;
 			}
-			foreach(rex_clang::getAllIds(TRUE) as $this_lang_key) {
+			foreach(rex_clang::getAllIds(true) as $this_lang_key) {
 				$lang_job = new D2U_Jobs\Job($job_id, $this_lang_key);
 				if($lang_job->translation_needs_update != "delete") {
 					$alternate_URLs[$this_lang_key] = $lang_job->getURL();
@@ -31,7 +31,7 @@ class d2u_jobs_frontend_helper {
 			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {
 				$category_id = $url_id;
 			}
-			foreach(rex_clang::getAllIds(TRUE) as $this_lang_key) {
+			foreach(rex_clang::getAllIds(true) as $this_lang_key) {
 				$lang_category = new D2U_Jobs\Category($category_id, $this_lang_key);
 				if($lang_category->translation_needs_update != "delete") {
 					$alternate_URLs[$this_lang_key] = $lang_category->getURL();
@@ -53,8 +53,8 @@ class d2u_jobs_frontend_helper {
 		$url_namespace = d2u_addon_frontend_helper::getUrlNamespace();
 		$url_id = d2u_addon_frontend_helper::getUrlId();
 
-		$category = FALSE;
-		$job = FALSE;
+		$category = false;
+		$job = false;
 		if(filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT, ['options' => ['default'=> 0]]) > 0 || $url_namespace === "job_id") {
 			$job_id = filter_input(INPUT_GET, 'job_id', FILTER_VALIDATE_INT);
 			if(\rex_addon::get("url")->isAvailable() && $url_id > 0) {

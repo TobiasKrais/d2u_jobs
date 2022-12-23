@@ -105,7 +105,7 @@ class Contact {
 			return new Contact($result->getValue("contact_id"));
 		}
 		else {
-			return FALSE;
+			return false;
 		}
 	}
 
@@ -136,18 +136,18 @@ class Contact {
 	 * @return in error code if error occurs
 	 */
 	public function save() {
-		$error = FALSE;
+		$error = false;
 
 		$pre_save_contact = new Contact($this->contact_id);
 
-		if($this->contact_id == 0 || $pre_save_contact != $this) {
+		if($this->contact_id === 0 || $pre_save_contact != $this) {
 			$query = \rex::getTablePrefix() ."d2u_jobs_contacts SET "
 					."email = '". $this->email ."', "
 					."name = '". addslashes($this->name) ."', "
 					."phone = '". $this->phone ."', "
-					."picture = '". (strpos($this->picture, "noavatar.jpg") !== FALSE ? '' : $this->picture) ."' ";
+					."picture = '". (strpos($this->picture, "noavatar.jpg") !== false ? '' : $this->picture) ."' ";
 
-			if($this->contact_id == 0) {
+			if($this->contact_id === 0) {
 				$query = "INSERT INTO ". $query;
 			}
 			else {
@@ -156,8 +156,8 @@ class Contact {
 
 			$result = \rex_sql::factory();
 			$result->setQuery($query);
-			if($this->contact_id == 0) {
-				$this->contact_id = $result->getLastId();
+			if($this->contact_id === 0) {
+				$this->contact_id = intval($result->getLastId());
 				$error = $result->hasError();
 			}
 		}
