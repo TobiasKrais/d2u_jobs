@@ -163,6 +163,7 @@ class Job implements \D2U_Helper\ITranslationHelper {
 				$this->picture = $result->getValue("picture");
 				$this->contact = new Contact($result->getValue("contact_id"));
 				$category_ids = preg_grep('/^\s*$/s', explode("|", $result->getValue("category_ids")), PREG_GREP_INVERT);
+				$category_ids = is_array($category_ids) ? array_map('intval', $category_ids) : [];
 				foreach ($category_ids as $category_id) {
 					$this->categories[$category_id] = new Category($category_id, $this->clang_id);
 				}
