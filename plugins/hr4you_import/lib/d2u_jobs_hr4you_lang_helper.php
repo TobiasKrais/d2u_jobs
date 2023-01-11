@@ -4,60 +4,60 @@
  */
 class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper {
 	/**
-	 * @var string[] Array with chinese replacements. Key is the wildcard,
+	 * @var array<string, string> Array with chinese replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected $replacements_chinese = [
+	protected array $replacements_chinese = [
 		'd2u_jobs_hr4you_offer_heading' => '我们的报价',
 		'd2u_jobs_hr4you_profile_heading' => '您的个人资料',
 		'd2u_jobs_hr4you_tasks_heading' => '你的任务',
 	];
 	
 	/**
-	 * @var string[] Array with english replacements. Key is the wildcard,
+	 * @var array<string, string> Array with english replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected $replacements_english = [
+	protected array $replacements_english = [
 		'd2u_jobs_hr4you_offer_heading' => 'We offer',
 		'd2u_jobs_hr4you_profile_heading' => 'Your Profile',
 		'd2u_jobs_hr4you_tasks_heading' => 'Your Tasks',
 	];
 	
 	/**
-	 * @var string[] Array with french replacements. Key is the wildcard,
+	 * @var array<string, string> Array with french replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected $replacements_french = [
+	protected array $replacements_french = [
 		'd2u_jobs_hr4you_offer_heading' => 'Notre offre',
 		'd2u_jobs_hr4you_profile_heading' => 'Votre profil',
 		'd2u_jobs_hr4you_tasks_heading' => 'Vos tâches',
 	];
 
 	/**
-	 * @var string[] Array with spanish replacements. Key is the wildcard,
+	 * @var array<string, string> Array with spanish replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected $replacements_german = [
+	protected array $replacements_german = [
 		'd2u_jobs_hr4you_offer_heading' => 'Unser Angebot',
 		'd2u_jobs_hr4you_profile_heading' => 'Ihr Profil',
 		'd2u_jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
 	];
 	
 	/**
-	 * @var string[] Array with spanish replacements. Key is the wildcard,
+	 * @var array<string, string> Array with spanish replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected $replacements_spanish = [
+	protected array $replacements_spanish = [
 		'd2u_jobs_hr4you_offer_heading' => 'Ofrecemos',
 		'd2u_jobs_hr4you_profile_heading' => 'Su Perfil',
 		'd2u_jobs_hr4you_tasks_heading' => 'Sus tareas',
 	];
 	
 	/**
-	 * @var string[] Array with russian replacements. Key is the wildcard,
+	 * @var array<string, string> Array with russian replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected $replacements_russian = [
+	protected array $replacements_russian = [
 		'd2u_jobs_hr4you_offer_heading' => 'Наше предложение',
 		'd2u_jobs_hr4you_profile_heading' => 'Ваш профиль',
 		'd2u_jobs_hr4you_tasks_heading' => 'Желаемая должность',

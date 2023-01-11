@@ -290,7 +290,7 @@ class Category implements \D2U_Helper\ITranslationHelper {
 		$pre_save_object = new Category($this->category_id, $this->clang_id);
 	
 		// save priority, but only if new or changed
-		if($this->priority != $pre_save_object->priority || $this->category_id === 0) {
+		if($this->priority !== $pre_save_object->priority || $this->category_id === 0) {
 			$this->setPriority();
 		}
 
