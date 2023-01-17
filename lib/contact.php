@@ -58,7 +58,7 @@ class Contact {
 	/**
 	 * Deletes the object.
 	 */
-	public function delete() {
+	public function delete():void {
 		$query = "DELETE FROM ". \rex::getTablePrefix() ."d2u_jobs_contacts "
 				."WHERE contact_id = ". $this->contact_id;
 		$result = \rex_sql::factory();

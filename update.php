@@ -8,7 +8,7 @@ if (rex_version::compare($this->getVersion(), '1.0.8', '<')) {
 }
 
 // use path relative to __DIR__ to get correct path in update temp dir
-$this->includeFile(__DIR__.'/install.php');
+$this->includeFile(__DIR__.'/install.php'); /** @phpstan-ignore-line */
 
 // Media Manager media types
 if (rex_version::compare($this->getVersion(), '1.2.1', '<')) {

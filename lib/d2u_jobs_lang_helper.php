@@ -43,7 +43,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	 * @var array<string, string> Array with english replacements. Key is the wildcard,
 	 * value the replacement. 
 	 */
-	protected array $replacements_english = [
+	var $replacements_english = [
 		'd2u_jobs_announcement' => 'Complete announcement',
 		'd2u_jobs_application_link' => 'Online application form',
 		'd2u_jobs_footer' => 'Please send us your complete application documents with the possible starting date and your salary expectations via email to:',
@@ -140,7 +140,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper {
 	/**
 	 * Installs the replacement table for this addon.
 	 */
-	public function install() {
+	public function install():void {
 		foreach($this->replacements_english as $key => $value) {
 			foreach (rex_clang::getAllIds() as $clang_id) {
 				$lang_replacement = rex_config::get('d2u_jobs', 'lang_replacement_'. $clang_id, '');

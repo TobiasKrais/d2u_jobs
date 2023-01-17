@@ -16,7 +16,7 @@ class d2u_jobs_import_conjob extends D2U_Helper\ACronJob {
 	/**
 	 * Install CronJob. Its also activated.
 	 */
-	public function install() {
+	public function install():void {
 		$description = 'Imports jobs automatically from HR4You XML';
 		$php_code = '<?php hr4you::autoimport(); ?>';
 		$interval = '{\"minutes\":[0],\"hours\":[21],\"days\":\"all\",\"weekdays\":\"all\",\"months\":\"all\"}';
