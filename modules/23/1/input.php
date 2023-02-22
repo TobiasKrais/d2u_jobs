@@ -51,8 +51,8 @@
 	</div>
 	<div class="col-xs-8">
 		Bewerbungsformular statt E-Mail-Adresse anzeigen<?php if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-		echo ' (gilt nicht für Stellen die aus HR4You importiert werden)';
-		} ?>.<br />
+        echo ' (gilt nicht für Stellen die aus HR4You importiert werden)';
+        } ?>.<br />
 	</div>
 </div>
 

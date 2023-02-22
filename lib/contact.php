@@ -71,9 +71,9 @@ class Contact
      }
 
     /**
-      * Get all contacts.
-      * @return Contact[] array with Contact objects
-      */
+     * Get all contacts.
+     * @return Contact[] array with Contact objects
+     */
     public static function getAll()
     {
         $query = 'SELECT contact_id FROM '. rex::getTablePrefix() .'d2u_jobs_contacts ORDER BY name';
