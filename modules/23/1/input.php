@@ -4,20 +4,20 @@
 	</div>
 	<div class="col-xs-8">
 		<?php
-			// Job Categories
-			$select = new rex_select(); 
-			$select->setName('VALUE[1]');
-			$select->setAttribute('class', 'form-control');
-			$select->setSize(1);
+            // Job Categories
+            $select = new rex_select();
+            $select->setName('VALUE[1]');
+            $select->setAttribute('class', 'form-control');
+            $select->setSize(1);
 
-			// Daten
-			$select->addOption("Alle", 0);
-			foreach(D2U_Jobs\Category::getAll(rex_clang::getCurrentId()) as $category)  {
-				$select->addOption($category->name, $category->category_id); 
-			}
-			$select->setSelected("REX_VALUE[1]");
-			echo $select->show();
-		?>
+            // Daten
+            $select->addOption('Alle', 0);
+            foreach (D2U_Jobs\Category::getAll(rex_clang::getCurrentId()) as $category) {
+                $select->addOption($category->name, $category->category_id);
+            }
+            $select->setSelected('REX_VALUE[1]');
+            echo $select->show();
+        ?>
 	</div>
 </div>
 <div class="row">
@@ -25,7 +25,7 @@
 </div>
 <div class="row">
 	<div class="col-xs-4">
-		<input type="checkbox" name="REX_INPUT_VALUE[2]" value="true" <?php echo "REX_VALUE[2]" == 'true' ? ' checked="checked"' : ''; ?> class="form-control d2u_helper_toggle" />
+		<input type="checkbox" name="REX_INPUT_VALUE[2]" value="true" <?= 'REX_VALUE[2]' == 'true' ? ' checked="checked"' : '' ?> class="form-control d2u_helper_toggle" />
 	</div>
 	<div class="col-xs-8">
 		Allgemeiner Bewerbungshinweis unterhalb der Stellenanzeige verbergen.<br />
@@ -36,7 +36,7 @@
 </div>
 <div class="row">
 	<div class="col-xs-4">
-		<input type="checkbox" name="REX_INPUT_VALUE[3]" value="true" <?php echo "REX_VALUE[3]" == 'true' ? ' checked="checked"' : ''; ?> class="form-control d2u_helper_toggle" />
+		<input type="checkbox" name="REX_INPUT_VALUE[3]" value="true" <?= 'REX_VALUE[3]' == 'true' ? ' checked="checked"' : '' ?> class="form-control d2u_helper_toggle" />
 	</div>
 	<div class="col-xs-8">
 		Stellen im JSON-LD Format ausgeben, damit Stellensuchmaschinen (z.B. Google Jobs) die Stelle anzeigen können.<br />
@@ -47,10 +47,12 @@
 </div>
 <div class="row">
 	<div class="col-xs-4">
-		<input type="checkbox" name="REX_INPUT_VALUE[4]" value="true" <?php echo "REX_VALUE[4]" == 'true' ? ' checked="checked"' : ''; ?> class="form-control d2u_helper_toggle" />
+		<input type="checkbox" name="REX_INPUT_VALUE[4]" value="true" <?= 'REX_VALUE[4]' == 'true' ? ' checked="checked"' : '' ?> class="form-control d2u_helper_toggle" />
 	</div>
 	<div class="col-xs-8">
-		Bewerbungsformular statt E-Mail-Adresse anzeigen<?php if(rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) { print ' (gilt nicht für Stellen die aus HR4You importiert werden)'; } ?>.<br />
+		Bewerbungsformular statt E-Mail-Adresse anzeigen<?php if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+		echo ' (gilt nicht für Stellen die aus HR4You importiert werden)';
+		} ?>.<br />
 	</div>
 </div>
 

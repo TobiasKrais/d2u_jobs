@@ -2,15 +2,15 @@
 <?php
 $func = rex_request('func', 'string');
 
-if ($func == 'import') {
-	if(hr4you::import()) {
-		print rex_view::success(rex_i18n::msg('d2u_jobs_hr4you_import_success'));
-	}
+if ('import' == $func) {
+    if (hr4you::import()) {
+        echo rex_view::success(rex_i18n::msg('d2u_jobs_hr4you_import_success'));
+    }
 }
 
-if(rex_config::get('d2u_jobs', 'hr4you_xml_url') != '') {
-	print "<a href='". rex_url::currentBackendPage(['func'=>'import']) ."'>"
-			. "<button class='btn btn-apply'>". rex_i18n::msg('d2u_jobs_hr4you_import') ."</button></a>";
+if ('' != rex_config::get('d2u_jobs', 'hr4you_xml_url')) {
+    echo "<a href='". rex_url::currentBackendPage(['func' => 'import']) ."'>"
+            . "<button class='btn btn-apply'>". rex_i18n::msg('d2u_jobs_hr4you_import') .'</button></a>';
 }
 ?>
 
