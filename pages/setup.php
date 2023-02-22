@@ -129,6 +129,7 @@ if ('d2u_stellenmarkt' == rex_request('import', 'string') && $old_tables_availab
 <h2>Changelog</h2>
 <p>1.2.4-DEV:</p>
 <ul>
+	<li>PHP-CS-Fixer Code Verbesserungen.</li>
 	<li>Bugfix: Fehler bei Installation der Sprachen in Sprog behoben.</li>
 	<li>Bugfix Kontakt ID wurde in aktueller install.php nicht hinzugefügt.</li>
 	<li>Verbesserte Fehlermeldung, wenn vergessen wurde Sprachbezogene Daten einzugeben.</li>
