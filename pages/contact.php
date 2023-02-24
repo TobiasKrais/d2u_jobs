@@ -48,7 +48,7 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_delete', FILTER_VALIDATE_INT) || '
     $uses_jobs = $contact->getJobs();
 
     // If not used, delete
-    if (0 == count($uses_jobs)) {
+    if (0 === count($uses_jobs)) {
         $contact = new D2U_Jobs\Contact($contact_id);
         $contact->delete();
     } else {
