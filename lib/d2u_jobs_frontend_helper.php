@@ -24,7 +24,7 @@ class d2u_jobs_frontend_helper
             foreach (rex_clang::getAllIds(true) as $this_lang_key) {
                 $lang_job = new D2U_Jobs\Job($job_id, $this_lang_key);
                 if ('delete' != $lang_job->translation_needs_update) {
-                    $alternate_URLs[$this_lang_key] = $lang_job->getURL();
+                    $alternate_URLs[$this_lang_key] = $lang_job->getUrl();
                 }
             }
         } elseif (filter_input(INPUT_GET, 'job_category_id', FILTER_VALIDATE_INT, ['options' => ['default' => 0]]) > 0 || 'job_category_id' === $url_namespace) {
@@ -35,7 +35,7 @@ class d2u_jobs_frontend_helper
             foreach (rex_clang::getAllIds(true) as $this_lang_key) {
                 $lang_category = new D2U_Jobs\Category($category_id, $this_lang_key);
                 if ('delete' != $lang_category->translation_needs_update) {
-                    $alternate_URLs[$this_lang_key] = $lang_category->getURL();
+                    $alternate_URLs[$this_lang_key] = $lang_category->getUrl();
                 }
             }
         }

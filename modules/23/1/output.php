@@ -86,7 +86,7 @@ if (rex::isBackend()) {
         echo '</div>';
 
         $application_form = rex_request('apply', 'int', 0) > 0 ? true : false;
-        $job_application_link = $job->clang_id == rex_clang::getCurrentId() ? $job->getURL() . (strstr($job->getURL(), '?') ? '&' : '?').'apply=1' : rex_getUrl('', '', ['job_id' => $job->job_id, 'target_clang' => $job->clang_id, 'apply' => 1]);
+        $job_application_link = $job->clang_id == rex_clang::getCurrentId() ? $job->getUrl() . (strstr($job->getUrl(), '?') ? '&' : '?').'apply=1' : rex_getUrl('', '', ['job_id' => $job->job_id, 'target_clang' => $job->clang_id, 'apply' => 1]);
         if ($application_form) {
             echo '<a name="application-form" class="anchor"></a>';
             echo '<h3>'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'</h3>';
