@@ -28,7 +28,7 @@ if ($category_id > 0) {
     }
 }
 
-$hide_application_hint = 'REX_VALUE[2]' == 'true' ? true : false;
+$hide_application_hint = 'REX_VALUE[2]' === 'true' ? true : false; /** @phpstan-ignore-line */
 $show_json_ld = 'REX_VALUE[3]' == 'true' ? true : false;
 $show_application_form = 'REX_VALUE[4]' == 'true' ? true : false;
 
