@@ -127,7 +127,7 @@ if ('d2u_stellenmarkt' == rex_request('import', 'string') && $old_tables_availab
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
-<p>1.2.4-DEV:</p>
+<p>1.2.4:</p>
 <ul>
 	<li>PHP-CS-Fixer Code Verbesserungen.</li>
 	<li>Bugfix: Fehler bei Installation der Sprachen in Sprog behoben.</li>
