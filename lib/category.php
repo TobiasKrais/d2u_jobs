@@ -15,29 +15,45 @@ use rex_yrewrite;
  */
 class Category implements \D2U_Helper\ITranslationHelper
 {
-    /** @var int Database ID */
-    public $category_id = 0;
+    /** 
+     * @var int Database ID 
+     */
+    public int $category_id = 0;
 
-    /** @var int Redaxo language ID */
-    public $clang_id = 0;
+    /** 
+     * @var int Redaxo language ID
+     */
+    public int $clang_id = 0;
 
-    /** @var string Name */
-    public $name = '';
+    /** 
+     * @var string Name
+     */
+    public string $name = '';
 
-    /** @var string Picture */
-    public $picture = '';
+    /** 
+     * @var string Picture
+     */
+    public string $picture = '';
 
-    /** @var int Sort Priority */
-    public $priority = 0;
+    /** 
+     * @var int Sort Priority
+     */
+    public int $priority = 0;
 
-    /** @var string HR4YOU category ID */
-    public $hr4you_category_id = 0;
+    /** 
+     * @var int HR4YOU category ID 
+     */
+    public int $hr4you_category_id = 0;
 
-    /** @var string "yes" if translation needs update */
-    public $translation_needs_update = 'delete';
+    /** 
+     * @var string "yes" if translation needs update 
+     */
+    public string $translation_needs_update = 'delete';
 
-    /** @var string URL */
-    public $url = '';
+    /** 
+     * @var string URL 
+     */
+    public string $url = '';
 
     /**
      * Constructor.
@@ -56,13 +72,13 @@ class Category implements \D2U_Helper\ITranslationHelper
         $result->setQuery($query);
 
         if ($result->getRows() > 0) {
-            $this->category_id = $result->getValue('category_id');
-            $this->name = stripslashes($result->getValue('name'));
-            $this->picture = $result->getValue('picture');
-            $this->priority = $result->getValue('priority');
-            $this->translation_needs_update = $result->getValue('translation_needs_update');
+            $this->category_id = (int) $result->getValue('category_id');
+            $this->name = (string) stripslashes($result->getValue('name'));
+            $this->picture = (string) $result->getValue('picture');
+            $this->priority = (int) $result->getValue('priority');
+            $this->translation_needs_update = (string) $result->getValue('translation_needs_update');
             if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-                $this->hr4you_category_id = $result->getValue('hr4you_category_id');
+                $this->hr4you_category_id = (int) $result->getValue('hr4you_category_id');
             }
         }
     }

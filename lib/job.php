@@ -18,87 +18,95 @@ use function is_array;
  */
 class Job implements \D2U_Helper\ITranslationHelper
 {
-    /** @var int Database job ID */
-    public $job_id = 0;
+    /** 
+     * @var int Database job ID
+     */
+    public int $job_id = 0;
 
-    /** @var int Redaxo language ID */
-    public $clang_id = 0;
+    /**
+     * @var int Redaxo language ID
+     */
+    public int $clang_id = 0;
 
-    /** @var string Reference number */
-    public $reference_number = '';
+    /** 
+     * @var string Reference number
+      */
+    public string $reference_number = '';
 
-    /** @var string Reference number */
-    public $internal_name = '';
+    /** 
+     * @var string Reference number 
+     */
+    public string $internal_name = '';
 
     /** @var string date (Format YYYY-MM-DD) */
-    public $date = '';
+    public string $date = '';
 
     /** @var string City or region */
-    public $city = '';
+    public string $city = '';
 
     /** @var string Zip code */
-    public $zip_code = '';
+    public string $zip_code = '';
 
     /** @var string Country code */
-    public $country_code = 'DE';
+    public string $country_code = 'DE';
 
     /** @var string Picture name */
-    public $picture = '';
+    public string $picture = '';
 
     /** @var string online status "online" or "offline" */
-    public $online_status = 'offline';
+    public string $online_status = 'offline';
 
-    /** @var Category[] Array with categories, job belongs to */
-    public $categories = [];
+    /** @var array<Category> Array with categories, job belongs to */
+    public array $categories = [];
 
-    /** @var Contact Contact person responsible for the job */
-    public $contact = false;
+    /** @var Contact|bool Contact person responsible for the job */
+    public Contact|bool $contact = false;
 
     /** @var string job offer name */
-    public $name = '';
+    public string $name = '';
 
     /**
      * @var string job type. According to Google structured data for jobs, types
      * can be "FULL_TIME", "PART_TIME", "CONTRACTOR", "TEMPORARY", "INTERN",
      * "VOLUNTEER", "PER_DIEM", "OTHER"
      */
-    public $type = 'FULL_TIME';
+    public string $type = 'FULL_TIME';
 
-    /** @var string HR4YOU job ID */
-    public $hr4you_job_id = 0;
+    /** @var int HR4YOU job ID */
+    public int $hr4you_job_id = 0;
 
     /** @var string HR4YOU introduction / lead-in test */
-    public $hr4you_lead_in = '';
+    public string $hr4you_lead_in = '';
 
     /** @var string HR4YOU application form URL */
-    public $hr4you_url_application_form = '';
+    public string $hr4you_url_application_form = '';
 
     /** @var string prolog text */
-    public $prolog = '';
+    public string $prolog = '';
 
     /** @var string Heading tasks */
-    public $tasks_heading = '';
+    public string $tasks_heading = '';
 
     /** @var string Tasks details */
-    public $tasks_text = '';
+    public string $tasks_text = '';
 
     /** @var string Heading person profile */
-    public $profile_heading = '';
+    public string $profile_heading = '';
 
     /** @var string Profile details */
-    public $profile_text = '';
+    public string $profile_text = '';
 
     /** @var string Heading offer */
-    public $offer_heading = '';
+    public string $offer_heading = '';
 
     /** @var string Offer details */
-    public $offer_text = '';
+    public string $offer_text = '';
 
     /** @var string "yes" if translation needs update */
-    public $translation_needs_update = 'delete';
+    public string $translation_needs_update = 'delete';
 
     /** @var string URL */
-    private $url = '';
+    private string $url = '';
 
     /**
      * Constructor.
@@ -118,37 +126,37 @@ class Job implements \D2U_Helper\ITranslationHelper
             $result->setQuery($query);
 
             if ($result->getRows() > 0) {
-                $this->job_id = $result->getValue('job_id');
-                $this->reference_number = $result->getValue('reference_number');
-                $this->date = $result->getValue('date');
-                $this->city = $result->getValue('city');
-                $this->zip_code = $result->getValue('zip_code');
-                $this->country_code = $result->getValue('country_code') ?? $this->country_code;
-                $this->picture = $result->getValue('picture');
+                $this->job_id = (int) $result->getValue('job_id');
+                $this->reference_number = (string) $result->getValue('reference_number');
+                $this->date = (string) $result->getValue('date');
+                $this->city = (string) $result->getValue('city');
+                $this->zip_code = (string) $result->getValue('zip_code');
+                $this->country_code = (string) $result->getValue('country_code') ?? $this->country_code;
+                $this->picture = (string) $result->getValue('picture');
                 $this->contact = new Contact($result->getValue('contact_id'));
                 $category_ids = preg_grep('/^\s*$/s', explode('|', $result->getValue('category_ids')), PREG_GREP_INVERT);
                 $category_ids = is_array($category_ids) ? array_map('intval', $category_ids) : [];
                 foreach ($category_ids as $category_id) {
                     $this->categories[$category_id] = new Category($category_id, $this->clang_id);
                 }
-                $this->online_status = $result->getValue('online_status');
-                $this->internal_name = stripslashes($result->getValue('internal_name'));
-                $this->name = stripslashes($result->getValue('name'));
+                $this->online_status = (string) $result->getValue('online_status');
+                $this->internal_name = (string) stripslashes($result->getValue('internal_name'));
+                $this->name = (string) stripslashes($result->getValue('name'));
 
-                $this->prolog = stripslashes($result->getValue('prolog'));
-                $this->tasks_heading = stripslashes($result->getValue('tasks_heading'));
-                $this->tasks_text = stripslashes($result->getValue('tasks_text'));
-                $this->profile_heading = stripslashes($result->getValue('profile_heading'));
-                $this->profile_text = stripslashes($result->getValue('profile_text'));
-                $this->offer_heading = stripslashes($result->getValue('offer_heading'));
-                $this->offer_text = stripslashes($result->getValue('offer_text'));
-                $this->translation_needs_update = $result->getValue('translation_needs_update');
-                $this->type = $result->getValue('type');
+                $this->prolog = (string) stripslashes($result->getValue('prolog'));
+                $this->tasks_heading = (string) stripslashes($result->getValue('tasks_heading'));
+                $this->tasks_text = (string) stripslashes($result->getValue('tasks_text'));
+                $this->profile_heading = (string) stripslashes($result->getValue('profile_heading'));
+                $this->profile_text = (string) stripslashes($result->getValue('profile_text'));
+                $this->offer_heading = (string) stripslashes($result->getValue('offer_heading'));
+                $this->offer_text = (string) stripslashes($result->getValue('offer_text'));
+                $this->translation_needs_update = (string) $result->getValue('translation_needs_update');
+                $this->type = (string) $result->getValue('type');
 
                 if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-                    $this->hr4you_job_id = $result->getValue('hr4you_job_id') > 0 ? $result->getValue('hr4you_job_id') : 0;
-                    $this->hr4you_lead_in = $result->getValue('hr4you_lead_in');
-                    $this->hr4you_url_application_form = $result->getValue('hr4you_url_application_form');
+                    $this->hr4you_job_id = (int) $result->getValue('hr4you_job_id') > 0 ? $result->getValue('hr4you_job_id') : 0;
+                    $this->hr4you_lead_in = (string) $result->getValue('hr4you_lead_in');
+                    $this->hr4you_url_application_form = (string) $result->getValue('hr4you_url_application_form');
                 }
             }
         }

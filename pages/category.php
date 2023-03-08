@@ -17,12 +17,12 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
 
     $success = true;
     $category = false;
-    $category_id = $form['category_id'];
+    $category_id = (int) $form['category_id'];
     foreach (rex_clang::getAll() as $rex_clang) {
         if (false === $category) {
             $category = new D2U_Jobs\Category($category_id, $rex_clang->getId());
             $category->category_id = $category_id; // Ensure correct ID in case first language has no object
-            $category->priority = $form['priority'];
+            $category->priority = (int) $form['priority'];
             $category->picture = $input_media[1];
             if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
                 $category->hr4you_category_id = $form['hr4you_category_id'];

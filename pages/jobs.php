@@ -22,42 +22,42 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
 
     $success = true;
     $job = false;
-    $job_id = $form['job_id'];
+    $job_id = (int) $form['job_id'];
     foreach (rex_clang::getAll() as $rex_clang) {
         if (false === $job) {
             $job = new D2U_Jobs\Job($job_id, $rex_clang->getId());
             $job->job_id = $job_id; // Ensure correct ID in case first language has no object
-            $job->reference_number = $form['reference_number'];
+            $job->reference_number = (string) $form['reference_number'];
             $category_ids = $form['category_ids'] ?? [];
             $job->categories = [];
             foreach ($category_ids as $category_id) {
                 $job->categories[$category_id] = new D2U_Jobs\Category($category_id, $rex_clang->getId());
             }
-            $job->date = $form['date'];
-            $job->zip_code = $form['zip_code'];
-            $job->city = $form['city'];
-            $job->country_code = $form['country_code'];
-            $job->picture = $input_media[1];
+            $job->date = (string) $form['date'];
+            $job->zip_code = (string) $form['zip_code'];
+            $job->city = (string) $form['city'];
+            $job->country_code = (string) $form['country_code'];
+            $job->picture = (string) $input_media[1];
             $job->online_status = array_key_exists('online_status', $form) ? 'online' : 'offline';
-            $job->type = $form['type'];
-            $job->internal_name = $form['internal_name'];
+            $job->type = (string) $form['type'];
+            $job->internal_name = (string) $form['internal_name'];
             $job->contact = new D2U_Jobs\Contact($form['contact_id']);
             if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-                $job->hr4you_lead_in = $form['hr4you_lead_in'];
-                $job->hr4you_url_application_form = $form['hr4you_url_application_form'];
+                $job->hr4you_lead_in = (string) $form['hr4you_lead_in'];
+                $job->hr4you_url_application_form = (string) $form['hr4you_url_application_form'];
             }
         } else {
             $job->clang_id = $rex_clang->getId();
         }
-        $job->name = $form['lang'][$rex_clang->getId()]['name'];
-        $job->prolog = $form['lang'][$rex_clang->getId()]['prolog'];
-        $job->tasks_heading = $form['lang'][$rex_clang->getId()]['tasks_heading'];
-        $job->tasks_text = $form['lang'][$rex_clang->getId()]['tasks_text'];
-        $job->profile_heading = $form['lang'][$rex_clang->getId()]['profile_heading'];
-        $job->profile_text = $form['lang'][$rex_clang->getId()]['profile_text'];
-        $job->offer_heading = $form['lang'][$rex_clang->getId()]['offer_heading'];
-        $job->offer_text = $form['lang'][$rex_clang->getId()]['offer_text'];
-        $job->translation_needs_update = $form['lang'][$rex_clang->getId()]['translation_needs_update'];
+        $job->name = (string) $form['lang'][$rex_clang->getId()]['name'];
+        $job->prolog = (string) $form['lang'][$rex_clang->getId()]['prolog'];
+        $job->tasks_heading = (string) $form['lang'][$rex_clang->getId()]['tasks_heading'];
+        $job->tasks_text = (string) $form['lang'][$rex_clang->getId()]['tasks_text'];
+        $job->profile_heading = (string) $form['lang'][$rex_clang->getId()]['profile_heading'];
+        $job->profile_text = (string) $form['lang'][$rex_clang->getId()]['profile_text'];
+        $job->offer_heading = (string) $form['lang'][$rex_clang->getId()]['offer_heading'];
+        $job->offer_text = (string) $form['lang'][$rex_clang->getId()]['offer_text'];
+        $job->translation_needs_update = (string) $form['lang'][$rex_clang->getId()]['translation_needs_update'];
         if ('delete' === $job->translation_needs_update) {
             $job->delete(false);
         } elseif ($job->save() > 0) {
