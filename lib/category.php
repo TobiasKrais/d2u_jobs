@@ -274,7 +274,7 @@ class Category implements \D2U_Helper\ITranslationHelper
      */
     public function getUrl($including_domain = false)
     {
-        if ('' == $this->url) {
+        if ('' === $this->url) {
 
             $parameterArray = [];
             $parameterArray['job_category_id'] = $this->category_id;
@@ -283,7 +283,7 @@ class Category implements \D2U_Helper\ITranslationHelper
         }
 
         if ($including_domain) {
-            if (rex_addon::get('yrewrite') && rex_addon::get('yrewrite')->isAvailable()) {
+            if (\rex_addon::get('yrewrite') instanceof \rex_addon_interface && rex_addon::get('yrewrite')->isAvailable()) {
                 return str_replace(rex_yrewrite::getCurrentDomain()->getUrl() .'/', rex_yrewrite::getCurrentDomain()->getUrl(), rex_yrewrite::getCurrentDomain()->getUrl() . $this->url);
             }
 
@@ -347,7 +347,7 @@ class Category implements \D2U_Helper\ITranslationHelper
                 $result->setQuery($query);
                 $error = $result->hasError();
 
-                if (!$error && $pre_save_object->name != $this->name) {
+                if (!$error && $pre_save_object->name !== $this->name) {
                     $regenerate_urls = true;
                 }
             }
