@@ -131,11 +131,13 @@ if (rex::isBackend()) {
 
             $yform->setFormData(trim($form_data));
             $yform->setValueField('php', ['php_attach', \Sprog\Wildcard::get('d2u_jobs_module_attachment', $job->clang_id), '<?php if (isset($this->params["value_pool"]["files"])) { $this->params["value_pool"]["email_attachments"] = $this->params["value_pool"]["files"]; } ?>']);
+
+            $yform->setObjectparams('csrf_protection', false);
+            $yform->setObjectparams('Error-occured', \Sprog\Wildcard::get('d2u_helper_module_form_validate_title', $job->clang_id));
             $yform->setObjectparams('form_action', $job_application_link);
             $yform->setObjectparams('form_anchor', 'application-form');
-            $yform->setObjectparams('Error-occured', \Sprog\Wildcard::get('d2u_helper_module_form_validate_title', $job->clang_id));
-            $yform->setObjectparams('real_field_names', true);
             $yform->setObjectparams('form_name', 'd2u_jobs_module_23_1_'. rand(1, 100));
+            $yform->setObjectparams('real_field_names', true);
 
             // action - showtext
             $yform->setActionField('showtext', [\Sprog\Wildcard::get('d2u_jobs_module_form_thanks', $job->clang_id),
