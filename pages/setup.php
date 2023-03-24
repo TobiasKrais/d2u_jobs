@@ -127,6 +127,10 @@ if ('d2u_stellenmarkt' == rex_request('import', 'string') && $old_tables_availab
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
+<p>1.2.7-DEV:</p>
+<ul>
+	<li>...</li>
+</ul>
 <p>1.2.6:</p>
 <ul>
 	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Bewerbungsformular mit Formularnamen versehen um bessere YForm Spamprotection Kompatibilität bei mehreren Formularen auf einer Seite herzustellen.</li>
