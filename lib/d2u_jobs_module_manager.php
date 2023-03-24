@@ -15,7 +15,7 @@ class D2UJobsModules
         $modules = [];
         $modules[] = new D2UModule('23-1',
             'D2U Stellenmarkt - Stellenanzeigen',
-            11);
+            12);
         $modules[] = new D2UModule('23-2',
             'D2U Stellenmarkt - Kategorien',
             2);
