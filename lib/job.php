@@ -529,7 +529,7 @@ class Job implements \D2U_Helper\ITranslationHelper
         if ('' === $this->url) {
             $parameterArray = [];
             $parameterArray['job_id'] = $this->job_id;
-            $this->url = rex_getUrl(rex_config::get('d2u_jobs', 'article_id'), $this->clang_id, $parameterArray, '&');
+            $this->url = rex_getUrl((int) rex_config::get('d2u_jobs', 'article_id'), $this->clang_id, $parameterArray, '&');
         }
 
         if ($including_domain) {

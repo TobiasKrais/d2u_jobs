@@ -279,7 +279,7 @@ class Category implements \D2U_Helper\ITranslationHelper
             $parameterArray = [];
             $parameterArray['job_category_id'] = $this->category_id;
 
-            $this->url = rex_getUrl(rex_config::get('d2u_jobs', 'article_id'), $this->clang_id, $parameterArray, '&');
+            $this->url = rex_getUrl((int) rex_config::get('d2u_jobs', 'article_id'), $this->clang_id, $parameterArray, '&');
         }
 
         if ($including_domain) {
