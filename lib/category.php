@@ -5,6 +5,7 @@ namespace D2U_Jobs;
 use d2u_addon_backend_helper;
 use rex;
 use rex_addon;
+use rex_addon_interface;
 use rex_config;
 use rex_plugin;
 use rex_sql;
@@ -15,44 +16,28 @@ use rex_yrewrite;
  */
 class Category implements \D2U_Helper\ITranslationHelper
 {
-    /** 
-     * @var int Database ID 
-     */
+    /** @var int Database ID */
     public int $category_id = 0;
 
-    /** 
-     * @var int Redaxo language ID
-     */
+    /** @var int Redaxo language ID */
     public int $clang_id = 0;
 
-    /** 
-     * @var string Name
-     */
+    /** @var string Name */
     public string $name = '';
 
-    /** 
-     * @var string Picture
-     */
+    /** @var string Picture */
     public string $picture = '';
 
-    /** 
-     * @var int Sort Priority
-     */
+    /** @var int Sort Priority */
     public int $priority = 0;
 
-    /** 
-     * @var int HR4YOU category ID 
-     */
+    /** @var int HR4YOU category ID */
     public int $hr4you_category_id = 0;
 
-    /** 
-     * @var string "yes" if translation needs update 
-     */
+    /** @var string "yes" if translation needs update */
     public string $translation_needs_update = 'delete';
 
-    /** 
-     * @var string URL 
-     */
+    /** @var string URL */
     public string $url = '';
 
     /**
@@ -283,7 +268,7 @@ class Category implements \D2U_Helper\ITranslationHelper
         }
 
         if ($including_domain) {
-            if (\rex_addon::get('yrewrite') instanceof \rex_addon_interface && rex_addon::get('yrewrite')->isAvailable()) {
+            if (rex_addon::get('yrewrite') instanceof rex_addon_interface && rex_addon::get('yrewrite')->isAvailable()) {
                 return str_replace(rex_yrewrite::getCurrentDomain()->getUrl() .'/', rex_yrewrite::getCurrentDomain()->getUrl(), rex_yrewrite::getCurrentDomain()->getUrl() . $this->url);
             }
 

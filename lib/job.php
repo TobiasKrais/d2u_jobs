@@ -4,11 +4,13 @@ namespace D2U_Jobs;
 
 use d2u_addon_backend_helper;
 use rex_addon;
+use rex_addon_interface;
 use rex_clang;
 use rex_config;
 use rex_plugin;
 use rex_sql;
 use rex_url;
+
 use rex_yrewrite;
 
 use function is_array;
@@ -18,24 +20,16 @@ use function is_array;
  */
 class Job implements \D2U_Helper\ITranslationHelper
 {
-    /** 
-     * @var int Database job ID
-     */
+    /** @var int Database job ID */
     public int $job_id = 0;
 
-    /**
-     * @var int Redaxo language ID
-     */
+    /** @var int Redaxo language ID */
     public int $clang_id = 0;
 
-    /** 
-     * @var string Reference number
-      */
+    /** @var string Reference number */
     public string $reference_number = '';
 
-    /** 
-     * @var string Reference number 
-     */
+    /** @var string Reference number */
     public string $internal_name = '';
 
     /** @var string date (Format YYYY-MM-DD) */
@@ -533,7 +527,7 @@ class Job implements \D2U_Helper\ITranslationHelper
         }
 
         if ($including_domain) {
-            if (\rex_addon::get('yrewrite') instanceof \rex_addon_interface && rex_addon::get('yrewrite')->isAvailable()) {
+            if (rex_addon::get('yrewrite') instanceof rex_addon_interface && rex_addon::get('yrewrite')->isAvailable()) {
                 return str_replace(rex_yrewrite::getCurrentDomain()->getUrl() .'/', rex_yrewrite::getCurrentDomain()->getUrl(), rex_yrewrite::getCurrentDomain()->getUrl() . $this->url);
             }
 
