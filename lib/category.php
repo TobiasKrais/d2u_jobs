@@ -296,7 +296,7 @@ class Category implements \D2U_Helper\ITranslationHelper
             $this->setPriority();
         }
 
-        if (0 === $this->category_id || $pre_save_object != $this) {
+        if (0 === $this->category_id || $pre_save_object !== $this) {
             $query = rex::getTablePrefix() .'d2u_jobs_categories SET '
                     .'priority = '. $this->priority .', '
                     ."picture = '". $this->picture ."' ";
@@ -321,7 +321,7 @@ class Category implements \D2U_Helper\ITranslationHelper
         if (0 == $error) {
             // Save the language specific part
             $pre_save_object = new self($this->category_id, $this->clang_id);
-            if ($pre_save_object != $this) {
+            if ($pre_save_object !== $this) {
                 $query = 'REPLACE INTO '. rex::getTablePrefix() .'d2u_jobs_categories_lang SET '
                         ."category_id = '". $this->category_id ."', "
                         ."clang_id = '". $this->clang_id ."', "
