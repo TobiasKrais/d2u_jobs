@@ -98,7 +98,7 @@ $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_j
 
 // Insert url schemes
 if (\rex_addon::get('url')->isAvailable()) {
-    $clang_id = 1 == count(rex_clang::getAllIds()) ? rex_clang::getStartId() : 0;
+    $clang_id = 1 === count(rex_clang::getAllIds()) ? rex_clang::getStartId() : 0;
     $article_id = rex_config::get('d2u_jobs', 'article_id', 0) > 0 ? rex_config::get('d2u_jobs', 'article_id') : rex_article::getSiteStartArticleId();
 
     // Insert url schemes Version 2.x

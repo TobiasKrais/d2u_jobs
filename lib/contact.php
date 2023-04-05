@@ -82,7 +82,7 @@ class Contact
 
         $contacts = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $contacts[$result->getValue('contact_id')] = new self($result->getValue('contact_id'));
+            $contacts[$result->getValue('contact_id')] = new self((int) $result->getValue('contact_id'));
             $result->next();
         }
         return $contacts;
@@ -101,7 +101,7 @@ class Contact
         $num_rows = $result->getRows();
 
         if ($num_rows > 0) {
-            return new self($result->getValue('contact_id'));
+            return new self((int) $result->getValue('contact_id'));
         }
 
         return false;

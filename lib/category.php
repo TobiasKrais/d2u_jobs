@@ -127,10 +127,10 @@ class Category implements \D2U_Helper\ITranslationHelper
                 $result_check_offline = rex_sql::factory();
                 $result_check_offline->setQuery($query_check_offline);
                 if ($result_check_offline->getRows() > 0) {
-                    $categories[$result->getValue('category_id')] = new self($result->getValue('category_id'), $clang_id);
+                    $categories[$result->getValue('category_id')] = new self((int) $result->getValue('category_id'), $clang_id);
                 }
             } else {
-                $categories[$result->getValue('category_id')] = new self($result->getValue('category_id'), $clang_id);
+                $categories[$result->getValue('category_id')] = new self((int) $result->getValue('category_id'), $clang_id);
             }
             $result->next();
         }
@@ -163,10 +163,10 @@ class Category implements \D2U_Helper\ITranslationHelper
                 $result_check_offline = rex_sql::factory();
                 $result_check_offline->setQuery($query_check_offline);
                 if ($result_check_offline->getRows() > 0) {
-                    $categories[$result->getValue('category_id')] = new self($result->getValue('category_id'), $preferred_clang_id);
+                    $categories[$result->getValue('category_id')] = new self((int) $result->getValue('category_id'), $preferred_clang_id);
                 }
             } else {
-                $categories[$result->getValue('category_id')] = new self($result->getValue('category_id'), $preferred_clang_id);
+                $categories[$result->getValue('category_id')] = new self((int) $result->getValue('category_id'), $preferred_clang_id);
             }
             $result->next();
         }
@@ -187,7 +187,7 @@ class Category implements \D2U_Helper\ITranslationHelper
             $result->setQuery($query);
 
             if ($result->getRows() > 0) {
-                return new self($result->getValue('category_id'), rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+                return new self((int) $result->getValue('category_id'), rex_config::get('d2u_jobs', 'hr4you_default_lang'));
             }
         }
         return false;
@@ -245,7 +245,7 @@ class Category implements \D2U_Helper\ITranslationHelper
 
         $objects = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $objects[] = new self($result->getValue('category_id'), $clang_id);
+            $objects[] = new self((int) $result->getValue('category_id'), $clang_id);
             $result->next();
         }
 
@@ -286,7 +286,7 @@ class Category implements \D2U_Helper\ITranslationHelper
      */
     public function save()
     {
-        $error = 0;
+        $error = false;
 
         // Save the not language specific part
         $pre_save_object = new self($this->category_id, $this->clang_id);
@@ -318,7 +318,7 @@ class Category implements \D2U_Helper\ITranslationHelper
         }
 
         $regenerate_urls = false;
-        if (0 == $error) {
+        if (!$error) {
             // Save the language specific part
             $pre_save_object = new self($this->category_id, $this->clang_id);
             if ($pre_save_object !== $this) {
