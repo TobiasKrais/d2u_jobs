@@ -485,7 +485,7 @@ class Job implements \D2U_Helper\ITranslationHelper
                         .'ON main.job_id = default_lang.job_id AND default_lang.clang_id = '. rex_config::get('d2u_helper', 'default_lang') .' '
                     .'WHERE target_lang.job_id IS NULL '
                     .'ORDER BY default_lang.name';
-            $clang_id = rex_config::get('d2u_helper', 'default_lang');
+            $clang_id = (int) rex_config::get('d2u_helper', 'default_lang');
         }
         $result = rex_sql::factory();
         $result->setQuery($query);
@@ -527,7 +527,7 @@ class Job implements \D2U_Helper\ITranslationHelper
         }
 
         if ($including_domain) {
-            if (rex_addon::get('yrewrite') instanceof rex_addon_interface && rex_addon::get('yrewrite')->isAvailable()) {
+            if (rex_addon::get('yrewrite')->isAvailable()) {
                 return str_replace(rex_yrewrite::getCurrentDomain()->getUrl() .'/', rex_yrewrite::getCurrentDomain()->getUrl(), rex_yrewrite::getCurrentDomain()->getUrl() . $this->url);
             }
 
