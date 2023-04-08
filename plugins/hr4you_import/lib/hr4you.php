@@ -237,7 +237,7 @@ class hr4you
         $doc->loadHTML($string);
 
         foreach ($doc->getElementsByTagName(\rex_config::get('d2u_jobs', 'hr4you_headline_tag')) as $item) {
-            return utf8_decode($item->textContent);
+            return $item->textContent;
         }
 
         return '';
