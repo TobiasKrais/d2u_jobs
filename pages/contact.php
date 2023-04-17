@@ -23,12 +23,12 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
 
     // message output
     $message = 'form_save_error';
-    if (0 == $contact->save()) {
+    if ($contact->save()) {
         $message = 'form_saved';
     }
 
     // Redirect to make reload and thus double save impossible
-    if (1 === (int) filter_input(INPUT_POST, 'btn_apply', FILTER_VALIDATE_INT) && false !== $contact) {
+    if (1 === (int) filter_input(INPUT_POST, 'btn_apply', FILTER_VALIDATE_INT) && $contact->contact_id > 0) {
         header('Location: '. rex_url::currentBackendPage(['entry_id' => $contact->contact_id, 'func' => 'edit', 'message' => $message], false));
     } else {
         header('Location: '. rex_url::currentBackendPage(['message' => $message], false));

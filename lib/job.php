@@ -10,12 +10,13 @@ use rex_config;
 use rex_plugin;
 use rex_sql;
 use rex_url;
-
+use rex_user;
 use rex_yrewrite;
 
 use function is_array;
 
 /**
+ * @api
  * Job details.
  */
 class Job implements \D2U_Helper\ITranslationHelper
@@ -125,30 +126,30 @@ class Job implements \D2U_Helper\ITranslationHelper
                 $this->date = (string) $result->getValue('date');
                 $this->city = (string) $result->getValue('city');
                 $this->zip_code = (string) $result->getValue('zip_code');
-                $this->country_code = (string) $result->getValue('country_code') ?? $this->country_code;
+                $this->country_code = $result->getValue('country_code') !== '' ? (string) $result->getValue('country_code') : $this->country_code;
                 $this->picture = (string) $result->getValue('picture');
-                $this->contact = new Contact($result->getValue('contact_id'));
-                $category_ids = preg_grep('/^\s*$/s', explode('|', $result->getValue('category_ids')), PREG_GREP_INVERT);
+                $this->contact = new Contact((int) $result->getValue('contact_id'));
+                $category_ids = preg_grep('/^\s*$/s', explode('|', (string) $result->getValue('category_ids')), PREG_GREP_INVERT);
                 $category_ids = is_array($category_ids) ? array_map('intval', $category_ids) : [];
                 foreach ($category_ids as $category_id) {
                     $this->categories[$category_id] = new Category($category_id, $this->clang_id);
                 }
                 $this->online_status = (string) $result->getValue('online_status');
-                $this->internal_name = (string) stripslashes($result->getValue('internal_name'));
-                $this->name = (string) stripslashes($result->getValue('name'));
+                $this->internal_name = stripslashes((string) $result->getValue('internal_name'));
+                $this->name = stripslashes((string) $result->getValue('name'));
 
-                $this->prolog = (string) stripslashes($result->getValue('prolog'));
-                $this->tasks_heading = (string) stripslashes($result->getValue('tasks_heading'));
-                $this->tasks_text = (string) stripslashes($result->getValue('tasks_text'));
-                $this->profile_heading = (string) stripslashes($result->getValue('profile_heading'));
-                $this->profile_text = (string) stripslashes($result->getValue('profile_text'));
-                $this->offer_heading = (string) stripslashes($result->getValue('offer_heading'));
-                $this->offer_text = (string) stripslashes($result->getValue('offer_text'));
+                $this->prolog = stripslashes((string) $result->getValue('prolog'));
+                $this->tasks_heading = stripslashes((string) $result->getValue('tasks_heading'));
+                $this->tasks_text = stripslashes((string) $result->getValue('tasks_text'));
+                $this->profile_heading = stripslashes((string) $result->getValue('profile_heading'));
+                $this->profile_text = stripslashes((string) $result->getValue('profile_text'));
+                $this->offer_heading = stripslashes((string) $result->getValue('offer_heading'));
+                $this->offer_text = stripslashes((string) $result->getValue('offer_text'));
                 $this->translation_needs_update = (string) $result->getValue('translation_needs_update');
                 $this->type = (string) $result->getValue('type');
 
                 if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-                    $this->hr4you_job_id = (int) $result->getValue('hr4you_job_id') > 0 ? $result->getValue('hr4you_job_id') : 0;
+                    $this->hr4you_job_id = $result->getValue('hr4you_job_id') > 0 ? (int) $result->getValue('hr4you_job_id') : 0;
                     $this->hr4you_lead_in = (string) $result->getValue('hr4you_lead_in');
                     $this->hr4you_url_application_form = (string) $result->getValue('hr4you_url_application_form');
                 }
@@ -228,7 +229,7 @@ class Job implements \D2U_Helper\ITranslationHelper
      * @param int $clang_id Redaxo language ID
      * @param int $category_id category ID if only jobs of that category should be returned
      * @param bool $online_only If only online jobs should be returned true, otherwise false
-     * @return Job[] Array with jobs
+     * @return array<Job> Array with jobs
      */
     public static function getAll($clang_id, $category_id = 0, $online_only = true)
     {
@@ -249,7 +250,7 @@ class Job implements \D2U_Helper\ITranslationHelper
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $jobs[$result->getValue('job_id')] = new self($result->getValue('job_id'), $clang_id);
+            $jobs[$result->getValue('job_id')] = new self((int) $result->getValue('job_id'), $clang_id);
             $result->next();
         }
 
@@ -261,7 +262,7 @@ class Job implements \D2U_Helper\ITranslationHelper
      * @param int $preferred_clang_id Preferred Redaxo language ID
      * @param int $category_id category ID if only jobs of that category should be returned
      * @param bool $online_only If only online jobs should be returned true, otherwise false
-     * @return Job[] Array with jobs
+     * @return array<Job> Array with jobs
      */
     public static function getAllIgnoreLanguage($preferred_clang_id, $category_id = 0, $online_only = true)
     {
@@ -275,15 +276,15 @@ class Job implements \D2U_Helper\ITranslationHelper
         if ($category_id > 0) {
             $where[] = " category_ids LIKE '%|". $category_id ."|%'";
         }
-        $query .= ($where ? ' WHERE '. implode(' AND', $where) : ''). ' ORDER BY date DESC';
+        $query .= (count($where) > 0 ? ' WHERE '. implode(' AND', $where) : '') . ' ORDER BY date DESC';
 
         $result = rex_sql::factory();
         $result->setQuery($query);
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            if (!isset($jobs[$result->getValue('job_id')]) || (isset($jobs[$result->getValue('job_id')]) && $result->getValue('clang_id') == $preferred_clang_id)) {
-                $job = new self($result->getValue('job_id'), $result->getValue('clang_id'));
+            if (!isset($jobs[$result->getValue('job_id')]) || (int) $result->getValue('clang_id') === $preferred_clang_id) {
+                $job = new self((int) $result->getValue('job_id'), (int) $result->getValue('clang_id'));
                 if ($job->job_id > 0) {
                     $jobs[$result->getValue('job_id')] = $job;
                 }
@@ -297,7 +298,7 @@ class Job implements \D2U_Helper\ITranslationHelper
     /**
      * Get all country codes that are used in jobs.
      * @param bool $ignore_offline If only online jobs should be returned true, otherwise false
-     * @return Job[] Array with jobs
+     * @return array<string> Array country codes
      */
     public static function getAllCountryCodes($ignore_offline = true)
     {
@@ -312,7 +313,7 @@ class Job implements \D2U_Helper\ITranslationHelper
 
         $country_codes = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $country_codes[] = $result->getValue('country_code');
+            $country_codes[] = (string) $result->getValue('country_code');
             $result->next();
         }
 
@@ -324,7 +325,7 @@ class Job implements \D2U_Helper\ITranslationHelper
      * @param int $clang_id Redaxo language ID
      * @param string $country_code 2 digit country code
      * @param bool $online_only If only online jobs should be returned true, otherwise false
-     * @return Job[] Array with jobs
+     * @return array<Job> Array with jobs
      */
     public static function getByCountryCode($clang_id, $country_code, $online_only = true)
     {
@@ -335,7 +336,7 @@ class Job implements \D2U_Helper\ITranslationHelper
         if ($online_only) {
             $query .= " AND online_status = 'online'";
         }
-        if ($country_code) {
+        if ($country_code !== '') {
             $query .= " AND country_code = '". $country_code ."'";
         }
         $query .= ' ORDER BY date DESC';
@@ -345,7 +346,7 @@ class Job implements \D2U_Helper\ITranslationHelper
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $jobs[$result->getValue('job_id')] = new self($result->getValue('job_id'), $clang_id);
+            $jobs[$result->getValue('job_id')] = new self((int) $result->getValue('job_id'), $clang_id);
             $result->next();
         }
 
@@ -357,7 +358,7 @@ class Job implements \D2U_Helper\ITranslationHelper
      * @param int $preferred_clang_id Redaxo language ID
      * @param string $country_code 2 digit country code
      * @param bool $online_only If only online jobs should be returned true, otherwise false
-     * @return Job[] Array with jobs
+     * @return array<Job> Array with jobs
      */
     public static function getByCountryCodeIgnoreLanguage($preferred_clang_id, $country_code, $online_only = true)
     {
@@ -365,21 +366,21 @@ class Job implements \D2U_Helper\ITranslationHelper
                 .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
                     .'ON lang.job_id = jobs.job_id';
         $where = [];
-        if ($country_code) {
+        if ($country_code !== '') {
             $where[] = " country_code = '". $country_code ."'";
         }
         if ($online_only) {
             $where[] = " online_status = 'online'";
         }
-        $query .= ($where ? ' WHERE '. implode(' AND', $where) : ''). ' ORDER BY date DESC';
+        $query .= (count($where) > 0 ? ' WHERE '. implode(' AND', $where) : ''). ' ORDER BY date DESC';
 
         $result = rex_sql::factory();
         $result->setQuery($query);
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            if (!isset($jobs[$result->getValue('job_id')]) || (isset($jobs[$result->getValue('job_id')]) && $result->getValue('clang_id') == $preferred_clang_id)) {
-                $job = new self($result->getValue('job_id'), $result->getValue('clang_id'));
+            if (!isset($jobs[$result->getValue('job_id')]) || (int) $result->getValue('clang_id') === $preferred_clang_id) {
+                $job = new self((int) $result->getValue('job_id'), (int) $result->getValue('clang_id'));
                 if ($job->job_id > 0) {
                     $jobs[$result->getValue('job_id')] = $job;
                 }
@@ -407,9 +408,9 @@ class Job implements \D2U_Helper\ITranslationHelper
                 .'"employmentType" : "'. ($this->type ?? 'FULL_TIME') .'",'. PHP_EOL
                 .'"hiringOrganization" : {'. PHP_EOL
                     .'"@type" : "Organization",'. PHP_EOL
-                    .'"name" : "'. str_replace('"', '', rex_config::get('d2u_jobs', 'company_name', '')) .'",'. PHP_EOL
-                    .'"sameAs" : "'. (rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer()) .'",'. PHP_EOL
-                    .'"logo" : "'. rtrim(rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer(), '/') . rex_url::media(rex_config::get('d2u_jobs', 'logo', '')) .'"'. PHP_EOL
+                    .'"name" : "'. str_replace('"', '', (string) rex_config::get('d2u_jobs', 'company_name', '')) .'",'. PHP_EOL
+                    .'"sameAs" : "'. (rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer()) .'",'. PHP_EOL
+                    .'"logo" : "'. rtrim(rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer(), '/') . rex_url::media((string) rex_config::get('d2u_jobs', 'logo', '')) .'"'. PHP_EOL
                 .'},'. PHP_EOL
                 .'"jobLocation": {'. PHP_EOL
                     .'"@type": "Place",'. PHP_EOL
@@ -417,8 +418,8 @@ class Job implements \D2U_Helper\ITranslationHelper
                         .'"@type": "PostalAddress",'. PHP_EOL
 //						.'"streetAddress": "1600 Amphitheatre Pkwy, ",'. PHP_EOL
                         .'"addressLocality": "'. $this->city .'"'. PHP_EOL
-                        .('' != $this->zip_code ? ', "postalCode": "'. $this->zip_code .'"'. PHP_EOL : '')
-                        .('' != $this->country_code ? ', "addressCountry": "'. $this->country_code .'"'. PHP_EOL : '')
+                        .('' !== $this->zip_code ? ', "postalCode": "'. $this->zip_code .'"'. PHP_EOL : '')
+                        .('' !== $this->country_code ? ', "addressCountry": "'. $this->country_code .'"'. PHP_EOL : '')
                     .'}'. PHP_EOL
                 .'}'. PHP_EOL
             .'}'. PHP_EOL
@@ -429,7 +430,7 @@ class Job implements \D2U_Helper\ITranslationHelper
     /**
      * Get object by HR4You ID.
      * @param int $hr4you_id HR4You ID
-     * @return Job Job object, if available, otherwise false
+     * @return Job|bool Job object, if available, otherwise false
      */
     public static function getByHR4YouID($hr4you_id)
     {
@@ -440,7 +441,7 @@ class Job implements \D2U_Helper\ITranslationHelper
             $result->setQuery($query);
 
             if ($result->getRows() > 0) {
-                return new self($result->getValue('job_id'), rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+                return new self((int) $result->getValue('job_id'), (int) rex_config::get('d2u_jobs', 'hr4you_default_lang'));
             }
         }
         return false;
@@ -448,7 +449,7 @@ class Job implements \D2U_Helper\ITranslationHelper
 
     /**
      * Get all jobs imported by HR4You Plugin.
-     * @return Job[] Array with jobs
+     * @return array<Job> Array with jobs
      */
     public static function getAllHR4YouJobs()
     {
@@ -459,7 +460,7 @@ class Job implements \D2U_Helper\ITranslationHelper
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $jobs[$result->getValue('hr4you_job_id')] = new self($result->getValue('job_id'), rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+            $jobs[$result->getValue('hr4you_job_id')] = new self((int) $result->getValue('job_id'), (int) rex_config::get('d2u_jobs', 'hr4you_default_lang'));
             $result->next();
         }
 
@@ -470,7 +471,7 @@ class Job implements \D2U_Helper\ITranslationHelper
      * Get objects concerning translation updates.
      * @param int $clang_id Redaxo language ID
      * @param string $type 'update' or 'missing'
-     * @return Job[] array with Job objects
+     * @return array<Job> array with Job objects
      */
     public static function getTranslationHelperObjects($clang_id, $type)
     {
@@ -492,15 +493,15 @@ class Job implements \D2U_Helper\ITranslationHelper
 
         $objects = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $job = new self($result->getValue('job_id'), $clang_id);
+            $job = new self((int) $result->getValue('job_id'), $clang_id);
             // HR4YOU Import may have an other language than default language
-            if (0 == $job->job_id && rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-                $job = new self($result->getValue('job_id'), rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+            if (0 === $job->job_id && rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
+                $job = new self((int) $result->getValue('job_id'), (int) rex_config::get('d2u_jobs', 'hr4you_default_lang'));
             }
             if (0 === $job->job_id) {
-                foreach (rex_clang::getAllIds() as $clang_id) {
-                    $temp_job = new self($result->getValue('job_id'), $clang_id);
-                    if ($temp_job->job_id) {
+                foreach (rex_clang::getAllIds() as $cur_clang_id) {
+                    $temp_job = new self((int) $result->getValue('job_id'), $cur_clang_id);
+                    if ($temp_job->job_id > 0) {
                         $job = $temp_job;
                         break;
                     }
@@ -554,7 +555,7 @@ class Job implements \D2U_Helper\ITranslationHelper
             $query = \rex::getTablePrefix() .'d2u_jobs_jobs SET '
                     ."reference_number = '". $this->reference_number ."', "
                     ."category_ids = '|". implode('|', array_keys($this->categories)) ."|', "
-                    .'contact_id = '. $this->contact->contact_id .', '
+                    .'contact_id = '. ($this->contact instanceof Contact ? $this->contact->contact_id : 0) .', '
                     ."date = '". $this->date ."', "
                     ."city = '". $this->city ."', "
                     ."zip_code = '". $this->zip_code ."', "
@@ -584,8 +585,8 @@ class Job implements \D2U_Helper\ITranslationHelper
         $regenerate_urls = false;
         if (!$error) {
             // Save the language specific part
-            $pre_save_job = new self($this->job_id, $this->clang_id);
-            if ($pre_save_job != $this) {
+            $pre_save_object = new self($this->job_id, $this->clang_id);
+            if ($pre_save_object !== $this) {
                 $query = 'REPLACE INTO '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang SET '
                         ."job_id = '". $this->job_id ."', "
                         ."clang_id = '". $this->clang_id ."', "
@@ -599,7 +600,7 @@ class Job implements \D2U_Helper\ITranslationHelper
                         ."offer_text = '". addslashes($this->offer_text) ."', "
                         ."translation_needs_update = '". $this->translation_needs_update ."', "
                         .'updatedate = CURRENT_TIMESTAMP ';
-                if (\rex::getUser()) {
+                if (\rex::getUser() instanceof rex_user) {
                     $query .= ", updateuser = '". \rex::getUser()->getLogin() ."' ";
                 } elseif (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
                     $query .= ", hr4you_lead_in = '". $this->hr4you_lead_in ."' "
@@ -609,7 +610,7 @@ class Job implements \D2U_Helper\ITranslationHelper
                 $result->setQuery($query);
                 $error = $result->hasError();
 
-                if (!$error && $pre_save_job->name != $this->name) {
+                if (!$error && $pre_save_object->name !== $this->name) {
                     $regenerate_urls = true;
                 }
             }

@@ -19,7 +19,7 @@ $d2u_module_manager->showManagerList();
 $sql = rex_sql::factory();
 $sql->setQuery("SHOW TABLES LIKE '". rex::getTablePrefix() ."d2u_stellenmarkt_stellen'");
 $old_tables_available = $sql->getRows() > 0 ? true : false;
-if ('d2u_stellenmarkt' == rex_request('import', 'string') && $old_tables_available) {
+if ('d2u_stellenmarkt' === rex_request('import', 'string') && $old_tables_available) {
     $sql->setQuery('DROP TABLE `'. rex::getTablePrefix() .'d2u_jobs_jobs`;
 			DROP TABLE `'. rex::getTablePrefix() .'d2u_jobs_jobs_lang`;
 			DROP TABLE `'. rex::getTablePrefix() .'d2u_jobs_categories`;
@@ -94,7 +94,7 @@ if ('d2u_stellenmarkt' == rex_request('import', 'string') && $old_tables_availab
 		DROP FUNCTION IF EXISTS `getPriority`;');
 
     $sql->setQuery('SHOW COLUMNS FROM '. \rex::getTablePrefix() ."d2u_jobs_jobs LIKE 'hr4you_jobid';");
-    if ($sql->getRows() > 0 && '' == $error) {
+    if ($sql->getRows() > 0 && '' === $error) {
         $sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() .'d2u_jobs_jobs` CHANGE `hr4you_jobid` `hr4you_job_id` INT(10) NULL DEFAULT NULL;
 		ALTER TABLE `'. rex::getTablePrefix() .'d2u_jobs_jobs` ADD `hr4you_url_application_form` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL AFTER `hr4you_job_id`;
 		ALTER TABLE `'. rex::getTablePrefix() .'d2u_jobs_jobs_lang` CHANGE `hr4you_einleitung` `hr4you_lead_in` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL;
@@ -102,7 +102,7 @@ if ('d2u_stellenmarkt' == rex_request('import', 'string') && $old_tables_availab
         $error = $sql->hasError() ? $sql->getError() : '';
     }
 
-    if ('' != $error) {
+    if ('' !== $error) {
         echo rex_view::error('Fehler beim Import: '. $error);
     } else {
         echo rex_view::success('Daten aus Redaxo 4 D2U Stellenmarkt Addon importiert und alte Tabellen gelöscht');
@@ -129,7 +129,7 @@ if ('d2u_stellenmarkt' == rex_request('import', 'string') && $old_tables_availab
 <h2>Changelog</h2>
 <p>1.2.7-DEV:</p>
 <ul>
-	<li>...</li>
+	<li>Ca. 300 rexstan Level 9 Anpassungen.</li>
 </ul>
 <p>1.2.6:</p>
 <ul>

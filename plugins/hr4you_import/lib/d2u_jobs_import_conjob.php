@@ -6,7 +6,7 @@ class d2u_jobs_import_conjob extends D2U_Helper\ACronJob
 {
     /**
      * Create a new instance of object.
-     * @return multinewsletter_cronjob_cleanup CronJob object
+     * @return d2u_jobs_import_conjob CronJob object
      */
     public static function factory()
     {

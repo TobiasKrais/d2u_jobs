@@ -16,7 +16,7 @@
                 $select->addOption($category->name, $category->category_id);
             }
             $select->setSelected('REX_VALUE[1]');
-            echo $select->show();
+            $select->show();
         ?>
 	</div>
 </div>

@@ -1,5 +1,11 @@
 <?php
+
+use D2U_Jobs\Category;
+use D2U_Jobs\Contact;
+use D2U_Jobs\Job;
+
 /**
+ * @api
  * Class managing all HR4You stuff.
  */
 class hr4you
@@ -7,7 +13,7 @@ class hr4you
     /**
      * Perform HR4You XML import, calls import().
      */
-    public static function autoimport()
+    public static function autoimport():void
     {
         // Include mediapool functions when call is frontend call
         if (!rex::isBackend()) {
@@ -32,7 +38,7 @@ class hr4you
         }
 
         $xml_stream = stream_context_create(['http' => ['header' => 'Accept: application/xml']]);
-        $xml_contents = file_get_contents($hr4you_xml_url, false, $xml_stream);
+        $xml_contents = file_get_contents((string) $hr4you_xml_url, false, $xml_stream);
         if (false === $xml_contents) {
             echo \rex_view::error(\rex_i18n::msg('d2u_jobs_hr4you_import_failure_xml_url'));
             return false;
@@ -46,13 +52,13 @@ class hr4you
         $old_pictures = [];
         foreach ($old_jobs as $old_job) {
             // Pictures
-            if (!in_array($old_job->picture, $old_pictures)) {
+            if (!in_array($old_job->picture, $old_pictures, true)) {
                 $old_pictures[$old_job->picture] = $old_job->picture;
             }
             // D2U_Jobs\Contacts
-            if (false !== $old_job->contact && !array_key_exists($old_job->contact->contact_id, $old_contacts)) {
+            if ($old_job->contact instanceof Contact && !array_key_exists($old_job->contact->contact_id, $old_contacts)) {
                 $old_contacts[$old_job->contact->contact_id] = $old_job->contact;
-                if (!in_array($old_job->contact->picture, $old_pictures)) {
+                if (!in_array($old_job->contact->picture, $old_pictures, true)) {
                     $old_pictures[$old_job->contact->picture] = $old_job->contact->picture;
                 }
             }
@@ -62,13 +68,13 @@ class hr4you
         foreach ($xml_jobs->entry as $xml_job) {
             // Import pictures
             $job_picture_filename = '';
-            if ('' != $xml_job->kopfgrafik_url) {
+            if ('' !== (string) $xml_job->kopfgrafik_url) {
                 $job_picture_pathInfo = pathinfo($xml_job->kopfgrafik_url);
                 $job_picture_filename = self::getMediapoolFilename($job_picture_pathInfo['basename']);
                 $job_picture = \rex_media::get($job_picture_filename);
                 if ($job_picture instanceof \rex_media && $job_picture->fileExists()) {
                     // File already imported, unset in $old_pictures, because remaining ones will be deleted
-                    if (in_array($job_picture->getFileName(), $old_pictures)) {
+                    if (in_array($job_picture->getFileName(), $old_pictures, true)) {
                         unset($old_pictures[$job_picture->getFileName()]);
                     }
                     self::log('Job picture '. $job_picture_filename .' already available in mediapool.');
@@ -86,11 +92,11 @@ class hr4you
                     $target_picture = \rex_path::media($job_picture_pathInfo['basename']);
                     // Copy first
                     if (copy($xml_job->kopfgrafik_url, $target_picture)) {
-                        chmod($target_picture, octdec(664));
+                        chmod($target_picture, 0664);
 
                         $data = [];
-                        $data['title'] = $xml_jobs->titel;
-                        $data['category_id'] = \rex_config::get('d2u_jobs', 'hr4you_media_category');
+                        $data['category_id'] = (int) \rex_config::get('d2u_jobs', 'hr4you_media_category');
+                        $data['title'] = (string) $xml_jobs->titel;
                         $data['file'] = [
                             'name' => $job_picture_pathInfo['basename'],
                             'path' => rex_path::media($job_picture_pathInfo['basename']),
@@ -110,51 +116,51 @@ class hr4you
 
             // Import contact
             $contact = \D2U_Jobs\Contact::getByMail($xml_job->ap_email);
-            if (false === $contact) {
-                $contact = \D2U_Jobs\Contact::factory();
-                self::log('Contact '. $contact->name .' added.');
-            } else {
+            if ($contact instanceof \D2U_Jobs\Contact) {
                 self::log('Contact '. $contact->name .' already exists.');
+            } else {
+                $contact = \D2U_Jobs\Contact::factory();
+                self::log('New Contact added.');
             }
             $contact->name = $xml_job->ap_vorname . ' ' . $xml_job->ap_nachname;
-            if ('' != $xml_job->ap_telefon->__toString()) {
+            if ('' !== $xml_job->ap_telefon->__toString()) {
                 $contact->phone = $xml_job->ap_telefon->__toString();
             }
-            if ('' != $xml_job->ap_email->__toString()) {
+            if ('' !== $xml_job->ap_email->__toString()) {
                 $contact->email = $xml_job->ap_email->__toString();
             }
             $contact->save();
             if (array_key_exists($contact->contact_id, $old_contacts)) {
                 unset($old_contacts[$contact->contact_id]);
             }
-            if ('' != $contact->picture && in_array($contact->picture, $old_pictures)) {
+            if ('' !== $contact->picture && in_array($contact->picture, $old_pictures, true)) {
                 unset($old_pictures[$contact->picture]);
             }
 
             // Category
-            $category = \D2U_Jobs\Category::getByHR4YouID($xml_job->berufskategorie_id->__toString());
+            $category = \D2U_Jobs\Category::getByHR4YouID((int) $xml_job->berufskategorie_id->__toString());
             if (false === $category) {
                 self::log('Category with HR4You ID '. $xml_job->berufskategorie_id->__toString() .' does not exist. Falback to default category.');
-                $category = new \D2U_Jobs\Category(\rex_config::get('d2u_jobs', 'hr4you_default_category'), \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+                $category = new \D2U_Jobs\Category((int) \rex_config::get('d2u_jobs', 'hr4you_default_category'), (int) \rex_config::get('d2u_jobs', 'hr4you_default_lang'));
             }
 
             // Import job
-            $job = \D2U_Jobs\Job::getByHR4YouID($xml_job->jobid->__toString());
-            if (false == $job) {
+            $job = \D2U_Jobs\Job::getByHR4YouID((int) $xml_job->jobid->__toString());
+            if (!$job instanceof Job) {
                 $job = \D2U_Jobs\Job::factory();
-                $job->clang_id = \rex_config::get('d2u_jobs', 'hr4you_default_lang');
-                $job->hr4you_job_id = $xml_job->jobid->__toString();
+                $job->clang_id = (int) \rex_config::get('d2u_jobs', 'hr4you_default_lang');
+                $job->hr4you_job_id = (int)$xml_job->jobid->__toString();
             }
 
             foreach (\rex_clang::getAll() as $clang) {
-                if ($clang->getCode() == $xml_job->sprachcode->__toString()) {
+                if ($clang->getCode() === $xml_job->sprachcode->__toString()) {
                     $job->clang_id = $clang->getId();
                     break;
                 }
             }
 
             $job->contact = $contact;
-            if (!in_array($category, $job->categories)) {
+            if ($category instanceof Category && !in_array($category, $job->categories, true)) {
                 $job->categories[$category->category_id] = $category;
             }
 
@@ -164,24 +170,24 @@ class hr4you
             $job->hr4you_url_application_form = $xml_job->url_application_form->__toString();
             $job->internal_name = $xml_job->titel->__toString();
             $job->name = $xml_job->titel->__toString();
-            $job->offer_heading = html_entity_decode('' != self::getHeadline($xml_job->block3_html) ? self::getHeadline($xml_job->block3_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_offer_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
+            $job->offer_heading = html_entity_decode('' !== self::getHeadline($xml_job->block3_html) ? self::getHeadline($xml_job->block3_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_offer_heading', (int) \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
             $job->offer_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block3_html)));
             $job->online_status = 'online';
-            if ('' != $job_picture_filename) {
+            if ('' !== $job_picture_filename) {
                 $job->picture = $job_picture_filename;
             }
-            $job->profile_heading = html_entity_decode('' != self::getHeadline($xml_job->block2_html) ? self::getHeadline($xml_job->block2_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_profile_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
+            $job->profile_heading = html_entity_decode('' !== self::getHeadline($xml_job->block2_html) ? self::getHeadline($xml_job->block2_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_profile_heading', (int) \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
             $job->profile_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block2_html)));
             $job->reference_number = $xml_job->referenznummer->__toString();
-            $job->tasks_heading = html_entity_decode('' != self::getHeadline($xml_job->block1_html) ? self::getHeadline($xml_job->block1_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_tasks_heading', \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
+            $job->tasks_heading = html_entity_decode('' !== self::getHeadline($xml_job->block1_html) ? self::getHeadline($xml_job->block1_html) : \Sprog\Wildcard::get('d2u_jobs_hr4you_tasks_heading', (int) \rex_config::get('d2u_jobs', 'hr4you_default_lang')));
             $job->tasks_text = html_entity_decode(self::trimString(self::stripHeadline($xml_job->block1_html)));
-            if (3 == (int) $xml_job->stellenart_id->__toString()) {
+            if (3 === (int) $xml_job->stellenart_id->__toString()) {
                 $job->type = 'VOLUNTEER';
-            } elseif (5 == (int) $xml_job->stellenart_id->__toString()) {
+            } elseif (5 === (int) $xml_job->stellenart_id->__toString()) {
                 $job->type = 'CONTRACTOR';
-            } elseif (in_array((int) $xml_job->stellenart_id->__toString(), [6, 8])) {
+            } elseif (in_array((int) $xml_job->stellenart_id->__toString(), [6, 8], true)) {
                 $job->type = 'FULL_TIME';
-            } elseif (in_array((int) $xml_job->stellenart_id->__toString(), [7, 9, 10])) {
+            } elseif (in_array((int) $xml_job->stellenart_id->__toString(), [7, 9, 10], true)) {
                 $job->type = 'PART_TIME';
             } else {
                 $job->type = 'OTHER';
@@ -229,14 +235,14 @@ class hr4you
      */
     private static function getHeadline($string)
     {
-        if ('' == $string) {
+        if ('' === $string) {
             return '';
         }
 
         $doc = new DOMDocument();
         $doc->loadHTML($string);
 
-        foreach ($doc->getElementsByTagName(\rex_config::get('d2u_jobs', 'hr4you_headline_tag')) as $item) {
+        foreach ($doc->getElementsByTagName((string) \rex_config::get('d2u_jobs', 'hr4you_headline_tag')) as $item) {
             return $item->textContent;
         }
 
@@ -256,7 +262,7 @@ class hr4you
         $result->setQuery($query);
 
         if ($result->getRows() > 0) {
-            return $result->getValue('filename');
+            return (string) $result->getValue('filename');
         }
 
         return '';
@@ -283,9 +289,9 @@ class hr4you
     private static function trimString($string)
     {
         $string = strip_tags($string, '<ul></ul><li></li><b></b><i></i><strong></strong><br><br /><p></p><small></small>');
-        $string = trim(preg_replace('/\t+/', '', $string));
+        $string = trim((string) preg_replace('/\t+/', '', $string));
         $string = str_replace(['&nbsp;', '&crarr;'], ' ', $string);
-        $string = preg_replace('/\\s+/', ' ', $string);
+        $string = (string) preg_replace('/\\s+/', ' ', $string);
         return str_replace(["\r", "\n"], '', $string);
     }
 
@@ -293,7 +299,7 @@ class hr4you
      * Logs message.
      * @param string $message Message to be logged
      */
-    private static function log($message)
+    private static function log($message):void
     {
         $log = file_exists(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt')) ? file_get_contents(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt')) : '';
 

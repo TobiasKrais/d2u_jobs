@@ -1,5 +1,6 @@
 <?php
 /**
+ * @api
  * Offers helper functions for language issues.
  */
 class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
@@ -8,7 +9,7 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
      * @var array<string, string> Array with chinese replacements. Key is the wildcard,
      * value the replacement.
      */
-    public $replacements_chinese = [
+    protected $replacements_chinese = [
         'd2u_jobs_announcement' => '招标',
         'd2u_jobs_application_link' => '在线申请表',
         'd2u_jobs_footer' => '请将您的完整求职资料与可行的入职日期和薪水要求一并发送至电子邮箱：',
@@ -149,17 +150,17 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
                 $lang_replacement = rex_config::get('d2u_jobs', 'lang_replacement_'. $clang_id, '');
 
                 // Load values for input
-                if ('chinese' === $lang_replacement && isset($this->replacements_chinese) && isset($this->replacements_chinese[$key])) {
+                if ('chinese' === $lang_replacement && isset($this->replacements_chinese[$key])) {
                     $value = $this->replacements_chinese[$key];
-                } elseif ('french' === $lang_replacement && isset($this->replacements_french) && isset($this->replacements_french[$key])) {
+                } elseif ('french' === $lang_replacement && isset($this->replacements_french[$key])) {
                     $value = $this->replacements_french[$key];
-                } elseif ('german' === $lang_replacement && isset($this->replacements_german) && isset($this->replacements_german[$key])) {
+                } elseif ('german' === $lang_replacement && isset($this->replacements_german[$key])) {
                     $value = $this->replacements_german[$key];
-                } elseif ('dutch' === $lang_replacement && isset($this->replacements_dutch) && isset($this->replacements_dutch[$key])) {
+                } elseif ('dutch' === $lang_replacement && isset($this->replacements_dutch[$key])) {
                     $value = $this->replacements_dutch[$key];
-                } elseif ('russian' === $lang_replacement && isset($this->replacements_russian) && isset($this->replacements_russian[$key])) {
+                } elseif ('russian' === $lang_replacement && isset($this->replacements_russian[$key])) {
                     $value = $this->replacements_russian[$key];
-                } elseif ('spanish' === $lang_replacement && isset($this->replacements_spanish) && isset($this->replacements_spanish[$key])) {
+                } elseif ('spanish' === $lang_replacement && isset($this->replacements_spanish[$key])) {
                     $value = $this->replacements_spanish[$key];
                 } else {
                     $value = $this->replacements_english[$key];

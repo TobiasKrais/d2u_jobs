@@ -1,4 +1,8 @@
 <?php
+
+use D2U_Jobs\Contact;
+use D2U_Jobs\Job;
+
 $func = rex_request('func', 'string');
 $entry_id = (int) rex_request('entry_id', 'int');
 $message = rex_get('message', 'string');
@@ -6,7 +10,7 @@ $message_type = rex_request('message_type', 'string');
 
 // Print comments
 if ('' !== $message) {
-    if ('error' == $message_type) {
+    if ('error' === $message_type) {
         echo rex_view::error(rex_i18n::msg($message));
     } else {
         echo rex_view::success(rex_i18n::msg($message));
@@ -70,7 +74,7 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
     // message output
     $message = 'form_save_error';
     $message_type = 'error';
-    if ($success && 0 === $job->job_id) {
+    if ($success && $job instanceof Job && 0 === $job->job_id) {
         $message = 'd2u_jobs_not_saved_no_lang';
     } elseif ($success) {
         $message = 'form_saved';
@@ -92,7 +96,7 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_delete', FILTER_VALIDATE_INT) || '
         $form = rex_post('form', 'array', []);
         $job_id = $form['job_id'];
     }
-    $job = new D2U_Jobs\Job($job_id, rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
+    $job = new D2U_Jobs\Job($job_id, (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
     $job->job_id = $job_id; // Ensure correct ID in case language has no object
     $job->delete();
 
@@ -101,7 +105,7 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_delete', FILTER_VALIDATE_INT) || '
 // Change online status of category
 elseif ('changestatus' === $func) {
     $job_id = $entry_id;
-    $job = new D2U_Jobs\Job($job_id, rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
+    $job = new D2U_Jobs\Job($job_id, (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
     $job->job_id = $job_id; // Ensure correct ID in case language has no object
     $job->changeStatus();
 
@@ -122,7 +126,7 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
 					<div class="panel-body-wrapper slide">
 						<?php
                             // Do not use last object from translations, because you don't know if it exists in DB
-                            $job = new D2U_Jobs\Job($entry_id, rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
+                            $job = new D2U_Jobs\Job($entry_id, (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()));
                             foreach (rex_clang::getAllIds() as $clang_id) {
                                 $temp_job = new D2U_Jobs\Job($entry_id, $clang_id);
                                 if ($temp_job->job_id > 0) {
@@ -139,7 +143,7 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                             d2u_addon_backend_helper::form_input('d2u_jobs_internal_name', 'form[internal_name]', $job->internal_name, true, $readonly);
                             d2u_addon_backend_helper::form_input('d2u_jobs_reference_number', 'form[reference_number]', $job->reference_number, false, $readonly, 'text');
                             $options_categories = [];
-                            foreach (D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()), false) as $category) {
+                            foreach (D2U_Jobs\Category::getAll((int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()), false) as $category) {
                                 $options_categories[$category->category_id] = $category->name;
                             }
                             d2u_addon_backend_helper::form_select('d2u_helper_category', 'form[category_ids][]', $options_categories, count($job->categories) > 0 ? array_keys($job->categories) : [], 5, true, $readonly);
@@ -171,11 +175,11 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                             d2u_addon_backend_helper::form_select('d2u_jobs_type', 'form[type]', $options_type, [$job->type], 1, false, $readonly);
                             $options_contacts = [];
                             foreach (D2U_Jobs\Contact::getAll() as $contact) {
-                                if ('' != $contact->name) {
+                                if ('' !== $contact->name) {
                                     $options_contacts[$contact->contact_id] = $contact->name;
                                 }
                             }
-                            d2u_addon_backend_helper::form_select('d2u_jobs_contact', 'form[contact_id]', $options_contacts, false === $job->contact ? [] : [$job->contact->contact_id], 1, false, $readonly);
+                            d2u_addon_backend_helper::form_select('d2u_jobs_contact', 'form[contact_id]', $options_contacts, $job->contact instanceof Contact ? [$job->contact->contact_id] : [], 1, false, $readonly);
                         ?>
 					</div>
 				</fieldset>
@@ -196,10 +200,10 @@ if ('edit' === $func || 'clone' === $func || 'add' === $func) {
                     }
                     foreach (rex_clang::getAll() as $rex_clang) {
                         $job = new D2U_Jobs\Job($entry_id, $rex_clang->getId());
-                        $required = $rex_clang->getId() == rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()) ? true : false;
+                        $required = $rex_clang->getId() === (int) rex_config::get('d2u_helper', 'default_lang', rex_clang::getStartId()) ? true : false;
 
                         $readonly_lang = true;
-                        if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('d2u_jobs[edit_lang]') && rex::getUser()->getComplexPerm('clang')->hasPerm($rex_clang->getId()))) {
+                        if (rex::getUser() instanceof rex_user && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('d2u_jobs[edit_lang]') && rex::getUser()->getComplexPerm('clang') instanceof rex_clang_perm && rex::getUser()->getComplexPerm('clang')->hasPerm($rex_clang->getId())))) {
                             $readonly_lang = false;
                         }
                 ?>

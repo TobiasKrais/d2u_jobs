@@ -11,19 +11,19 @@ use rex_sql;
 class Contact
 {
     /** @var int Database ID */
-    public $contact_id = 0;
+    public int $contact_id = 0;
 
     /** @var string Name */
-    public $name = '';
+    public string $name = '';
 
     /** @var string Picture */
-    public $picture = '';
+    public string $picture = '';
 
     /** @var string Phone number */
-    public $phone = '';
+    public string $phone = '';
 
     /** @var string E-Mail address */
-    public $email = '';
+    public string $email = '';
 
     /**
      * Constructor.
@@ -39,14 +39,12 @@ class Contact
             $num_rows = $result->getRows();
 
             if ($num_rows > 0) {
-                $this->contact_id = $result->getValue('contact_id');
-                $this->name = stripslashes($result->getValue('name'));
-                $this->picture = $result->getValue('picture');
-                $this->phone = $result->getValue('phone');
-                $this->email = $result->getValue('email');
+                $this->contact_id = (int) $result->getValue('contact_id');
+                $this->name = stripslashes((string) $result->getValue('name'));
+                $this->picture = (string) $result->getValue('picture');
+                $this->phone = (string) $result->getValue('phone');
+                $this->email = (string) $result->getValue('email');
             }
-        } else {
-            return $this;
         }
     }
 
@@ -91,6 +89,7 @@ class Contact
     /**
      * Get contact by e-mail address.
      * @param string $email E-Mail address
+     * @return Contact|bool
      */
     public static function getByMail($email)
     {
@@ -105,16 +104,15 @@ class Contact
         }
 
         return false;
-
     }
 
     /**
      * Gets the jobs of the contact.
-     * @return Job[] Jobs
+     * @return array<Job> Jobs
      */
     public function getJobs()
     {
-        $clang_id = (int) rex_config::get('d2u_helper', 'default_lang');
+        $clang_id = (int) \rex_config::get('d2u_helper', 'default_lang');
         $query = 'SELECT jobs.job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
             .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
                 .'ON jobs.job_id = lang.job_id AND lang.clang_id = '. $clang_id .' '
@@ -125,7 +123,7 @@ class Contact
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $jobs[] = new Job($result->getValue('job_id'), $clang_id);
+            $jobs[] = new Job((int) $result->getValue('job_id'), $clang_id);
             $result->next();
         }
         return $jobs;
@@ -133,15 +131,15 @@ class Contact
 
     /**
      * Updates or inserts the object into database.
-     * @return in error code if error occurs
+     * @return bool true if error occurs
      */
     public function save()
     {
         $error = false;
 
-        $pre_save_contact = new self($this->contact_id);
+        $pre_save_object = new self($this->contact_id);
 
-        if (0 === $this->contact_id || $pre_save_contact != $this) {
+        if (0 === $this->contact_id || $pre_save_object !== $this) {
             $query = rex::getTablePrefix() .'d2u_jobs_contacts SET '
                     ."email = '". $this->email ."', "
                     ."name = '". addslashes($this->name) ."', "

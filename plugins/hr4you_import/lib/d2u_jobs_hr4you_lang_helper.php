@@ -1,5 +1,6 @@
 <?php
 /**
+ * @api
  * Offers helper functions for language issues.
  */
 class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper
@@ -66,7 +67,7 @@ class d2u_jobs_hr4you_lang_helper extends \D2U_Helper\ALangHelper
 
     /**
      * Factory method.
-     * @return d2u_immo_lang_helper Object
+     * @return d2u_jobs_hr4you_lang_helper Object
      */
     public static function factory()
     {

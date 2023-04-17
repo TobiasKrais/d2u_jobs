@@ -15,11 +15,11 @@
     ->ensureColumn(new \rex_sql_column('picture', 'VARCHAR(191)', true))
     ->ensureColumn(new \rex_sql_column('online_status', 'VARCHAR(10)', true))
     ->ensureColumn(new \rex_sql_column('type', 'VARCHAR(20)', true))
-    ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, 0))
+    ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, '0'))
     ->ensure();
 \rex_sql_table::get(\rex::getTable('d2u_jobs_jobs_lang'))
     ->ensureColumn(new rex_sql_column('job_id', 'INT(11) unsigned', false, null, 'auto_increment'))
-    ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', false, 1))
+    ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', false, '1'))
     ->setPrimaryKey(['job_id', 'clang_id'])
     ->ensureColumn(new \rex_sql_column('name', 'VARCHAR(191)'))
     ->ensureColumn(new \rex_sql_column('prolog', 'TEXT', true, null))
@@ -37,12 +37,12 @@
 \rex_sql_table::get(\rex::getTable('d2u_jobs_categories'))
     ->ensureColumn(new rex_sql_column('category_id', 'INT(11) unsigned', false, null, 'auto_increment'))
     ->setPrimaryKey('category_id')
-    ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, 0))
+    ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, '0'))
     ->ensureColumn(new \rex_sql_column('picture', 'VARCHAR(255)', true))
     ->ensure();
 \rex_sql_table::get(\rex::getTable('d2u_jobs_categories_lang'))
     ->ensureColumn(new rex_sql_column('category_id', 'INT(11) unsigned', false, null, 'auto_increment'))
-    ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', false, 1))
+    ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', false, '1'))
     ->setPrimaryKey(['category_id', 'clang_id'])
     ->ensureColumn(new \rex_sql_column('name', 'VARCHAR(255)'))
     ->ensureColumn(new \rex_sql_column('translation_needs_update', 'VARCHAR(7)'))
@@ -65,14 +65,14 @@ $sql->setQuery('SELECT * FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS l
 for ($i = 0; $i < $sql->getRows(); ++$i) {
     $sql_update = rex_sql::factory();
     // set internal name
-    if ('' == $sql->getValue('internal_name')) {
+    if ('' === $sql->getValue('internal_name')) {
         $sql_update->setQuery('UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs SET internal_name = "'. $sql->getValue('name') .'" WHERE job_id = '. $sql->getValue('job_id'));
     }
     // decode HTML entities
-    if (rex_version::compare($this->getVersion(), '1.2.3', '<')) {
-        $sql_update->setQuery('UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang SET tasks_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode($sql->getValue('tasks_text'))))) .'", '
-            . 'profile_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode($sql->getValue('profile_text'))))) .'", '
-            . 'offer_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode($sql->getValue('offer_text'))))) .'" '
+    if (rex_version::compare($this->getVersion(), '1.2.3', '<')) { /** @phpstan-ignore-line */
+        $sql_update->setQuery('UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang SET tasks_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode((string) $sql->getValue('tasks_text'))))) .'", '
+            . 'profile_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode((string) $sql->getValue('profile_text'))))) .'", '
+            . 'offer_text = "'. addslashes(stripslashes(html_entity_decode(htmlspecialchars_decode((string) $sql->getValue('offer_text'))))) .'" '
             . 'WHERE job_id = '. $sql->getValue('job_id') .' AND clang_id = '. $sql->getValue('clang_id'));
     }
     $sql->next();
@@ -154,8 +154,8 @@ if (0 === (int) $sql->getRows()) {
 }
 
 // Standard settings
-if (!$this->hasConfig('article_id')) {
-    $this->setConfig('article_id', rex_article::getSiteStartArticleId());
+if (!$this->hasConfig('article_id')) { /** @phpstan-ignore-line */
+    $this->setConfig('article_id', rex_article::getSiteStartArticleId()); /** @phpstan-ignore-line */
 }
 
 // Insert frontend translations

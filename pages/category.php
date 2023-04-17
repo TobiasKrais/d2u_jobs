@@ -84,16 +84,6 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_delete', FILTER_VALIDATE_INT) || '
 
     $func = '';
 }
-// Change online status of category
-elseif ('changestatus' === $func) {
-    $category_id = $entry_id;
-    $category = new D2U_Jobs\Category($category_id, (int) rex_config::get('d2u_helper', 'default_lang'));
-    $category->category_id = $category_id; // Ensure correct ID in case language has no object
-    $category->changeStatus();
-
-    header('Location: '. rex_url::currentBackendPage());
-    exit;
-}
 
 // Form
 if ('edit' === $func || 'add' === $func) {
@@ -128,7 +118,7 @@ if ('edit' === $func || 'add' === $func) {
                         $required = $rex_clang->getId() === (int) (rex_config::get('d2u_helper', 'default_lang')) ? true : false;
 
                         $readonly_lang = true;
-                        if (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('d2u_jobs[edit_lang]') && rex::getUser()->getComplexPerm('clang')->hasPerm($rex_clang->getId()))) {
+                        if (rex::getUser() instanceof rex_user && (rex::getUser()->isAdmin() || (rex::getUser()->hasPerm('d2u_jobs[edit_lang]') && rex::getUser()->getComplexPerm('clang') instanceof rex_clang_perm && rex::getUser()->getComplexPerm('clang')->hasPerm($rex_clang->getId())))) {
                             $readonly_lang = false;
                         }
                 ?>

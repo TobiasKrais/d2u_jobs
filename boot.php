@@ -15,14 +15,16 @@ if (rex::isBackend()) {
 } else {
     // Delete attachments after sending application e-mails
     rex_extension::register('YFORM_EMAIL_SENT', static function (rex_extension_point $ep_yform_sent) {
-        if ('d2u_jobs_application' == $ep_yform_sent->getSubject()) {
+        if ('d2u_jobs_application' === $ep_yform_sent->getSubject()) {
             rex_extension::register('RESPONSE_SHUTDOWN', static function (rex_extension_point $ep_response_shutdown) {
                 $folder = rex_path::pluginData('yform', 'manager') .'upload/frontend';
                 if (file_exists($folder)) {
                     $objects = scandir($folder);
-                    foreach ($objects as $object) {
-                        if ('.' != $object && '..' != $object) {
-                            unlink($folder .'/'. $object);
+                    if (is_array($objects)) {
+                        foreach ($objects as $object) {
+                            if ('.' !== $object && '..' !== $object) {
+                                unlink($folder .'/'. $object);
+                            }
                         }
                     }
                 }
@@ -35,7 +37,7 @@ if (rex::isBackend()) {
  * Checks if article is used by this addon.
  * @param rex_extension_point<string> $ep Redaxo extension point
  * @throws rex_api_exception If article is used
- * @return array<string> Warning message as array
+ * @return string empty string if article is not uses
  */
 function rex_d2u_jobs_article_is_in_use(rex_extension_point $ep)
 {
@@ -46,11 +48,8 @@ function rex_d2u_jobs_article_is_in_use(rex_extension_point $ep)
     // Settings
     $addon = rex_addon::get('d2u_jobs');
     if ($addon->hasConfig('article_id') && (int) $addon->getConfig('article_id') === $article_id) {
-        $message = '<a href="index.php?page=d2u_jobs/settings">'.
-             rex_i18n::msg('d2u_jobs_rights_all') .' - '. rex_i18n::msg('d2u_helper_settings') . '</a>';
-        if (!in_array($message, $warning, true)) {
-            $warning[] = $message;
-        }
+        $message = '<a href="index.php?page=d2u_jobs/settings">'. rex_i18n::msg('d2u_jobs_rights_all') .' - '. rex_i18n::msg('d2u_helper_settings') . '</a>';
+        $warning[] = $message;
     }
 
     if (count($warning) > 0) {
@@ -58,7 +57,6 @@ function rex_d2u_jobs_article_is_in_use(rex_extension_point $ep)
     }
 
     return '';
-
 }
 
 /**
@@ -77,7 +75,7 @@ function rex_d2u_jobs_clang_deleted(rex_extension_point $ep)
     foreach ($categories as $category) {
         $category->delete(false);
     }
-    $jobs = \D2U_Jobs\Job::getAll($clang_id, false);
+    $jobs = \D2U_Jobs\Job::getAll($clang_id, 0, false);
     foreach ($jobs as $job) {
         $job->delete(false);
     }
@@ -154,7 +152,7 @@ function rex_d2u_jobs_media_is_in_use(rex_extension_point $ep)
 
     // Settings
     $addon = rex_addon::get('d2u_jobs');
-    if ($addon->hasConfig('logo') && $addon->getConfig('logo') == $filename) {
+    if ($addon->hasConfig('logo') && $addon->getConfig('logo') === $filename) {
         $message = '<a href="javascript:openPage(\'index.php?page=d2u_jobs/settings\')">'.
              rex_i18n::msg('d2u_jobs') .' - '. rex_i18n::msg('d2u_helper_settings') . '</a>';
         if (!in_array($message, $warning, true)) {

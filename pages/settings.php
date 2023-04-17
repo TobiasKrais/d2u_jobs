@@ -5,7 +5,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 
     // Linkmap Link and media needs special treatment
     $link_ids = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
-    $settings['article_id'] = !is_array($link_ids) ? 0 : $link_ids['REX_INPUT_LINK'][1];
+    $settings['article_id'] = is_array($link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][1] : rex_article::getSiteStartArticleId();
 
     // Special treatment for media fields
     $input_media = rex_post('REX_INPUT_MEDIA', 'array', []);
@@ -31,7 +31,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
         // Install / remove Cronjob
         if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
             $import_cronjob = d2u_jobs_import_conjob::factory();
-            if ('active' == $this->getConfig('hr4you_autoimport')) {
+            if ('active' === rex_config::get('d2u_jobs', 'hr4you_autoimport')) {
                 if (!$import_cronjob->isInstalled()) {
                     $import_cronjob->install();
                 }
@@ -52,8 +52,8 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 				<legend><small><i class="rex-icon rex-icon-database"></i></small> <?= rex_i18n::msg('d2u_helper_settings') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        d2u_addon_backend_helper::form_input('d2u_jobs_settings_email', 'settings[email]', $this->getConfig('email'), true, false, 'email');
-                        d2u_addon_backend_helper::form_linkfield('d2u_helper_article_id', '1', $this->getConfig('article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
+                        d2u_addon_backend_helper::form_input('d2u_jobs_settings_email', 'settings[email]', (string) rex_config::get('d2u_jobs', 'email'), true, false, 'email');
+                        d2u_addon_backend_helper::form_linkfield('d2u_helper_article_id', '1', (int) rex_config::get('d2u_jobs', 'article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
                     ?>
 				</div>
 			</fieldset>
@@ -61,7 +61,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 				<legend><small><i class="rex-icon rex-icon-language"></i></small> <?= rex_i18n::msg('d2u_helper_lang_replacements') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        d2u_addon_backend_helper::form_checkbox('d2u_helper_lang_wildcard_overwrite', 'settings[lang_wildcard_overwrite]', 'true', 'true' == $this->getConfig('lang_wildcard_overwrite'));
+                        d2u_addon_backend_helper::form_checkbox('d2u_helper_lang_wildcard_overwrite', 'settings[lang_wildcard_overwrite]', 'true', 'true' === rex_config::get('d2u_jobs', 'lang_wildcard_overwrite'));
                         foreach (rex_clang::getAll() as $rex_clang) {
                             echo '<dl class="rex-form-group form-group">';
                             echo '<dt><label>'. $rex_clang->getName() .'</label></dt>';
@@ -77,7 +77,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
                                 'd2u_helper_lang_chinese' => 'chinese',
                             ];
                             foreach ($replacement_options as $key => $value) {
-                                $selected = $value == $this->getConfig('lang_replacement_'. $rex_clang->getId()) ? ' selected="selected"' : '';
+                                $selected = $value === rex_config::get('d2u_jobs', 'lang_replacement_'. $rex_clang->getId()) ? ' selected="selected"' : '';
                                 echo '<option value="'. $value .'"'. $selected .'>'. rex_i18n::msg('d2u_helper_lang_replacements_install') .' '. rex_i18n::msg($key) .'</option>';
                             }
                             echo '</select>';
@@ -90,8 +90,8 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 				<legend><small><i class="rex-icon fa-google"></i></small> <?= rex_i18n::msg('d2u_jobs_settings_google') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        d2u_addon_backend_helper::form_input('d2u_jobs_settings_company_name', 'settings[company_name]', $this->getConfig('company_name'), true, false, 'text');
-                        d2u_addon_backend_helper::form_mediafield('d2u_jobs_settings_logo', 'logo', $this->getConfig('logo'));
+                        d2u_addon_backend_helper::form_input('d2u_jobs_settings_company_name', 'settings[company_name]',(string) rex_config::get('d2u_jobs', 'company_name'), true, false, 'text');
+                        d2u_addon_backend_helper::form_mediafield('d2u_jobs_settings_logo', 'logo', (string) rex_config::get('d2u_jobs', 'logo'));
                     ?>
 				</div>
 			</fieldset>
@@ -108,9 +108,9 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
                                 foreach (rex_clang::getAll() as $rex_clang) {
                                     $lang_options[$rex_clang->getId()] = $rex_clang->getName();
                                 }
-                                d2u_addon_backend_helper::form_select('d2u_jobs_hr4you_settings_default_lang', 'settings[hr4you_default_lang]', $lang_options, [$this->getConfig('hr4you_default_lang')]);
+                                d2u_addon_backend_helper::form_select('d2u_jobs_hr4you_settings_default_lang', 'settings[hr4you_default_lang]', $lang_options, [(int) rex_config::get('d2u_jobs', 'hr4you_default_lang')]);
                             }
-                            d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_settings_hr4you_xml_url', 'settings[hr4you_xml_url]', $this->getConfig('hr4you_xml_url'), false, false);
+                            d2u_addon_backend_helper::form_input('d2u_jobs_hr4you_settings_hr4you_xml_url', 'settings[hr4you_xml_url]', (string) rex_config::get('d2u_jobs', 'hr4you_xml_url'), false, false);
                         ?>
 						<dl class="rex-form-group form-group" id="settings[hr4you_media_category]">
 							<dt><label><?= rex_i18n::msg('d2u_jobs_hr4you_settings_hr4you_media_category') ?></label></dt>
@@ -119,7 +119,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
                                     $media_category = new rex_media_category_select(false);
                                     $media_category->addOption(rex_i18n::msg('pool_kats_no'), 0);
                                     $media_category->get();
-                                    $media_category->setSelected($this->getConfig('hr4you_media_category'));
+                                    $media_category->setSelected(rex_config::get('d2u_jobs', 'hr4you_media_category'));
                                     $media_category->setName('settings[hr4you_media_category]');
                                     $media_category->setAttribute('class', 'form-control');
                                     $media_category->show();
@@ -128,16 +128,16 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 						</dl>
 						<?php
                             $job_category_options = [];
-                            foreach (D2U_Jobs\Category::getAll(rex_config::get('d2u_helper', 'default_lang'), false) as $job_category) {
+                            foreach (D2U_Jobs\Category::getAll((int) rex_config::get('d2u_helper', 'default_lang'), false) as $job_category) {
                                 $job_category_options[$job_category->category_id] = $job_category->name;
                             }
-                            d2u_addon_backend_helper::form_select('d2u_jobs_hr4you_settings_hr4you_default_category', 'settings[hr4you_default_category]', $job_category_options, [$this->getConfig('hr4you_default_category')]);
+                            d2u_addon_backend_helper::form_select('d2u_jobs_hr4you_settings_hr4you_default_category', 'settings[hr4you_default_category]', $job_category_options, [(string) rex_config::get('d2u_jobs', 'hr4you_default_category')]);
                             $job_headline_options = [];
                             for ($i = 1; $i <= 6; ++$i) {
                                 $job_headline_options['h'. $i] = htmlspecialchars('Überschrift <h'. $i .'>');
                             }
-                            d2u_addon_backend_helper::form_select('d2u_jobs_hr4you_settings_headline_tag', 'settings[hr4you_headline_tag]', $job_headline_options, [$this->getConfig('hr4you_headline_tag')]);
-                            d2u_addon_backend_helper::form_checkbox('d2u_jobs_hr4you_settings_hr4you_autoimport', 'settings[hr4you_autoimport]', 'active', 'active' == $this->getConfig('hr4you_autoimport'));
+                            d2u_addon_backend_helper::form_select('d2u_jobs_hr4you_settings_headline_tag', 'settings[hr4you_headline_tag]', $job_headline_options, [(string) rex_config::get('d2u_jobs', 'hr4you_headline_tag')]);
+                            d2u_addon_backend_helper::form_checkbox('d2u_jobs_hr4you_settings_hr4you_autoimport', 'settings[hr4you_autoimport]', 'active', 'active' === rex_config::get('d2u_jobs', 'hr4you_autoimport'));
                         ?>
 					</div>
 				</fieldset>

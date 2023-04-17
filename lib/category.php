@@ -12,6 +12,7 @@ use rex_sql;
 use rex_yrewrite;
 
 /**
+ * @api
  * Category class.
  */
 class Category implements \D2U_Helper\ITranslationHelper
@@ -38,7 +39,7 @@ class Category implements \D2U_Helper\ITranslationHelper
     public string $translation_needs_update = 'delete';
 
     /** @var string URL */
-    public string $url = '';
+    private string $url = '';
 
     /**
      * Constructor.
@@ -58,7 +59,7 @@ class Category implements \D2U_Helper\ITranslationHelper
 
         if ($result->getRows() > 0) {
             $this->category_id = (int) $result->getValue('category_id');
-            $this->name = (string) stripslashes($result->getValue('name'));
+            $this->name = stripslashes((string) $result->getValue('name'));
             $this->picture = (string) $result->getValue('picture');
             $this->priority = (int) $result->getValue('priority');
             $this->translation_needs_update = (string) $result->getValue('translation_needs_update');
@@ -176,7 +177,7 @@ class Category implements \D2U_Helper\ITranslationHelper
     /**
      * Get object by HR4You ID.
      * @param int $hr4you_id HR4You ID
-     * @return Category Category object, if available, otherwise false
+     * @return Category|bool Category object, if available, otherwise false
      */
     public static function getByHR4YouID($hr4you_id)
     {
@@ -187,7 +188,7 @@ class Category implements \D2U_Helper\ITranslationHelper
             $result->setQuery($query);
 
             if ($result->getRows() > 0) {
-                return new self((int) $result->getValue('category_id'), rex_config::get('d2u_jobs', 'hr4you_default_lang'));
+                return new self((int) $result->getValue('category_id'), (int) rex_config::get('d2u_jobs', 'hr4you_default_lang'));
             }
         }
         return false;
@@ -196,7 +197,7 @@ class Category implements \D2U_Helper\ITranslationHelper
     /**
      * Gets the jobs of the category.
      * @param bool $only_online Show only online jobs
-     * @return Job[] Jobs in this category
+     * @return array<Job> Jobs in this category
      */
     public function getJobs($only_online = false)
     {
@@ -213,7 +214,7 @@ class Category implements \D2U_Helper\ITranslationHelper
 
         $jobs = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $jobs[] = new Job($result->getValue('job_id'), $this->clang_id);
+            $jobs[] = new Job((int) $result->getValue('job_id'), $this->clang_id);
             $result->next();
         }
         return $jobs;
@@ -301,7 +302,7 @@ class Category implements \D2U_Helper\ITranslationHelper
                     .'priority = '. $this->priority .', '
                     ."picture = '". $this->picture ."' ";
             if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-                $query .= ', hr4you_category_id = '. ($this->hr4you_category_id ?: 0) .' ';
+                $query .= ', hr4you_category_id = '. $this->hr4you_category_id .' ';
             }
 
             if (0 === $this->category_id) {
