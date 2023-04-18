@@ -392,6 +392,34 @@ class Job implements \D2U_Helper\ITranslationHelper
     }
 
     /**
+     * Get all cities.
+     * @param int $clang_id Redaxo language ID
+     * @param bool $online_only If only online jobs should be returned true, otherwise false
+     * @return array<string> Array with city names
+     */
+    public static function getAllCities($clang_id, $online_only = true)
+    {
+        $query = 'SELECT city FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+            .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
+                .'ON lang.job_id = jobs.job_id AND clang_id = '. $clang_id;
+        if ($online_only) {
+            $query .= " AND online_status = 'online'";
+        }
+        $query .= ' GROUP BY city ORDER BY city DESC ';
+
+        $result = rex_sql::factory();
+        $result->setQuery($query);
+
+        $cities = [];
+        for ($i = 0; $i < $result->getRows(); ++$i) {
+            $cities[] = (string) $result->getValue('city');
+            $result->next();
+        }
+
+        return $cities;
+    }
+
+    /**
      * Get job as structured data JSON LD code.
      * @return string JSON LD code containing job data including script tag
      */

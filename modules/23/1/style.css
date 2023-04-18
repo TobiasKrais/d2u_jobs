@@ -42,3 +42,13 @@
 .job-box-list-link:hover {
 	text-decoration: none;
 }
+.d2u_jobs_filters {
+	padding-bottom: 15px;
+}
+.d2u_jobs_filters label, .d2u_jobs_filters select {
+	margin-right: 15px;
+}
+.d2u_jobs_filters select {
+	border: 1px solid article_color_h;
+	padding: 5px 10px;
+}

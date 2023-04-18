@@ -119,17 +119,21 @@ if ('d2u_stellenmarkt' === rex_request('import', 'string') && $old_tables_availa
 ?>
 <h2>Beispielseiten</h2>
 <ul>
+	<li>D2U Stellenmarkt Addon: <a href="https://test.design-to-use.de/de/addontests/d2u-stellenmarkt/" target="_blank">
+		Demoseite</a>.</li>
+	<li>D2U Stellenmarkt Addon: <a href="https://www.inotec-gmbh.com/de/" target="_blank">
+		www.inotec-gmbh.com</a>.</li>
 	<li>D2U Stellenmarkt Addon: <a href="https://www.kaltenbach.com/de/" target="_blank">
 		www.kaltenbach.com</a>.</li>
 </ul>
 <h2>Support</h2>
-<p>Sammelthread fürs Addon im <a href="https://redaxo.org/forum/viewtopic.php?f=43&t=21966" target="_blank">Redaxo Forum</a>.</p>
 <p>Fehlermeldungen bitte im Git Projekt unter
 	<a href="https://github.com/TobiasKrais/d2u_jobs/issues" target="_blank">https://github.com/TobiasKrais/d2u_jobs/issues</a> melden.</p>
 <h2>Changelog</h2>
 <p>1.2.7-DEV:</p>
 <ul>
 	<li>Ca. 300 rexstan Level 9 Anpassungen.</li>
+	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Filterfunktionen hinzugefügt.</li>
 </ul>
 <p>1.2.6:</p>
 <ul>

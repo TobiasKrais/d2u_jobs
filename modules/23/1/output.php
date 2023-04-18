@@ -2,6 +2,8 @@
 
 use D2U_Jobs\Category;
 use D2U_Jobs\Contact;
+use D2U_Jobs\Job;
+use Url\Rewriter\Yrewrite;
 
 if (!function_exists('prepareText')) {
     /**
@@ -212,6 +214,30 @@ if (rex::isBackend()) {
             echo $job->getJsonLdCode();
         }
     } else {
+        // Job filter
+        echo '<div class="col-12 d2u_jobs_filters">';
+        if(0 === (int) 'REX_VALUE[1]') { /** @phpstan-ignore-line */
+            $filter_categories = Category::getAll(rex_clang::getCurrentId(), true);
+            echo '<label for="filter">'. \Sprog\Wildcard::get('d2u_jobs_catgories') .':</label>';
+            echo '<select id="filter_categories">';
+            echo '<option value="all">'. \Sprog\Wildcard::get('d2u_jobs_all') .'</option>';
+            foreach($filter_categories as $filter_category) {
+                echo '<option value="'. rex_string::normalize($filter_category->name) .'">'. $filter_category->name .'</option>';
+            }
+            echo '</select>';
+        }
+        $filter_cities = Job::getAllCities(rex_clang::getCurrentId(), true);
+        if(count($filter_cities) > 1) { /** @phpstan-ignore-line */
+            echo '<label for="filter">'. \Sprog\Wildcard::get('d2u_jobs_cities') .':</label>';
+            echo '<select id="filter_cities">';
+            echo '<option value="all">'. \Sprog\Wildcard::get('d2u_jobs_all') .'</option>';
+            foreach($filter_cities as $filter_city) {
+                echo '<option value="'. rex_string::normalize($filter_city) .'">'. $filter_city .'</option>';
+            }
+            echo '</select>';
+        }
+        echo '</div>';
+
         // Output Job list
         $jobs = D2U_Jobs\Job::getAll(rex_clang::getCurrentId(), $category_id, true);
         echo '<div class="col-12">';
@@ -225,10 +251,14 @@ if (rex::isBackend()) {
             echo '</h1>';
             echo '</div>';
             foreach ($jobs as $job) {
-                echo '<div class="col-12 col-md-6 col-lg-4">';
+                $category_classes = [];
+                foreach ($job->categories as $job_category) {
+                    $category_classes[] = rex_string::normalize($job_category->name);
+                }
+                echo '<div class="col-12 col-md-6 col-lg-4 d2u_job'. (count($category_classes) > 0 ? ' '. implode(' ', $category_classes) : '')  . ('' !== $job->city ? ' '. rex_string::normalize($job->city) : '') .'">';
                 echo '<a href="'. $job->getUrl() .'" class="job-box-list-link" title="'. strip_tags($job->name).'">';
                 echo '<div class="job-box job-box-list" data-height-watch>';
-                echo '<img src="'. ('' !== $job->picture ? 'index.php?rex_media_type=d2u_jobs_joblist&rex_media_file='. $job->picture : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
+                echo '<img src="'. ('' !== $job->picture ? rex_media_manager::getUrl('d2u_jobs_joblist', $job->picture) : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
                 echo '<h2>'. $job->name .'</h2>';
                 if ('' !== $job->city || '' !== $job->reference_number) {
                     echo '<p>';
@@ -247,5 +277,43 @@ if (rex::isBackend()) {
         }
         echo '</div>';
         echo '</div>';
+    ?>
+        <script>
+            const d2u_jobs_filter_categories = document.getElementById('filter_categories');
+            const d2u_jobs_filter_cities = document.getElementById('filter_cities');
+            const d2u_jobs_elementsToShow = [];
+        
+            function d2u_jobs_toggleElements() {
+                const d2u_jobs_filter_categories_all = d2u_jobs_filter_categories.value === 'all';
+                const d2u_jobs_filter_cities_all = d2u_jobs_filter_cities.value === 'all';
+                
+                d2u_jobs_elementsToShow.forEach(el => {
+                    let style = '';
+                    if ((d2u_jobs_filter_categories_all && d2u_jobs_filter_cities_all)
+                        || (d2u_jobs_filter_categories_all && el.classList.contains(d2u_jobs_filter_cities.value))
+                        || (el.classList.contains(d2u_jobs_filter_categories.value) && d2u_jobs_filter_cities_all)
+                        || (el.classList.contains(d2u_jobs_filter_categories.value) && el.classList.contains(d2u_jobs_filter_cities.value))
+                            ) {
+                        style = 'block';
+                    }
+                    else {
+                        style = 'none';
+                    }
+                    el.style.display = style;
+                });
+            }
+        
+            document.querySelectorAll('.d2u_job').forEach(el => {
+                if (el.classList.length > 0) {
+                    d2u_jobs_elementsToShow.push(el);
+                }
+            });
+        
+            d2u_jobs_toggleElements();
+        
+            d2u_jobs_filter_categories.addEventListener('change', d2u_jobs_toggleElements);
+            d2u_jobs_filter_cities.addEventListener('change', d2u_jobs_toggleElements);
+        </script>
+    <?php
     }
 }

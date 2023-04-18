@@ -6,12 +6,15 @@
 class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
 {
     /**
-     * @var array<string, string> Array with chinese replacements. Key is the wildcard,
+     * @var array<string,string> Array with chinese replacements. Key is the wildcard,
      * value the replacement.
      */
     protected $replacements_chinese = [
+        'd2u_jobs_all' => '显示所有',
         'd2u_jobs_announcement' => '招标',
         'd2u_jobs_application_link' => '在线申请表',
+        'd2u_jobs_catgories' => '类别',
+        'd2u_jobs_cities' => '城市',
         'd2u_jobs_footer' => '请将您的完整求职资料与可行的入职日期和薪水要求一并发送至电子邮箱：',
         'd2u_jobs_module_attachment' => '申请文件：如履历、证书',
         'd2u_jobs_module_form_thanks' => '感谢您的申请。 我们的人力资源部门会尽快与您联系。',
@@ -24,12 +27,15 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
     ];
 
     /**
-     * @var array<string, string> Array with netherlands replacements. Key is the wildcard,
+     * @var array<string,string> Array with netherlands replacements. Key is the wildcard,
      * value the replacement.
      */
     protected array $replacements_dutch = [
+        'd2u_jobs_all' => 'toon alles',
         'd2u_jobs_announcement' => 'Naar openstaande vacatures',
         'd2u_jobs_application_link' => 'Solliciteer direct',
+        'd2u_jobs_catgories' => 'Categorieën',
+        'd2u_jobs_cities' => 'Steden',
         'd2u_jobs_footer' => 'U kunt uw motivatiebrief met CV onder vermelding van vroegst mogelijke opzegtermijn en salaris wens per E-Mail, met in het onderwerp „Sollicitatie <Vacature nummer>” sturen naar:',
         'd2u_jobs_module_attachment' => 'Sollicitatiedocumenten: bijv. curriculum vitae, certificaten',
         'd2u_jobs_module_form_thanks' => 'Bedankt voor uw sollicitatie, we nemen op korte termijn contact met u op.',
@@ -42,16 +48,19 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
     ];
 
     /**
-     * @var array<string, string> Array with english replacements. Key is the wildcard,
+     * @var array<string,string> Array with english replacements. Key is the wildcard,
      * value the replacement.
      */
     public $replacements_english = [
+        'd2u_jobs_all' => 'show all',
         'd2u_jobs_announcement' => 'Complete announcement',
         'd2u_jobs_application_link' => 'Online application form',
+        'd2u_jobs_catgories' => 'Categories',
+        'd2u_jobs_cities' => 'Cities',
         'd2u_jobs_footer' => 'Please send us your complete application documents with the possible starting date and your salary expectations via email to:',
         'd2u_jobs_module_attachment' => 'Application documents: e.g. CV, certificates',
-        'd2u_jobs_module_form_thanks' => 'Merci pour votre candidature. Notre service RH vous contactera dans les plus brefs délais.',
-        'd2u_jobs_module_form_your_data' => 'pplication data summary',
+        'd2u_jobs_module_form_thanks' => 'Thank you for your application. Our HR departement will answer you as soon as possible.',
+        'd2u_jobs_module_form_your_data' => 'Application data summary',
         'd2u_jobs_phone' => 'Phone',
         'd2u_jobs_questions' => 'If you have questions regarding this position, please contact:',
         'd2u_jobs_reference_number' => 'Reference number',
@@ -60,12 +69,15 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
     ];
 
     /**
-     * @var array<string, string> Array with french replacements. Key is the wildcard,
+     * @var array<string,string> Array with french replacements. Key is the wildcard,
      * value the replacement.
      */
     protected array $replacements_french = [
+        'd2u_jobs_all' => 'afficher tout',
         'd2u_jobs_announcement' => 'annonce complète',
         'd2u_jobs_application_link' => 'Formulaire de demande en ligne',
+        'd2u_jobs_catgories' => 'Catégories',
+        'd2u_jobs_cities' => 'Villes',
         'd2u_jobs_footer' => 'Veuillez nous envoyer vos documents de demande complets avec la date de début possible et vos attentes de salaire par courrier électronique à:',
         'd2u_jobs_module_attachment' => 'Documents de candidature : par exemple, curriculum vitae, certificats',
         'd2u_jobs_module_form_thanks' => 'Merci pour votre candidature. Notre service RH vous contactera dans les plus brefs délais.',
@@ -78,12 +90,15 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
     ];
 
     /**
-     * @var array<string, string> Array with german replacements. Key is the wildcard,
+     * @var array<string,string> Array with german replacements. Key is the wildcard,
      * value the replacement.
      */
     protected array $replacements_german = [
+        'd2u_jobs_all' => 'alles anzeigen',
         'd2u_jobs_announcement' => 'Zur Ausschreibung',
         'd2u_jobs_application_link' => 'Online Bewerbungsformular',
+        'd2u_jobs_catgories' => 'Kategorien',
+        'd2u_jobs_cities' => 'Orte',
         'd2u_jobs_footer' => 'Bitte senden Sie uns Ihre kompletten Bewerbungsunterlagen mit dem frühestmöglichen Eintrittstermin und Ihrer Gehaltvorstellung per E-Mail mit dem Stichwort „Karriere“ im Betreff an:',
         'd2u_jobs_module_attachment' => 'Bewerbungsunterlagen: z.B. Lebenslauf, Zeugnisse',
         'd2u_jobs_module_form_thanks' => 'Vielen Dank für Ihre Bewerbung. Unsere Personalabteilung wird umgehend mit Ihnen Kontakt aufnehmen.',
@@ -96,12 +111,15 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
     ];
 
     /**
-     * @var array<string, string> Array with spanish replacements. Key is the wildcard,
+     * @var array<string,string> Array with spanish replacements. Key is the wildcard,
      * value the replacement.
      */
     protected array $replacements_spanish = [
+        'd2u_jobs_all' => 'mostrar todo',
         'd2u_jobs_announcement' => 'Anuncio completo',
         'd2u_jobs_application_link' => 'Formulario online',
+        'd2u_jobs_catgories' => 'Categorías',
+        'd2u_jobs_cities' => 'Cuidades',
         'd2u_jobs_footer' => 'Por favor, envíenos sus documentos completos de solicitud con la posible fecha de inicio y sus expectativas salariales por correo electrónico a:',
         'd2u_jobs_module_attachment' => 'Documentos de solicitud: p. Ej., Curriculum vitae, certificados',
         'd2u_jobs_module_form_thanks' => 'Gracias por tu aplicación . Nuestro departamento de RRHH se pondrá en contacto contigo lo antes posible.',
@@ -114,12 +132,15 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
     ];
 
     /**
-     * @var array<string, string> Array with russian replacements. Key is the wildcard,
+     * @var array<string,string> Array with russian replacements. Key is the wildcard,
      * value the replacement.
      */
     protected array  $replacements_russian = [
+        'd2u_jobs_all' => 'показать все',
         'd2u_jobs_announcement' => 'Отправить заявку',
         'd2u_jobs_application_link' => 'Онлайн-заявка',
+        'd2u_jobs_catgories' => 'Категории',
+        'd2u_jobs_cities' => 'Города',
         'd2u_jobs_footer' => 'Присылайте Ваше резюме и документы с возможной датой начала работы и ваши ожидания по зарплате по электронной почте:',
         'd2u_jobs_module_attachment' => 'Документы для подачи заявки: например, биографические данные, сертификаты.',
         'd2u_jobs_module_form_thanks' => 'Спасибо за вашу заявку . Наш отдел кадров свяжется с вами в ближайшее время.',
