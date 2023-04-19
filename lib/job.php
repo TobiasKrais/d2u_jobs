@@ -412,7 +412,10 @@ class Job implements \D2U_Helper\ITranslationHelper
 
         $cities = [];
         for ($i = 0; $i < $result->getRows(); ++$i) {
-            $cities[] = (string) $result->getValue('city');
+            $city = (string) $result->getValue('city');
+            if ('' !== $city) {
+                $cities[] = $city;
+            }
             $result->next();
         }
 

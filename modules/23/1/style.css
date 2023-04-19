@@ -52,3 +52,36 @@
 	border: 1px solid article_color_h;
 	padding: 5px 10px;
 }
+#d2u_jobs_no_vacancies {
+	display: none;
+}
+.d2u_application_form_button {
+	background-color: article_color_h;
+	border: 1px solid article_color_h;
+	color: article_color_bg;
+	padding: 5px 15px;
+}
+.d2u_jobs_arrow_right:before {
+	content: "\f101";
+	font-family: FontAwesome;
+	padding-left: 15px;
+}
+.job-box.contact img {
+	margin-bottom: 0;
+}
+.job-box .col-12 {
+	padding-bottom: 15px;
+}
+.job-box .col-12:last-child {
+	padding-bottom: 0;
+}
+.job-box-list p:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+}
+.contact .d2u_application_form_button {
+	width: 100%;
+}
+.d2u_jobs_filter_select_not_all {
+	background-color: article_color_bg;
+}

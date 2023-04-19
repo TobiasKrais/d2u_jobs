@@ -3,7 +3,6 @@
 use D2U_Jobs\Category;
 use D2U_Jobs\Contact;
 use D2U_Jobs\Job;
-use Url\Rewriter\Yrewrite;
 
 if (!function_exists('prepareText')) {
     /**
@@ -170,14 +169,13 @@ if (rex::isBackend()) {
                 echo prepareText($job->offer_text);
             }
             if ('' !== $job->hr4you_url_application_form) {
-                echo '<br><br>';
-                echo '<p class="appendix"><a target="_blank" href="'. $job->hr4you_url_application_form .'">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'</a></p>';
+                echo '<a target="_blank" href="'. $job->hr4you_url_application_form .'">'
+                    .'<button class="d2u_application_form_button">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'<span class="d2u_jobs_arrow_right"></span></button></a>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
-                echo '<br><br>';
-                echo '<p class="appendix"><a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'</a>'
-                    .'</p>';
+                echo '<a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'
+                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) 
+                    .'<span class="d2u_jobs_arrow_right"></span></button></a>';
             } elseif (false === $hide_application_hint) {
-                echo '<br><br>';
                 echo '<p class="appendix">'. $tag_open .'d2u_jobs_footer'. $tag_close
                     .'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
                     .'</p>';
@@ -189,20 +187,35 @@ if (rex::isBackend()) {
         if ($job->contact instanceof Contact) {
             echo '<div class="col-12 col-md-4">';
             echo '<div class="job-box contact">';
-            echo $tag_open .'d2u_jobs_questions'. $tag_close .'<br><br>';
             echo '<div class="row">';
-            echo '<div class="col-12 col-sm-4 col-md-12 col-lg-4">';
+            echo '<div class="col-12">'. \Sprog\Wildcard::get('d2u_jobs_questions') .'</div>';
+
+            echo '<div class="col-12 col-sm-4">';
             echo '<img src="'. ('' !== $job->contact->picture ? rex_media_manager::getUrl('d2u_jobs_contact', $job->contact->picture) : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. $job->contact->name .'">';
             echo '</div>';
-            echo '<div class="col-12 col-sm-8 col-md-12 col-lg-8">';
+
+            echo '<div class="col-12 col-sm-8">';
             echo '<h3 class="contact-heading">'. $job->contact->name .'</h3>';
             if ('' !== $job->contact->phone) {
                 echo $tag_open .'d2u_jobs_phone'. $tag_close .': '. $job->contact->phone .'<br>';
             }
             if ('' !== $job->contact->email) {
-                echo '<a href="mailto:'. $job->contact->email .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'.$job->contact->email .'</a><br>';
+                echo '<a href="mailto:'. $job->contact->email .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'.$job->contact->email .'</a>';
             }
             echo '</div>';
+
+            if ('' !== $job->hr4you_url_application_form) {
+                echo '<div class="col-12">';
+                echo '<a target="_blank" href="'. $job->hr4you_url_application_form .'">'
+                    .'<button class="d2u_application_form_button">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'<span class="d2u_jobs_arrow_right"></span></button></a>';
+                echo '</div>';
+            } elseif ($show_application_form) { /** @phpstan-ignore-line */
+                echo '<div class="col-12">';
+                echo '<a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'
+                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) 
+                    .'<span class="d2u_jobs_arrow_right"></span></button></a>';
+                echo '</div>';
+            }
             echo '</div>';
             echo '</div>';
             echo '</div>';
@@ -214,30 +227,6 @@ if (rex::isBackend()) {
             echo $job->getJsonLdCode();
         }
     } else {
-        // Job filter
-        echo '<div class="col-12 d2u_jobs_filters">';
-        if(0 === (int) 'REX_VALUE[1]') { /** @phpstan-ignore-line */
-            $filter_categories = Category::getAll(rex_clang::getCurrentId(), true);
-            echo '<label for="filter">'. \Sprog\Wildcard::get('d2u_jobs_catgories') .':</label>';
-            echo '<select id="filter_categories">';
-            echo '<option value="all">'. \Sprog\Wildcard::get('d2u_jobs_all') .'</option>';
-            foreach($filter_categories as $filter_category) {
-                echo '<option value="'. rex_string::normalize($filter_category->name) .'">'. $filter_category->name .'</option>';
-            }
-            echo '</select>';
-        }
-        $filter_cities = Job::getAllCities(rex_clang::getCurrentId(), true);
-        if(count($filter_cities) > 1) { /** @phpstan-ignore-line */
-            echo '<label for="filter">'. \Sprog\Wildcard::get('d2u_jobs_cities') .':</label>';
-            echo '<select id="filter_cities">';
-            echo '<option value="all">'. \Sprog\Wildcard::get('d2u_jobs_all') .'</option>';
-            foreach($filter_cities as $filter_city) {
-                echo '<option value="'. rex_string::normalize($filter_city) .'">'. $filter_city .'</option>';
-            }
-            echo '</select>';
-        }
-        echo '</div>';
-
         // Output Job list
         $jobs = D2U_Jobs\Job::getAll(rex_clang::getCurrentId(), $category_id, true);
         echo '<div class="col-12">';
@@ -250,6 +239,40 @@ if (rex::isBackend()) {
             }
             echo '</h1>';
             echo '</div>';
+
+            // Job filter
+            $filter_categories = Category::getAll(rex_clang::getCurrentId(), true);
+            $filter_cities = Job::getAllCities(rex_clang::getCurrentId(), true);
+            if (0 === $category_id && count($jobs) > 1 && (count($filter_categories) > 1 || count($filter_cities) > 1)) { /** @phpstan-ignore-line */
+                echo '<div class="col-12 d2u_jobs_filters">';
+                if (count($filter_categories) > 1) {
+                    echo '<label for="filter">'. \Sprog\Wildcard::get('d2u_jobs_catgories') .':</label>';
+                    echo '<select id="filter_categories">';
+                    echo '<option value="all">'. \Sprog\Wildcard::get('d2u_jobs_all') .'</option>';
+                    foreach ($filter_categories as $filter_category) {
+                        echo '<option value="'. rex_string::normalize($filter_category->name) .'">'. $filter_category->name .'</option>';
+                    }
+                    echo '</select>';
+                }
+                else {
+                    echo '<input id="filter_categories" type="hidden" value="all">';
+                }
+                if (count($filter_cities) > 1) {
+                    echo '<label for="filter">'. \Sprog\Wildcard::get('d2u_jobs_cities') .':</label>';
+                    echo '<select id="filter_cities">';
+                    echo '<option value="all">'. \Sprog\Wildcard::get('d2u_jobs_all') .'</option>';
+                    foreach ($filter_cities as $filter_city) {
+                        echo '<option value="'. rex_string::normalize($filter_city) .'">'. $filter_city .'</option>';
+                    }
+                    echo '</select>';
+                }
+                else {
+                    echo '<input id="filter_cities" type="hidden" value="all">';
+                }
+                echo '</div>';
+                // Job filter JS follows below 
+            }
+
             foreach ($jobs as $job) {
                 $category_classes = [];
                 foreach ($job->categories as $job_category) {
@@ -275,18 +298,27 @@ if (rex::isBackend()) {
                 echo '</div>';
             }
         }
+        echo '<div id="d2u_jobs_no_vacancies" class="col-12">';
+        echo '<p>'. $tag_open .'d2u_jobs_no_jobs_found'. $tag_close .'</p>';
+        echo '</div>';
+        
         echo '</div>';
         echo '</div>';
+
+        // Job filter JS
+        if (0 === $category_id && count($jobs) > 1 && (count($filter_categories) > 1 || count($filter_cities) > 1)) { /** @phpstan-ignore-line */
     ?>
         <script>
             const d2u_jobs_filter_categories = document.getElementById('filter_categories');
             const d2u_jobs_filter_cities = document.getElementById('filter_cities');
             const d2u_jobs_elementsToShow = [];
-        
+
+            /** Make jobs visible or hide them according to filter selection */
             function d2u_jobs_toggleElements() {
                 const d2u_jobs_filter_categories_all = d2u_jobs_filter_categories.value === 'all';
                 const d2u_jobs_filter_cities_all = d2u_jobs_filter_cities.value === 'all';
-                
+                let d2u_jobs_one_element_visible = false;
+
                 d2u_jobs_elementsToShow.forEach(el => {
                     let style = '';
                     if ((d2u_jobs_filter_categories_all && d2u_jobs_filter_cities_all)
@@ -295,25 +327,49 @@ if (rex::isBackend()) {
                         || (el.classList.contains(d2u_jobs_filter_categories.value) && el.classList.contains(d2u_jobs_filter_cities.value))
                             ) {
                         style = 'block';
+                        d2u_jobs_one_element_visible = true;
                     }
                     else {
                         style = 'none';
                     }
                     el.style.display = style;
                 });
+
+                if(d2u_jobs_one_element_visible) {
+                    document.getElementById('d2u_jobs_no_vacancies').style.display = 'none';
+                }
+                else {
+                    document.getElementById('d2u_jobs_no_vacancies').style.display = 'block';
+                }
+
+                // Change style for non-default values
+                if(d2u_jobs_filter_categories.value === 'all') {
+                    d2u_jobs_filter_categories.classList.remove('d2u_jobs_filter_select_not_all');
+                }
+                else {
+                    d2u_jobs_filter_categories.classList.add('d2u_jobs_filter_select_not_all');
+                }
+                if(d2u_jobs_filter_cities.value === 'all') {
+                    d2u_jobs_filter_cities.classList.remove('d2u_jobs_filter_select_not_all');
+                }
+                else {
+                    d2u_jobs_filter_cities.classList.add('d2u_jobs_filter_select_not_all');
+                }
             }
-        
+
+            // find jobs and put them in an array
             document.querySelectorAll('.d2u_job').forEach(el => {
                 if (el.classList.length > 0) {
                     d2u_jobs_elementsToShow.push(el);
                 }
             });
-        
+
             d2u_jobs_toggleElements();
-        
+
             d2u_jobs_filter_categories.addEventListener('change', d2u_jobs_toggleElements);
             d2u_jobs_filter_cities.addEventListener('change', d2u_jobs_toggleElements);
         </script>
     <?php
+        }
     }
 }
