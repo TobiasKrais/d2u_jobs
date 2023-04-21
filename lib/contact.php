@@ -3,6 +3,7 @@
 namespace D2U_Jobs;
 
 use rex;
+use rex_config;
 use rex_sql;
 
 /**
@@ -21,6 +22,9 @@ class Contact
 
     /** @var string Phone number */
     public string $phone = '';
+
+    /** @var string Phone number for video application */
+    public string $phone_video = '';
 
     /** @var string E-Mail address */
     public string $email = '';
@@ -43,6 +47,7 @@ class Contact
                 $this->name = stripslashes((string) $result->getValue('name'));
                 $this->picture = (string) $result->getValue('picture');
                 $this->phone = (string) $result->getValue('phone');
+                $this->phone_video = (string) $result->getValue('phone_video');
                 $this->email = (string) $result->getValue('email');
             }
         }
@@ -70,7 +75,7 @@ class Contact
 
     /**
      * Get all contacts.
-     * @return Contact[] array with Contact objects
+     * @return array<Contact> array with Contact objects
      */
     public static function getAll()
     {
@@ -112,7 +117,7 @@ class Contact
      */
     public function getJobs()
     {
-        $clang_id = (int) \rex_config::get('d2u_helper', 'default_lang');
+        $clang_id = (int) rex_config::get('d2u_helper', 'default_lang');
         $query = 'SELECT jobs.job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
             .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
                 .'ON jobs.job_id = lang.job_id AND lang.clang_id = '. $clang_id .' '
@@ -131,7 +136,7 @@ class Contact
 
     /**
      * Updates or inserts the object into database.
-     * @return bool true if error occurs
+     * @return bool true if saved correctly
      */
     public function save()
     {
@@ -144,6 +149,7 @@ class Contact
                     ."email = '". $this->email ."', "
                     ."name = '". addslashes($this->name) ."', "
                     ."phone = '". $this->phone ."', "
+                    ."phone_video = '". $this->phone_video ."', "
                     ."picture = '". (str_contains($this->picture, 'noavatar.jpg') ? '' : $this->picture) ."' ";
 
             if (0 === $this->contact_id) {
@@ -160,6 +166,6 @@ class Contact
             }
         }
 
-        return $error;
+        return !$error;
     }
 }

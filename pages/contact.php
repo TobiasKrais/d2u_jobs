@@ -19,6 +19,7 @@ if (1 === (int) filter_input(INPUT_POST, 'btn_save') || 1 === (int) filter_input
     $contact->name = $form['name'];
     $contact->picture = $input_media[1];
     $contact->phone = $form['phone'];
+    $contact->phone_video = preg_replace('/[^0-9+]/', '', $form['phone_video']);
     $contact->email = $form['email'];
 
     // message output
@@ -85,6 +86,8 @@ if ('edit' === $func || 'add' === $func) {
                             d2u_addon_backend_helper::form_input('d2u_helper_name', 'form[name]', $contact->name, true, $readonly);
                             d2u_addon_backend_helper::form_input('d2u_jobs_email', 'form[email]', $contact->email, true, $readonly, 'email');
                             d2u_addon_backend_helper::form_input('d2u_jobs_phone', 'form[phone]', $contact->phone, true, $readonly);
+                            d2u_addon_backend_helper::form_input('d2u_jobs_phone_video', 'form[phone_video]', $contact->phone_video, true, $readonly);
+                            d2u_addon_backend_helper::form_infotext('d2u_jobs_phone_video_hint', 'phone_video_label');
                             d2u_addon_backend_helper::form_mediafield('d2u_helper_picture', '1', $contact->picture, $readonly);
                         ?>
 					</div>

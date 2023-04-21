@@ -5,7 +5,6 @@ namespace D2U_Jobs;
 use d2u_addon_backend_helper;
 use rex;
 use rex_addon;
-use rex_addon_interface;
 use rex_config;
 use rex_plugin;
 use rex_sql;

@@ -54,6 +54,7 @@
     ->ensureColumn(new \rex_sql_column('name', 'VARCHAR(255)', true))
     ->ensureColumn(new \rex_sql_column('picture', 'VARCHAR(255)', true))
     ->ensureColumn(new \rex_sql_column('phone', 'VARCHAR(50)', true))
+    ->ensureColumn(new \rex_sql_column('phone_video', 'VARCHAR(50)', true))
     ->ensureColumn(new \rex_sql_column('email', 'VARCHAR(50)', true))
     ->ensure();
 

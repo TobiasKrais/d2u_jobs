@@ -1,3 +1,13 @@
+@font-face{
+	font-family:'FontAwesome';
+	font-display: swap;
+	src:url("./assets/addons/be_style/fonts/fontawesome-webfont.eot?v=4.7.0");
+	src:url("./assets/addons/be_style/fonts/fontawesome-webfont.eot?#iefix&v=4.7.0") format('embedded-opentype'),
+		url("./assets/addons/be_style/fonts/fontawesome-webfont.woff2?v=4.7.0") format('woff2'),
+		url("./assets/addons/be_style/fonts/fontawesome-webfont.woff?v=4.7.0") format('woff'),
+		url("./assets/addons/be_style/fonts/fontawesome-webfont.ttf?v=4.7.0") format('truetype'),
+		url("./assets/addons/be_style/fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular") format('svg');
+}
 .job-box {
 	background: article_color_box;
 	padding: 15px;
@@ -62,9 +72,15 @@
 	padding: 5px 15px;
 }
 .d2u_jobs_arrow_right:before {
-	content: "\f101";
+	content: "\f105";
+	float: right;
 	font-family: FontAwesome;
 	padding-left: 15px;
+}
+.d2u_jobs_video:before {
+	content: "\f03d";
+	font-family: FontAwesome;
+	padding-right: 15px;
 }
 .job-box.contact img {
 	margin-bottom: 0;
@@ -75,7 +91,7 @@
 .job-box .col-12:last-child {
 	padding-bottom: 0;
 }
-.job-box-list p:last-child {
+.job-box-list p:last-child, .job-box p:last-child {
 	margin-bottom: 0;
 	padding-bottom: 0;
 }
@@ -84,4 +100,12 @@
 }
 .d2u_jobs_filter_select_not_all {
 	background-color: article_color_bg;
+}
+.d2u_jobs_questionmark_center {
+	text-align: center;
+}
+.d2u_jobs_big_questionmark {
+	font-size: 8em;
+	font-weight: bold;
+	line-height: 1em;
 }

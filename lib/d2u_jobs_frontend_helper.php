@@ -83,10 +83,10 @@ class d2u_jobs_frontend_helper
         }
 
         // Breadcrumbs
-        if ($category instanceof Category && $category->name !== '') {
+        if ($category instanceof Category && '' !== $category->name) {
             $breadcrumbs[] = '<a href="' . $category->getUrl() . '">' . $category->name . '</a>';
         }
-        if ($job instanceof Job && $job->name !== '') {
+        if ($job instanceof Job && '' !== $job->name) {
             $job_url = $job->clang_id === rex_clang::getCurrentId() ? $job->getUrl() : rex_getUrl('', '', ['job_id' => $job->job_id, 'target_clang' => $job->clang_id]);
             $breadcrumbs[] = '<a href="' . $job_url . '">' . $job->name . '</a>';
         }

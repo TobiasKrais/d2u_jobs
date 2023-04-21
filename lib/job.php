@@ -3,16 +3,18 @@
 namespace D2U_Jobs;
 
 use d2u_addon_backend_helper;
+use rex;
 use rex_addon;
-use rex_addon_interface;
 use rex_clang;
 use rex_config;
 use rex_plugin;
 use rex_sql;
 use rex_url;
 use rex_user;
+
 use rex_yrewrite;
 
+use function count;
 use function is_array;
 
 /**
@@ -112,8 +114,8 @@ class Job implements \D2U_Helper\ITranslationHelper
     {
         $this->clang_id = $clang_id;
         if ($job_id > 0) {
-            $query = 'SELECT * FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
-                    .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+            $query = 'SELECT * FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
+                    .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
                         .'ON jobs.job_id = lang.job_id '
                     .'WHERE jobs.job_id = '. $job_id .' '
                         .'AND clang_id = '. $clang_id;
@@ -126,7 +128,7 @@ class Job implements \D2U_Helper\ITranslationHelper
                 $this->date = (string) $result->getValue('date');
                 $this->city = (string) $result->getValue('city');
                 $this->zip_code = (string) $result->getValue('zip_code');
-                $this->country_code = $result->getValue('country_code') !== '' ? (string) $result->getValue('country_code') : $this->country_code;
+                $this->country_code = '' !== $result->getValue('country_code') ? (string) $result->getValue('country_code') : $this->country_code;
                 $this->picture = (string) $result->getValue('picture');
                 $this->contact = new Contact((int) $result->getValue('contact_id'));
                 $category_ids = preg_grep('/^\s*$/s', explode('|', (string) $result->getValue('category_ids')), PREG_GREP_INVERT);
@@ -164,7 +166,7 @@ class Job implements \D2U_Helper\ITranslationHelper
     {
         if ('online' === $this->online_status) {
             if ($this->job_id > 0) {
-                $query = 'UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs '
+                $query = 'UPDATE '. rex::getTablePrefix() .'d2u_jobs_jobs '
                     ."SET online_status = 'offline' "
                     .'WHERE job_id = '. $this->job_id;
                 $result = rex_sql::factory();
@@ -173,7 +175,7 @@ class Job implements \D2U_Helper\ITranslationHelper
             $this->online_status = 'offline';
         } else {
             if ($this->job_id > 0) {
-                $query = 'UPDATE '. \rex::getTablePrefix() .'d2u_jobs_jobs '
+                $query = 'UPDATE '. rex::getTablePrefix() .'d2u_jobs_jobs '
                     ."SET online_status = 'online' "
                     .'WHERE job_id = '. $this->job_id;
                 $result = rex_sql::factory();
@@ -196,19 +198,19 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public function delete($delete_all = true): void
     {
-        $query_lang = 'DELETE FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang '
+        $query_lang = 'DELETE FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang '
             .'WHERE job_id = '. $this->job_id
             . ($delete_all ? '' : ' AND clang_id = '. $this->clang_id);
         $result_lang = rex_sql::factory();
         $result_lang->setQuery($query_lang);
 
         // If no more lang objects are available, delete
-        $query_main = 'SELECT * FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang '
+        $query_main = 'SELECT * FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang '
             .'WHERE job_id = '. $this->job_id;
         $result_main = rex_sql::factory();
         $result_main->setQuery($query_main);
         if (0 === (int) $result_main->getRows()) {
-            $query = 'DELETE FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs '
+            $query = 'DELETE FROM '. rex::getTablePrefix() .'d2u_jobs_jobs '
                 .'WHERE job_id = '. $this->job_id;
             $result = rex_sql::factory();
             $result->setQuery($query);
@@ -233,8 +235,8 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getAll($clang_id, $category_id = 0, $online_only = true)
     {
-        $query = 'SELECT lang.job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
-                .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
+        $query = 'SELECT lang.job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+                .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
                     .'ON lang.job_id = jobs.job_id '
                 .'WHERE clang_id = '. $clang_id;
         if ($online_only) {
@@ -266,8 +268,8 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getAllIgnoreLanguage($preferred_clang_id, $category_id = 0, $online_only = true)
     {
-        $query = 'SELECT lang.job_id, clang_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
-                .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
+        $query = 'SELECT lang.job_id, clang_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+                .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
                     .'ON lang.job_id = jobs.job_id';
         $where = [];
         if ($online_only) {
@@ -302,7 +304,7 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getAllCountryCodes($ignore_offline = true)
     {
-        $query = 'SELECT country_code FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs ';
+        $query = 'SELECT country_code FROM '. rex::getTablePrefix() .'d2u_jobs_jobs ';
         if ($ignore_offline) {
             $query .= "WHERE online_status = 'online'";
         }
@@ -329,14 +331,14 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getByCountryCode($clang_id, $country_code, $online_only = true)
     {
-        $query = 'SELECT lang.job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
-                .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
+        $query = 'SELECT lang.job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+                .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
                     .'ON lang.job_id = jobs.job_id '
                 .'WHERE clang_id = '. $clang_id;
         if ($online_only) {
             $query .= " AND online_status = 'online'";
         }
-        if ($country_code !== '') {
+        if ('' !== $country_code) {
             $query .= " AND country_code = '". $country_code ."'";
         }
         $query .= ' ORDER BY date DESC';
@@ -362,11 +364,11 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getByCountryCodeIgnoreLanguage($preferred_clang_id, $country_code, $online_only = true)
     {
-        $query = 'SELECT lang.job_id, clang_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
-                .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
+        $query = 'SELECT lang.job_id, clang_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+                .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
                     .'ON lang.job_id = jobs.job_id';
         $where = [];
-        if ($country_code !== '') {
+        if ('' !== $country_code) {
             $where[] = " country_code = '". $country_code ."'";
         }
         if ($online_only) {
@@ -399,8 +401,8 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getAllCities($clang_id, $online_only = true)
     {
-        $query = 'SELECT city FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
-            .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
+        $query = 'SELECT city FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS lang '
+            .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs '
                 .'ON lang.job_id = jobs.job_id AND clang_id = '. $clang_id;
         if ($online_only) {
             $query .= " AND online_status = 'online'";
@@ -440,8 +442,8 @@ class Job implements \D2U_Helper\ITranslationHelper
                 .'"hiringOrganization" : {'. PHP_EOL
                     .'"@type" : "Organization",'. PHP_EOL
                     .'"name" : "'. str_replace('"', '', (string) rex_config::get('d2u_jobs', 'company_name', '')) .'",'. PHP_EOL
-                    .'"sameAs" : "'. (rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer()) .'",'. PHP_EOL
-                    .'"logo" : "'. rtrim(rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : \rex::getServer(), '/') . rex_url::media((string) rex_config::get('d2u_jobs', 'logo', '')) .'"'. PHP_EOL
+                    .'"sameAs" : "'. (rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer()) .'",'. PHP_EOL
+                    .'"logo" : "'. rtrim(rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer(), '/') . rex_url::media((string) rex_config::get('d2u_jobs', 'logo', '')) .'"'. PHP_EOL
                 .'},'. PHP_EOL
                 .'"jobLocation": {'. PHP_EOL
                     .'"@type": "Place",'. PHP_EOL
@@ -466,7 +468,7 @@ class Job implements \D2U_Helper\ITranslationHelper
     public static function getByHR4YouID($hr4you_id)
     {
         if (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
-            $query = 'SELECT job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs '
+            $query = 'SELECT job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs '
                     .'WHERE hr4you_job_id = '. $hr4you_id;
             $result = rex_sql::factory();
             $result->setQuery($query);
@@ -484,7 +486,7 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getAllHR4YouJobs()
     {
-        $query = 'SELECT job_id, hr4you_job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs '
+        $query = 'SELECT job_id, hr4you_job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs '
                 .'WHERE hr4you_job_id > 0';
         $result = rex_sql::factory();
         $result->setQuery($query);
@@ -506,14 +508,14 @@ class Job implements \D2U_Helper\ITranslationHelper
      */
     public static function getTranslationHelperObjects($clang_id, $type)
     {
-        $query = 'SELECT job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang '
+        $query = 'SELECT job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs_lang '
                 .'WHERE clang_id = '. $clang_id ." AND translation_needs_update = 'yes' "
                 .'ORDER BY name';
         if ('missing' === $type) {
-            $query = 'SELECT main.job_id FROM '. \rex::getTablePrefix() .'d2u_jobs_jobs AS main '
-                    .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS target_lang '
+            $query = 'SELECT main.job_id FROM '. rex::getTablePrefix() .'d2u_jobs_jobs AS main '
+                    .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS target_lang '
                         .'ON main.job_id = target_lang.job_id AND target_lang.clang_id = '. $clang_id .' '
-                    .'LEFT JOIN '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS default_lang '
+                    .'LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs_lang AS default_lang '
                         .'ON main.job_id = default_lang.job_id AND default_lang.clang_id = '. rex_config::get('d2u_helper', 'default_lang') .' '
                     .'WHERE target_lang.job_id IS NULL '
                     .'ORDER BY default_lang.name';
@@ -563,7 +565,7 @@ class Job implements \D2U_Helper\ITranslationHelper
                 return str_replace(rex_yrewrite::getCurrentDomain()->getUrl() .'/', rex_yrewrite::getCurrentDomain()->getUrl(), rex_yrewrite::getCurrentDomain()->getUrl() . $this->url);
             }
 
-            return str_replace(\rex::getServer(). '/', \rex::getServer(), \rex::getServer() . $this->url);
+            return str_replace(rex::getServer(). '/', rex::getServer(), rex::getServer() . $this->url);
 
         }
 
@@ -583,7 +585,7 @@ class Job implements \D2U_Helper\ITranslationHelper
         $pre_save_job = new self($this->job_id, $this->clang_id);
 
         if (0 === $this->job_id || $pre_save_job !== $this) {
-            $query = \rex::getTablePrefix() .'d2u_jobs_jobs SET '
+            $query = rex::getTablePrefix() .'d2u_jobs_jobs SET '
                     ."reference_number = '". $this->reference_number ."', "
                     ."category_ids = '|". implode('|', array_keys($this->categories)) ."|', "
                     .'contact_id = '. ($this->contact instanceof Contact ? $this->contact->contact_id : 0) .', '
@@ -618,7 +620,7 @@ class Job implements \D2U_Helper\ITranslationHelper
             // Save the language specific part
             $pre_save_object = new self($this->job_id, $this->clang_id);
             if ($pre_save_object !== $this) {
-                $query = 'REPLACE INTO '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang SET '
+                $query = 'REPLACE INTO '. rex::getTablePrefix() .'d2u_jobs_jobs_lang SET '
                         ."job_id = '". $this->job_id ."', "
                         ."clang_id = '". $this->clang_id ."', "
                         ."name = '". addslashes($this->name) ."', "
@@ -631,8 +633,8 @@ class Job implements \D2U_Helper\ITranslationHelper
                         ."offer_text = '". addslashes($this->offer_text) ."', "
                         ."translation_needs_update = '". $this->translation_needs_update ."', "
                         .'updatedate = CURRENT_TIMESTAMP ';
-                if (\rex::getUser() instanceof rex_user) {
-                    $query .= ", updateuser = '". \rex::getUser()->getLogin() ."' ";
+                if (rex::getUser() instanceof rex_user) {
+                    $query .= ", updateuser = '". rex::getUser()->getLogin() ."' ";
                 } elseif (rex_plugin::get('d2u_jobs', 'hr4you_import')->isAvailable()) {
                     $query .= ", hr4you_lead_in = '". $this->hr4you_lead_in ."' "
                             . ", updateuser = 'hr4you_autoimport' ";

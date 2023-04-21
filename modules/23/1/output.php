@@ -73,7 +73,7 @@ if (rex::isBackend()) {
         echo '<div class="col-12 col-md-8">';
         echo '<article class="job-box">';
         echo '<img src="'. ('' !== $job->picture ? rex_media_manager::getUrl('d2u_jobs_jobheader', $job->picture) : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
-        if (!$show_application_form && $job->prolog !== '') { /** @phpstan-ignore-line */
+        if (!$show_application_form && '' !== $job->prolog) { /** @phpstan-ignore-line */
             echo '<div class="prolog">'. $job->prolog .'</div>';
         }
         echo '<div class="heading">';
@@ -169,12 +169,12 @@ if (rex::isBackend()) {
                 echo prepareText($job->offer_text);
             }
             if ('' !== $job->hr4you_url_application_form) {
-                echo '<a target="_blank" href="'. $job->hr4you_url_application_form .'">'
-                    .'<button class="d2u_application_form_button">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'<span class="d2u_jobs_arrow_right"></span></button></a>';
+                echo '<p><a target="_blank" href="'. $job->hr4you_url_application_form .'">'
+                    .'<button class="d2u_application_form_button">'. $tag_open .'d2u_jobs_hr4you_application_link'. $tag_close .'<span class="d2u_jobs_arrow_right"></span></button></a></p>';
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
-                echo '<a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'
-                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) 
-                    .'<span class="d2u_jobs_arrow_right"></span></button></a>';
+                echo '<p><a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'
+                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id)
+                    .'<span class="d2u_jobs_arrow_right"></span></button></a></p>';
             } elseif (false === $hide_application_hint) {
                 echo '<p class="appendix">'. $tag_open .'d2u_jobs_footer'. $tag_close
                     .'<br><br><a href="mailto:'. rex_config::get('d2u_jobs', 'email') .'" title="'. rex_config::get('d2u_jobs', 'email') .'">'. rex_config::get('d2u_jobs', 'email') .'</a>'
@@ -184,8 +184,9 @@ if (rex::isBackend()) {
         echo '</article>';
         echo '</div>';
         echo '<div class="sp sections-less hide-for-medium-up"></div>';
+
+        echo '<div class="col-12 col-md-4">';
         if ($job->contact instanceof Contact) {
-            echo '<div class="col-12 col-md-4">';
             echo '<div class="job-box contact">';
             echo '<div class="row">';
             echo '<div class="col-12">'. \Sprog\Wildcard::get('d2u_jobs_questions') .'</div>';
@@ -204,6 +205,12 @@ if (rex::isBackend()) {
             }
             echo '</div>';
 
+            if ('' !== $job->contact->phone_video) {
+                echo '<div class="col-12">';
+                echo '<a target="_blank" href="https://api.whatsapp.com/send?phone='. preg_replace('/[^0-9]/', '', $job->contact->phone_video) .'">'
+                    .'<button class="d2u_application_form_button"><span class="d2u_jobs_video"></span>'. $tag_open .'d2u_jobs_video_application'. $tag_close .'<span class="d2u_jobs_arrow_right"></span></button></a>';
+                echo '</div>';
+            }
             if ('' !== $job->hr4you_url_application_form) {
                 echo '<div class="col-12">';
                 echo '<a target="_blank" href="'. $job->hr4you_url_application_form .'">'
@@ -212,14 +219,33 @@ if (rex::isBackend()) {
             } elseif ($show_application_form) { /** @phpstan-ignore-line */
                 echo '<div class="col-12">';
                 echo '<a href="'. $job_application_link .'" title="'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) .'">'
-                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id) 
+                    .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('d2u_jobs_application_link', $job->clang_id)
                     .'<span class="d2u_jobs_arrow_right"></span></button></a>';
                 echo '</div>';
             }
             echo '</div>';
             echo '</div>';
+        }
+        $faq_article = rex_article::get((int) rex_config::get('d2u_jobs', 'faq_article_id'));
+        if ($faq_article instanceof rex_article) {
+            echo '<div class="job-box faq">';
+            echo '<div class="row">';
+
+            echo '<div class="col-4 d2u_jobs_questionmark_center"><span class="d2u_jobs_big_questionmark">?</span></div>';
+
+            echo '<div class="col-8">';
+            echo '<h3 class="contact-heading">'. \Sprog\Wildcard::get('d2u_jobs_faq', $job->clang_id) .'</h3>';
+            echo '<p>'. \Sprog\Wildcard::get('d2u_jobs_faq_text', $job->clang_id) .'</p>';
+            echo '<a href="'. $faq_article->getUrl() .'" title="'. $faq_article->getName() .'">'
+            .'<button class="d2u_application_form_button">'. \Sprog\Wildcard::get('d2u_jobs_faq_link', $job->clang_id)
+            .'<span class="d2u_jobs_arrow_right"></span></button></a>';
+            echo '</div>';
+
+            echo '</div>';
             echo '</div>';
         }
+        echo '</div>';
+
         echo '</div>';
 
         // Show job as JSON-LD
@@ -253,8 +279,7 @@ if (rex::isBackend()) {
                         echo '<option value="'. rex_string::normalize($filter_category->name) .'">'. $filter_category->name .'</option>';
                     }
                     echo '</select>';
-                }
-                else {
+                } else {
                     echo '<input id="filter_categories" type="hidden" value="all">';
                 }
                 if (count($filter_cities) > 1) {
@@ -265,12 +290,11 @@ if (rex::isBackend()) {
                         echo '<option value="'. rex_string::normalize($filter_city) .'">'. $filter_city .'</option>';
                     }
                     echo '</select>';
-                }
-                else {
+                } else {
                     echo '<input id="filter_cities" type="hidden" value="all">';
                 }
                 echo '</div>';
-                // Job filter JS follows below 
+                // Job filter JS follows below
             }
 
             foreach ($jobs as $job) {
@@ -301,7 +325,7 @@ if (rex::isBackend()) {
         echo '<div id="d2u_jobs_no_vacancies" class="col-12">';
         echo '<p>'. $tag_open .'d2u_jobs_no_jobs_found'. $tag_close .'</p>';
         echo '</div>';
-        
+
         echo '</div>';
         echo '</div>';
 

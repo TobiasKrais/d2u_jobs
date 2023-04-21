@@ -6,6 +6,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
     // Linkmap Link and media needs special treatment
     $link_ids = filter_input_array(INPUT_POST, ['REX_INPUT_LINK' => ['filter' => FILTER_VALIDATE_INT, 'flags' => FILTER_REQUIRE_ARRAY]]);
     $settings['article_id'] = is_array($link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][1] : rex_article::getSiteStartArticleId();
+    $settings['faq_article_id'] = is_array($link_ids['REX_INPUT_LINK']) ? $link_ids['REX_INPUT_LINK'][2] : rex_article::getSiteStartArticleId();
 
     // Special treatment for media fields
     $input_media = rex_post('REX_INPUT_MEDIA', 'array', []);
@@ -54,6 +55,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 					<?php
                         d2u_addon_backend_helper::form_input('d2u_jobs_settings_email', 'settings[email]', (string) rex_config::get('d2u_jobs', 'email'), true, false, 'email');
                         d2u_addon_backend_helper::form_linkfield('d2u_helper_article_id', '1', (int) rex_config::get('d2u_jobs', 'article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
+                        d2u_addon_backend_helper::form_linkfield('d2u_jobs_faq_article_id', '2', (int) rex_config::get('d2u_jobs', 'faq_article_id'), (int) rex_config::get('d2u_helper', 'default_lang'));
                     ?>
 				</div>
 			</fieldset>
@@ -90,7 +92,7 @@ if ('save' === filter_input(INPUT_POST, 'btn_save')) {
 				<legend><small><i class="rex-icon fa-google"></i></small> <?= rex_i18n::msg('d2u_jobs_settings_google') ?></legend>
 				<div class="panel-body-wrapper slide">
 					<?php
-                        d2u_addon_backend_helper::form_input('d2u_jobs_settings_company_name', 'settings[company_name]',(string) rex_config::get('d2u_jobs', 'company_name'), true, false, 'text');
+                        d2u_addon_backend_helper::form_input('d2u_jobs_settings_company_name', 'settings[company_name]', (string) rex_config::get('d2u_jobs', 'company_name'), true, false, 'text');
                         d2u_addon_backend_helper::form_mediafield('d2u_jobs_settings_logo', 'logo', (string) rex_config::get('d2u_jobs', 'logo'));
                     ?>
 				</div>

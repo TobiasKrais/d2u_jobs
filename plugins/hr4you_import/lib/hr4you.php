@@ -13,7 +13,7 @@ class hr4you
     /**
      * Perform HR4You XML import, calls import().
      */
-    public static function autoimport():void
+    public static function autoimport(): void
     {
         // Include mediapool functions when call is frontend call
         if (!rex::isBackend()) {
@@ -92,7 +92,7 @@ class hr4you
                     $target_picture = \rex_path::media($job_picture_pathInfo['basename']);
                     // Copy first
                     if (copy($xml_job->kopfgrafik_url, $target_picture)) {
-                        chmod($target_picture, 0664);
+                        chmod($target_picture, 0o664);
 
                         $data = [];
                         $data['category_id'] = (int) \rex_config::get('d2u_jobs', 'hr4you_media_category');
@@ -149,7 +149,7 @@ class hr4you
             if (!$job instanceof Job) {
                 $job = \D2U_Jobs\Job::factory();
                 $job->clang_id = (int) \rex_config::get('d2u_jobs', 'hr4you_default_lang');
-                $job->hr4you_job_id = (int)$xml_job->jobid->__toString();
+                $job->hr4you_job_id = (int) $xml_job->jobid->__toString();
             }
 
             foreach (\rex_clang::getAll() as $clang) {
@@ -299,7 +299,7 @@ class hr4you
      * Logs message.
      * @param string $message Message to be logged
      */
-    private static function log($message):void
+    private static function log($message): void
     {
         $log = file_exists(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt')) ? file_get_contents(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt')) : '';
 
