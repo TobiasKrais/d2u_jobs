@@ -11,6 +11,7 @@ page:
 requires:
     php:
         extensions: [xml]
+        version: '>=8.1'
     packages:
         cronjob: '>=2.1.1'
         media_manager: '>=2.11'
