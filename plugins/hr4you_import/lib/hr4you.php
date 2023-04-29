@@ -307,7 +307,7 @@ class hr4you
 
         // Write to log
         if (!is_dir(rex_path::addonCache('d2u_jobs'))) {
-            mkdir(rex_path::addonCache('d2u_jobs'), 0o755, true);
+            rex_dir::create(rex_path::addonCache('d2u_helper'));
         }
         file_put_contents(rex_path::addonCache('d2u_jobs', 'hr4you_import_log.txt'), $log);
     }
