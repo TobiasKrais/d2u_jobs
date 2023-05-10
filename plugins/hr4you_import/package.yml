@@ -13,5 +13,6 @@ requires:
         extensions: [xml]
     packages:
         cronjob: '>=2.1.1'
+        d2u_helper: '>=1.12.3'
         media_manager: '>=2.11'
         sprog: '>=1.0.0'

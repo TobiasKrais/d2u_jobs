@@ -70,7 +70,7 @@ class hr4you
             $job_picture_filename = '';
             if ('' !== (string) $xml_job->kopfgrafik_url) {
                 $job_picture_pathInfo = pathinfo($xml_job->kopfgrafik_url);
-                $job_picture_filename = self::getMediapoolFilename($job_picture_pathInfo['basename']);
+                $job_picture_filename = d2u_addon_backend_helper::getMediapoolFilename($job_picture_pathInfo['basename']);
                 $job_picture = \rex_media::get($job_picture_filename);
                 if ($job_picture instanceof \rex_media && $job_picture->fileExists()) {
                     // File already imported, unset in $old_pictures, because remaining ones will be deleted
@@ -92,7 +92,7 @@ class hr4you
                     $target_picture = \rex_path::media($job_picture_pathInfo['basename']);
                     // Copy first
                     if (copy($xml_job->kopfgrafik_url, $target_picture)) {
-                        chmod($target_picture, 0o664);
+                        chmod($target_picture, rex::getFilePerm());
 
                         $data = [];
                         $data['category_id'] = (int) \rex_config::get('d2u_jobs', 'hr4you_media_category');
@@ -244,25 +244,6 @@ class hr4you
 
         foreach ($doc->getElementsByTagName((string) \rex_config::get('d2u_jobs', 'hr4you_headline_tag')) as $item) {
             return $item->textContent;
-        }
-
-        return '';
-    }
-
-    /**
-     * Get mediapool new filename by old filename.
-     * @param string $old_filename Old media filename before import into mediapool
-     * @return string filename used in mediapool, if not found, empty string is returned
-     */
-    private static function getMediapoolFilename($old_filename)
-    {
-        $query = 'SELECT filename FROM `'. \rex::getTablePrefix() .'media` '
-            . "WHERE originalname = '". $old_filename ."'";
-        $result = \rex_sql::factory();
-        $result->setQuery($query);
-
-        if ($result->getRows() > 0) {
-            return (string) $result->getValue('filename');
         }
 
         return '';
