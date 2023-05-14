@@ -1,11 +1,14 @@
 <?php
-
-$sql = rex_sql::factory();
-
-$sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_jobs` DROP COLUMN `hr4you_job_id`;');
-$sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_jobs` DROP COLUMN `hr4you_url_application_form`;');
-$sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_jobs_lang` DROP COLUMN `hr4you_lead_in`;');
-$sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_categories` DROP COLUMN `hr4you_category_id`;');
+\rex_sql_table::get(\rex::getTable('d2u_jobs_jobs'))
+    ->removeColumn('hr4you_job_id')
+    ->removeColumn('hr4you_url_application_form')
+    ->ensure();
+\rex_sql_table::get(\rex::getTable('d2u_jobs_jobs_lang'))
+    ->removeColumn('hr4you_lead_in')
+    ->ensure();
+\rex_sql_table::get(\rex::getTable('d2u_jobs_categories'))
+    ->removeColumn('hr4you_category_id')
+    ->ensure();
 
 // Delete language replacements
 if (!class_exists('d2u_jobs_hr4you_lang_helper')) {

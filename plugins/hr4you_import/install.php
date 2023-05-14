@@ -1,23 +1,14 @@
 <?php
-
-$sql = rex_sql::factory();
-
-$sql->setQuery('SHOW COLUMNS FROM '. \rex::getTablePrefix() ."d2u_jobs_jobs LIKE 'hr4you_job_id';");
-if (0 === (int) $sql->getRows()) {
-    $sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_jobs` ADD `hr4you_job_id` int(10) default NULL;');
-}
-$sql->setQuery('SHOW COLUMNS FROM '. \rex::getTablePrefix() ."d2u_jobs_jobs LIKE 'hr4you_url_application_form';");
-if (0 === (int) $sql->getRows()) {
-    $sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_jobs` ADD `hr4you_url_application_form` varchar(255) default NULL;');
-}
-$sql->setQuery('SHOW COLUMNS FROM '. \rex::getTablePrefix() ."d2u_jobs_jobs_lang LIKE 'hr4you_lead_in';");
-if (0 === (int) $sql->getRows()) {
-    $sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_jobs_lang` ADD `hr4you_lead_in` varchar(255) default NULL;');
-}
-$sql->setQuery('SHOW COLUMNS FROM '. \rex::getTablePrefix() ."d2u_jobs_categories LIKE 'hr4you_category_id';");
-if (0 === (int) $sql->getRows()) {
-    $sql->setQuery('ALTER TABLE `'. rex::getTablePrefix() . 'd2u_jobs_categories` ADD `hr4you_category_id` int(10) default NULL;');
-}
+\rex_sql_table::get(\rex::getTable('d2u_jobs_jobs'))
+    ->ensureColumn(new \rex_sql_column('hr4you_job_id', 'INT(10)'))
+    ->ensureColumn(new \rex_sql_column('hr4you_url_application_form', 'VARCHAR(191)'))
+    ->alter();
+\rex_sql_table::get(\rex::getTable('d2u_jobs_jobs_lang'))
+    ->ensureColumn(new \rex_sql_column('hr4you_lead_in', 'VARCHAR(191)'))
+    ->alter();
+\rex_sql_table::get(\rex::getTable('d2u_jobs_categories'))
+    ->ensureColumn(new \rex_sql_column('hr4you_category_id', 'INT(10)'))
+    ->alter();
 
 // Insert frontend translations
 if (class_exists('d2u_jobs_hr4you_lang_helper')) {

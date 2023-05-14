@@ -86,7 +86,7 @@ if ('edit' === $func || 'add' === $func) {
                             d2u_addon_backend_helper::form_input('d2u_helper_name', 'form[name]', $contact->name, true, $readonly);
                             d2u_addon_backend_helper::form_input('d2u_jobs_email', 'form[email]', $contact->email, true, $readonly, 'email');
                             d2u_addon_backend_helper::form_input('d2u_jobs_phone', 'form[phone]', $contact->phone, true, $readonly);
-                            d2u_addon_backend_helper::form_input('d2u_jobs_phone_video', 'form[phone_video]', $contact->phone_video, true, $readonly);
+                            d2u_addon_backend_helper::form_input('d2u_jobs_phone_video', 'form[phone_video]', $contact->phone_video, false, $readonly);
                             d2u_addon_backend_helper::form_infotext('d2u_jobs_phone_video_hint', 'phone_video_label');
                             d2u_addon_backend_helper::form_mediafield('d2u_helper_picture', '1', $contact->picture, $readonly);
                         ?>
