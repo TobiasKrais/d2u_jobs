@@ -133,7 +133,7 @@ if ('d2u_stellenmarkt' === rex_request('import', 'string') && $old_tables_availa
 <p>1.2.7-DEV:</p>
 <ul>
 	<li>Ca. 300 rexstan Level 9 Anpassungen.</li>
-	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Filterfunktionen hinzugefügt.</li>
+	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Filterfunktionen hinzugefügt und Spamschutz / CSRF Fehler behoben.</li>
 	<li>Kontakte und Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Feld für WhatsApp Videobewerbung hinzugefügt.</li>
 	<li>Einstellungen und Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Linkfeld für FAQ Seite hinzugefügt.</li>
 </ul>
