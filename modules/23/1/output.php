@@ -70,7 +70,7 @@ if (rex::isBackend()) {
         if ('online' !== $job->online_status) {
             rex_redirect(rex_article::getNotfoundArticleId(), rex_clang::getCurrentId());
         }
-        echo '<div class="col-12 col-md-8">';
+        echo '<div class="col-12 col-lg-8">';
         echo '<article class="job-box">';
         echo '<img src="'. ('' !== $job->picture ? rex_media_manager::getUrl('d2u_jobs_jobheader', $job->picture) : \rex_url::addonAssets('d2u_jobs', 'noavatar.jpg'))  .'" alt="'. strip_tags($job->name) .'">';
         if (!$show_application_form && '' !== $job->prolog) { /** @phpstan-ignore-line */
@@ -184,7 +184,7 @@ if (rex::isBackend()) {
         echo '</div>';
         echo '<div class="sp sections-less hide-for-medium-up"></div>';
 
-        echo '<div class="col-12 col-md-4">';
+        echo '<div class="col-12 col-lg-4">';
         if ($job->contact instanceof Contact) {
             echo '<div class="job-box contact">';
             echo '<div class="row">';
