@@ -86,7 +86,7 @@ $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_j
 	LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_jobs AS jobs ON lang.job_id = jobs.job_id
 	LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_categories_lang AS categories ON category_id = categories.category_id AND lang.clang_id = categories.clang_id
 	LEFT JOIN '. rex::getTablePrefix() .'clang AS clang ON lang.clang_id = clang.id
-	WHERE clang.status = 1 AND jobs.online_status = "online"
+	WHERE clang.`status` = 1 AND jobs.online_status = "online"
 	GROUP BY job_id, clang_id, name, seo_title, seo_description, picture, updatedate;');
 $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_jobs_categories AS
 	SELECT job_urls.category_id, categories_lang.clang_id, categories_lang.name, categories_lang.name AS seo_title, categories_lang.name AS seo_description, categories.picture, (SELECT MAX(job_urls_updatedate.updatedate) FROM '. rex::getTablePrefix() .'d2u_jobs_url_jobs AS job_urls_updatedate WHERE job_urls_updatedate.category_id = job_urls.category_id) AS updatedate
@@ -94,7 +94,7 @@ $sql->setQuery('CREATE OR REPLACE VIEW '. rex::getTablePrefix() .'d2u_jobs_url_j
 	LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_categories_lang AS categories_lang ON job_urls.category_id = categories_lang.category_id AND categories_lang.clang_id = job_urls.clang_id
 	LEFT JOIN '. rex::getTablePrefix() .'d2u_jobs_categories AS categories ON categories_lang.category_id = categories.category_id
 	LEFT JOIN '. rex::getTablePrefix() .'clang AS clang ON categories_lang.clang_id = clang.id
-	WHERE clang.status = 1
+	WHERE clang.`status` = 1
 	GROUP BY category_id, clang_id, name, picture;');
 
 // Insert url schemes
