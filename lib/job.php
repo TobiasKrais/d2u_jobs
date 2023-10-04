@@ -434,14 +434,14 @@ class Job implements \D2U_Helper\ITranslationHelper
             .'{'.PHP_EOL
                 .'"@context" : "https://schema.org/",'. PHP_EOL
                 .'"@type" : "JobPosting",'. PHP_EOL
-                .'"title" : "'. str_replace('"', '', $this->name) .'",'. PHP_EOL
-                .'"description" : "'. str_replace('"', "'", strip_tags($this->tasks_text, '<p><a><b><strong>')) .'",'. PHP_EOL
+                .'"title" : '. json_encode($this->name, JSON_UNESCAPED_UNICODE) .','. PHP_EOL
+                .'"description" : '. json_encode(strip_tags($this->tasks_text, '<p><a><b><strong>'), JSON_UNESCAPED_UNICODE) .','. PHP_EOL
                 .'"datePosted" : "'. $this->date .'",'. PHP_EOL
 //				.'"validThrough" : "'. date( "Y-m-d", strtotime( $this->date. " +2 month" ) ) .'T00:00",'. PHP_EOL
                 .'"employmentType" : "'. ($this->type ?? 'FULL_TIME') .'",'. PHP_EOL
                 .'"hiringOrganization" : {'. PHP_EOL
                     .'"@type" : "Organization",'. PHP_EOL
-                    .'"name" : "'. str_replace('"', '', (string) rex_config::get('d2u_jobs', 'company_name', '')) .'",'. PHP_EOL
+                    .'"name" : '. json_encode((string) rex_config::get('d2u_jobs', 'company_name', ''), JSON_UNESCAPED_UNICODE) .','. PHP_EOL
                     .'"sameAs" : "'. (rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer()) .'",'. PHP_EOL
                     .'"logo" : "'. rtrim(rex_addon::get('yrewrite')->isAvailable() ? rex_yrewrite::getCurrentDomain()->getUrl() : rex::getServer(), '/') . rex_url::media((string) rex_config::get('d2u_jobs', 'logo', '')) .'"'. PHP_EOL
                 .'},'. PHP_EOL

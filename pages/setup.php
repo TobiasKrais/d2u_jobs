@@ -136,6 +136,7 @@ if ('d2u_stellenmarkt' === rex_request('import', 'string') && $old_tables_availa
 	<li>Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Filterfunktionen hinzugefügt und Spamschutz / CSRF Fehler behoben.</li>
 	<li>Kontakte und Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Feld für WhatsApp Videobewerbung hinzugefügt.</li>
 	<li>Einstellungen und Modul "23-1 D2U Stellenmarkt - Stellenanzeigen": Linkfeld für FAQ Seite hinzugefügt.</li>
+	<li>Bugfix: JSON Ausgabe bei Verwendung von ' verbessert.</li>
 </ul>
 <p>1.2.6:</p>
 <ul>
