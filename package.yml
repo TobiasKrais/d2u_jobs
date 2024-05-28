@@ -1,26 +1,21 @@
 package: d2u_jobs
-version: '1.2.7'
+version: '2.0.0'
 author: Tobias Krais
 
 page:
     title: 'translate:d2u_jobs'
     perm: 'd2u_jobs[]'
     icon: rex-icon fa-users
-    subpages:
-        jobs: { title: 'translate:d2u_jobs_jobs', icon: rex-icon fa-users }
-        category: { title: 'translate:d2u_helper_category', icon: rex-icon rex-icon-open-category }
-        contact: { title: 'translate:d2u_jobs_contacts', icon: rex-icon rex-icon-user, perm: 'd2u_jobs[edit_data]' }
-        setup: { title: 'translate:d2u_helper_setup', icon: rex-icon rex-icon-install, itemClass: pull-right, perm: 'd2u_jobs[settings]' }
-        settings: { title: 'translate:d2u_helper_settings', icon: rex-icon rex-icon-system, itemClass: pull-right, perm: 'd2u_jobs[settings]' }
 
 requires:
-    redaxo: '>=5.10.0'
+    redaxo: '>=5.16.0'
     packages:
-        d2u_helper: '>=1.8.8'
+        d2u_helper: '>=1.14.0'
+        jobs: '>=1.0.0'
         sprog: '>=1.0.0'
         url: '>=2.0'
         yrewrite: '>=2.0.1'
-    php: '>=7.4'
-        
+    php: '>=8.0'
+
 installer_ignore:
     - .github

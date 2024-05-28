@@ -1,9 +1,13 @@
 <?php
+
+use rex_clang;
+use rex_config;
+
 /**
  * @api
  * Offers helper functions for language issues.
  */
-class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
+class d2u_jobs_lang_helper extends \TobiasKrais\D2UHelper\ALangHelper
 {
     /** @var array<string,string> Array with chinese replacements. Key is the wildcard, value the replacement. */
     protected $replacements_chinese = [
@@ -16,6 +20,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
         'd2u_jobs_faq_link' => '前往常见问题解答',
         'd2u_jobs_faq_text' => '最常见的问题和有用的答案。',
         'd2u_jobs_footer' => '请将您的完整求职资料与可行的入职日期和薪水要求一并发送至电子邮箱：',
+        'd2u_jobs_hr4you_offer_heading' => '我们的报价',
+        'd2u_jobs_hr4you_profile_heading' => '您的个人资料',
+        'd2u_jobs_hr4you_tasks_heading' => '你的任务',
         'd2u_jobs_module_attachment' => '申请文件：如履历、证书',
         'd2u_jobs_module_form_thanks' => '感谢您的申请。 我们的人力资源部门会尽快与您联系。',
         'd2u_jobs_module_form_your_data' => '申请资料概要',
@@ -39,6 +46,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
         'd2u_jobs_faq_link' => 'Weergave',
         'd2u_jobs_faq_text' => 'De meest gestelde vragen en nuttige antwoorden.',
         'd2u_jobs_footer' => 'U kunt uw motivatiebrief met CV onder vermelding van vroegst mogelijke opzegtermijn en salaris wens per E-Mail, met in het onderwerp „Sollicitatie <Vacature nummer>” sturen naar:',
+        'd2u_jobs_hr4you_offer_heading' => 'Ons aanbod',
+        'd2u_jobs_hr4you_profile_heading' => 'Uw profiel',
+        'd2u_jobs_hr4you_tasks_heading' => 'Uw taken',
         'd2u_jobs_module_attachment' => 'Sollicitatiedocumenten: bijv. curriculum vitae, certificaten',
         'd2u_jobs_module_form_thanks' => 'Bedankt voor uw sollicitatie, we nemen op korte termijn contact met u op.',
         'd2u_jobs_module_form_your_data' => 'Uw gegevens',
@@ -62,6 +72,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
         'd2u_jobs_faq_link' => 'View',
         'd2u_jobs_faq_text' => 'The most frequently asked questions and helpful answers.',
         'd2u_jobs_footer' => 'Please send us your complete application documents with the possible starting date and your salary expectations via email to:',
+        'd2u_jobs_hr4you_offer_heading' => 'We offer',
+        'd2u_jobs_hr4you_profile_heading' => 'Your Profile',
+        'd2u_jobs_hr4you_tasks_heading' => 'Your Tasks',
         'd2u_jobs_module_attachment' => 'Application documents: e.g. CV, certificates',
         'd2u_jobs_module_form_thanks' => 'Thank you for your application. Our HR departement will answer you as soon as possible.',
         'd2u_jobs_module_form_your_data' => 'Application data summary',
@@ -85,6 +98,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
         'd2u_jobs_faq_link' => 'Voir',
         'd2u_jobs_faq_text' => 'Les questions les plus fréquemment posées et les réponses utiles.',
         'd2u_jobs_footer' => 'Veuillez nous envoyer vos documents de demande complets avec la date de début possible et vos attentes de salaire par courrier électronique à:',
+        'd2u_jobs_hr4you_offer_heading' => 'Notre offre',
+        'd2u_jobs_hr4you_profile_heading' => 'Votre profil',
+        'd2u_jobs_hr4you_tasks_heading' => 'Vos tâches',
         'd2u_jobs_module_attachment' => 'Documents de candidature : par exemple, curriculum vitae, certificats',
         'd2u_jobs_module_form_thanks' => 'Merci pour votre candidature. Notre service RH vous contactera dans les plus brefs délais.',
         'd2u_jobs_module_form_your_data' => "Résumé des données d'application",
@@ -108,6 +124,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
         'd2u_jobs_faq_link' => 'Ansehen',
         'd2u_jobs_faq_text' => 'Die häufigsten Fragen und hilfreiche Antworten.',
         'd2u_jobs_footer' => 'Bitte senden Sie uns Ihre kompletten Bewerbungsunterlagen mit dem frühestmöglichen Eintrittstermin und Ihrer Gehaltvorstellung per E-Mail mit dem Stichwort „Karriere“ im Betreff an:',
+        'd2u_jobs_hr4you_offer_heading' => 'Unser Angebot',
+        'd2u_jobs_hr4you_profile_heading' => 'Ihr Profil',
+        'd2u_jobs_hr4you_tasks_heading' => 'Ihre Aufgaben',
         'd2u_jobs_module_attachment' => 'Bewerbungsunterlagen: z.B. Lebenslauf, Zeugnisse',
         'd2u_jobs_module_form_thanks' => 'Vielen Dank für Ihre Bewerbung. Unsere Personalabteilung wird umgehend mit Ihnen Kontakt aufnehmen.',
         'd2u_jobs_module_form_your_data' => 'Zusammenfassung Bewerbungsdaten',
@@ -131,6 +150,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
         'd2u_jobs_faq_link' => 'Vista',
         'd2u_jobs_faq_text' => 'Las preguntas más frecuentes y respuestas útiles.',
         'd2u_jobs_footer' => 'Por favor, envíenos sus documentos completos de solicitud con la posible fecha de inicio y sus expectativas salariales por correo electrónico a:',
+        'd2u_jobs_hr4you_offer_heading' => 'Ofrecemos',
+        'd2u_jobs_hr4you_profile_heading' => 'Su Perfil',
+        'd2u_jobs_hr4you_tasks_heading' => 'Sus tareas',
         'd2u_jobs_module_attachment' => 'Documentos de solicitud: p. Ej., Curriculum vitae, certificados',
         'd2u_jobs_module_form_thanks' => 'Gracias por tu aplicación. Nuestro departamento de RRHH se pondrá en contacto contigo lo antes posible.',
         'd2u_jobs_module_form_your_data' => 'Resumen de los datos de la aplicación ',
@@ -154,6 +176,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
         'd2u_jobs_faq_link' => 'Вид',
         'd2u_jobs_faq_text' => 'Наиболее часто задаваемые вопросы и полезные ответы.',
         'd2u_jobs_footer' => 'Присылайте Ваше резюме и документы с возможной датой начала работы и ваши ожидания по зарплате по электронной почте:',
+        'd2u_jobs_hr4you_offer_heading' => 'Наше предложение',
+        'd2u_jobs_hr4you_profile_heading' => 'Ваш профиль',
+        'd2u_jobs_hr4you_tasks_heading' => 'Желаемая должность',
         'd2u_jobs_module_attachment' => 'Документы для подачи заявки: например, биографические данные, сертификаты.',
         'd2u_jobs_module_form_thanks' => 'Спасибо за вашу заявку . Наш отдел кадров свяжется с вами в ближайшее время.',
         'd2u_jobs_module_form_your_data' => 'Сводка данных приложения',
@@ -168,9 +193,9 @@ class d2u_jobs_lang_helper extends \D2U_Helper\ALangHelper
 
     /**
      * Factory method.
-     * @return d2u_jobs_lang_helper Object
+     * @return self Object
      */
-    public static function factory()
+    public static function factory(): self
     {
         return new self();
     }

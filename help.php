@@ -1,7 +1,6 @@
-<b>D2U Jobs Addon</b>
-
-<br /><br />
-<p>Komfortable Verwaltung von Stellenangeboten. Mit einem Plugin können auch
-	aus der Software HR4YOU per XML Stellen importiert werden. Die Ausgabe der
-	Stellen kann zusätzlich im JSON-LD Format erfolgen, damit sie in Google Jobs
-	angezeigt werden können.</p>
+<?php
+$readmePath = rex_path::addon('d2u_jobs', 'README.md');
+$readmeContent = rex_file::get($readmePath);
+if(null !== $readmeContent) {
+    echo rex_markdown::factory()->parse($readmeContent);
+}
