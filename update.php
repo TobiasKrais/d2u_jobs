@@ -26,6 +26,8 @@ foreach ($wildcardsWithPrefix as $wildcard) {
         $sql->setQuery('UPDATE '. \rex::getTablePrefix() ."sprog_wildcard SET wildcard = '".$wildcard['wildcard']."' WHERE wildcard = '".$wildcardWithoutPrefix."'");
     }
 }
+//$sql->setQuery("UPDATE ". \rex::getTablePrefix() ."sprog_wildcard SET wildcard = REPLACE(wildcard, '".$prefix."', 'jobs') WHERE wildcard LIKE '".$prefix."%'");
+
 
 // use path relative to __DIR__ to get correct path in update temp dir
 $this->includeFile(__DIR__.'/install.php'); /** @phpstan-ignore-line */
