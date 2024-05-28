@@ -8,6 +8,12 @@ if (rex_version::compare($this->getVersion(), '1.0.8', '<')) { /** @phpstan-igno
     $sql->setQuery('ALTER TABLE '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang CHANGE `updatedate_new` `updatedate` DATETIME NOT NULL;');
 }
 
+// copy rex_config settings
+$sql->setQuery('INSERT INTO '. \rex::getTablePrefix() .'config (`namespace`, `key`, `value`) SELECT "jobs", `key`, `value` FROM '. \rex::getTablePrefix() .'config WHERE namespace = "d2u_jobs" ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)');
+// Insert frontend translations of jobs addon if not already exists
+if (class_exists(\FriendsOfRedaxo\Jobs\LangHelper::class)) {
+    \FriendsOfRedaxo\Jobs\LangHelper::factory()->install();
+}
 // move wildards to jobs addon
 $prefix = 'd2u_jobs';
 $wildcardsWithPrefix = $sql->getArray('SELECT * FROM '. \rex::getTablePrefix() ."sprog_wildcard WHERE wildcard LIKE '".$prefix."%'");
@@ -44,9 +50,6 @@ $sql->setQuery('CREATE VIEW '. \rex::getTablePrefix() .'d2u_jobs_categories_lang
 $sql->setQuery('CREATE VIEW '. \rex::getTablePrefix() .'d2u_jobs_contacts AS SELECT * FROM '. \rex::getTablePrefix() .'jobs_contacts');
 $sql->setQuery('CREATE VIEW '. \rex::getTablePrefix() .'d2u_jobs_jobs AS SELECT * FROM '. \rex::getTablePrefix() .'jobs_jobs');
 $sql->setQuery('CREATE VIEW '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS SELECT * FROM '. \rex::getTablePrefix() .'jobs_jobs_lang');
-
-// copy rex_config settings
-$sql->setQuery('INSERT INTO '. \rex::getTablePrefix() .'config (`namespace`, `key`, `value`) SELECT "jobs", `key`, `value` FROM '. \rex::getTablePrefix() .'config WHERE namespace = "d2u_jobs" ON DUPLICATE KEY UPDATE `value` = VALUES(`value`)');
 
 // add user rights
 $sql->setQuery('UPDATE '. \rex::getTablePrefix() .'user_role SET `perms` = REPLACE(`perms`, "d2u_", "")');

@@ -18,7 +18,11 @@
     ->ensureColumn(new \rex_sql_column('priority', 'INT(11)', true, '0'))
     ->ensureColumn(new \rex_sql_column('hr4you_job_id', 'INT(10)'))
     ->ensureColumn(new \rex_sql_column('hr4you_url_application_form', 'VARCHAR(191)'))
+    ->removeColumn('hr4you_lead_in')
     ->ensure();
+rex_sql_table::get(rex::getTable('d2u_jobs_jobs'))
+    ->removeColumn('hr4you_lead_in')
+    ->alter();
 \rex_sql_table::get(\rex::getTable('d2u_jobs_jobs_lang'))
     ->ensureColumn(new rex_sql_column('job_id', 'INT(11) unsigned', false, null, 'auto_increment'))
     ->ensureColumn(new \rex_sql_column('clang_id', 'INT(11)', false, '1'))
