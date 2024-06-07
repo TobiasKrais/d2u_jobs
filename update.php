@@ -54,5 +54,5 @@ $sql->setQuery('CREATE VIEW '. \rex::getTablePrefix() .'d2u_jobs_jobs AS SELECT 
 $sql->setQuery('CREATE VIEW '. \rex::getTablePrefix() .'d2u_jobs_jobs_lang AS SELECT * FROM '. \rex::getTablePrefix() .'jobs_jobs_lang');
 
 // add user rights
-$sql->setQuery('UPDATE '. \rex::getTablePrefix() .'user_role SET `perms` = REPLACE(`perms`, "d2u_", "")');
+$sql->setQuery('UPDATE '. \rex::getTablePrefix() .'user_role SET `perms` = REPLACE(`perms`, "d2u_jobs", "jobs")');
 $sql->setQuery('UPDATE '. \rex::getTablePrefix() .'user_role SET `perms` = REPLACE(`perms`, "jobs[]", "d2u_jobs[]|jobs[]")');
